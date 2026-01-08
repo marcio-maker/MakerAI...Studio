@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="pt-PT" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MakerAI | Studio</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;800&display=swap" rel="stylesheet">
+
+    <style type="text/tailwindcss">
+        @layer base {
+            body { 
+                font-family: 'Plus Jakarta Sans', sans-serif;
+                @apply bg-white dark:bg-[#050505] text-black dark:text-white antialiased overflow-x-hidden;
+            }
+        }
+        @layer components {
+            .feature-card {
+                @apply bg-white dark:bg-[#0a0a0a] border border-black/5 dark:border-white/5
+                       rounded-[2.5rem] p-10 min-w-[300px] md:min-w-[380px]
+                       transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)]
+                       relative overflow-hidden flex flex-col snap-center cursor-pointer;
+            }
+
+            .feature-card:hover {
+                transform: translateY(-20px) scale(1.02);
+                @apply shadow-[0_40px_80px_-15px_rgba(0,0,0,0.1)] dark:shadow-[0_40px_80px_-15px_rgba(0,0,0,0.7)];
+            }
+
+            .feature-card::after {
+                content: '';
+                @apply absolute inset-0 opacity-0 transition-opacity duration-500;
+                background: linear-gradient(225deg, transparent 40%, rgba(255,255,255,0.1) 50%, transparent 60%);
+                transform: translateX(-120%) translateY(-120%);
+            }
+
+            .feature-card:hover::after {
+                @apply opacity-100;
+                transform: translateX(120%) translateY(120%);
+                transition: transform 1.2s cubic-bezier(0.23,1,0.32,1);
+            }
+
+            .carousel-viewport {
+                @apply flex overflow-x-auto gap-8 px-8 pb-24 scrollbar-hide snap-x snap-mandatory;
+            }
+
+            .scrollbar-hide::-webkit-scrollbar { display: none; }
+            .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+
+            .menu-open #line1 { transform: translateY(4px) rotate(45deg); }
+            .menu-open #line2 { transform: translateY(-4px) rotate(-45deg); }
+            .overlay-active { @apply opacity-100 pointer-events-auto translate-y-0 !important; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="fixed top-6 left-1/2 -translate-x-1/2 w-[90%] max-w-5xl z-50" id="main-header">
+        <div class="bg-white/80 dark:bg-black/60 backdrop-blur-2xl border border-black/5 dark:border-white/10 rounded-full px-8 h-16 flex items-center justify-between shadow-2xl transition-all duration-500">
+            <div class="flex items-center gap-3 group cursor-pointer" onclick="window.scrollTo({top:0, behavior:'smooth'})">
+                <div class="w-8 h-8 bg-black dark:bg-white rounded-lg flex items-center justify-center transition-transform group-hover:rotate-12">
+                    <span class="text-white dark:text-black font-black text-lg">M</span>
+                </div>
+                <span class="font-black text-sm tracking-tighter uppercase">Maker<span class="text-neutral-400">AI</span></span>
+            </div>
+
+            <nav class="hidden md:flex items-center gap-8">
+                <a href="#features" class="text-[10px] font-bold uppercase tracking-[0.2em] text-neutral-500 hover:text-black dark:hover:text-white transition-colors">Sistemas</a>
+                <div class="w-px h-4 bg-black/10 dark:bg-white/10"></div>
+                <a href="#footer" class="text-[10px] font-bold uppercase tracking-[0.2em] px-5 py-2 bg-black dark:bg-white text-white dark:text-black rounded-full hover:scale-105 transition-transform">Contato</a>
+            </nav>
+
+            <button id="menu-btn" class="md:hidden w-8 h-8 flex flex-col justify-center items-center gap-1">
+                <div class="w-5 h-0.5 bg-black dark:bg-white transition-all" id="line1"></div>
+                <div class="w-5 h-0.5 bg-black dark:bg-white transition-all" id="line2"></div>
+            </button>
+        </div>
+    </header>
+
+    <div id="mobile-menu" class="fixed inset-0 bg-white dark:bg-[#050505] z-40 flex flex-col items-center justify-center gap-12 opacity-0 pointer-events-none transition-all duration-500 -translate-y-8">
+        <nav class="flex flex-col items-center gap-10">
+            <a href="#features" class="m-link text-5xl font-black tracking-tighter uppercase">Sistemas</a>
+            <a href="#" class="m-link text-5xl font-black tracking-tighter uppercase">Studio</a>
+            <a href="#footer" class="m-link text-5xl font-black tracking-tighter uppercase text-neutral-300">Contato</a>
+        </nav>
+    </div>
+
+    <main>
+        <section class="pt-64 pb-32 px-8 text-center">
+            <h1 class="text-7xl md:text-[12rem] font-black tracking-tighter leading-[0.8] mb-12 italic uppercase">
+                MAKER<br><span class="text-neutral-200 dark:text-neutral-900 not-italic">STUDIO</span>
+            </h1>
+            <p class="max-w-md mx-auto text-neutral-500 text-lg font-medium leading-relaxed uppercase tracking-tighter">
+                O objeto primeiro. <br> O efeito eleva.
+            </p>
+        </section>
+
+        <section id="features" class="pb-40 overflow-hidden">
+            <div class="carousel-viewport">
+                <div class="feature-card group" onclick="openModal('engine')">
+                    <div class="w-16 h-16 bg-neutral-100 dark:bg-white/5 rounded-3xl flex items-center justify-center mb-10 group-hover:scale-110 transition-transform">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                    </div>
+                    <h3 class="text-3xl font-black mb-4 tracking-tight uppercase">Neural Engine</h3>
+                    <p class="text-sm text-neutral-500 leading-relaxed mb-8">Lógica bruta aplicada a sistemas autónomos.</p>
+                    <div class="mt-auto text-[9px] font-bold tracking-[0.4em] text-neutral-400 uppercase">/ 01 Core</div>
+                </div>
+
+                <div class="feature-card group" onclick="openModal('interface')">
+                    <div class="w-16 h-16 bg-neutral-100 dark:bg-white/5 rounded-3xl flex items-center justify-center mb-10 group-hover:scale-110 transition-transform">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="1.5" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9"/></svg>
+                    </div>
+                    <h3 class="text-3xl font-black mb-4 tracking-tight uppercase">Brutal UI</h3>
+                    <p class="text-sm text-neutral-500 leading-relaxed mb-8">Onde o contraste define a ordem da experiência.</p>
+                    <div class="mt-auto text-[9px] font-bold tracking-[0.4em] text-neutral-400 uppercase">/ 02 Interface</div>
+                </div>
+
+                <div class="feature-card group" onclick="openModal('code')">
+                    <div class="w-16 h-16 bg-neutral-100 dark:bg-white/5 rounded-3xl flex items-center justify-center mb-10 group-hover:scale-110 transition-transform">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="1.5" d="M16 18l6-6-6-6M8 6l-6 6 6 6"/></svg>
+                    </div>
+                    <h3 class="text-3xl font-black mb-4 tracking-tight uppercase">Raw Code</h3>
+                    <p class="text-sm text-neutral-500 leading-relaxed mb-8">Arquitetura limpa e performance sem ruído técnico.</p>
+                    <div class="mt-auto text-[9px] font-bold tracking-[0.4em] text-neutral-400 uppercase">/ 03 Debug</div>
+                </div>
+
+                <div class="feature-card group" onclick="openModal('lab')">
+                    <div class="w-16 h-16 bg-neutral-100 dark:bg-white/5 rounded-3xl flex items-center justify-center mb-10 group-hover:scale-110 transition-transform">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="1.5" d="M12 8v8M8 12h8"/></svg>
+                    </div>
+                    <h3 class="text-3xl font-black mb-4 tracking-tight uppercase">Maker Lab</h3>
+                    <p class="text-sm text-neutral-500 leading-relaxed mb-8">Experimentação pura e prototipagem de futuro.</p>
+                    <div class="mt-auto text-[9px] font-bold tracking-[0.4em] text-neutral-400 uppercase">/ 04 Inovação</div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer id="footer" class="mt-40 border-t border-black/5 dark:border-white/5 bg-neutral-50/50 dark:bg-[#080808]">
+        <div class="max-w-7xl mx-auto px-8 py-24">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-16">
+                <div class="md:col-span-6">
+                    <div class="font-black text-4xl tracking-tighter uppercase mb-6 italic">MAKER<span class="text-neutral-300">STUDIO</span></div>
+                    <p class="max-w-sm text-neutral-500 text-sm leading-relaxed mb-8">Design focado na essência. Onde a forma bruta encontra a IA para criar o amanhã.</p>
+                </div>
+                <div class="md:col-span-3 flex flex-col items-center md:items-end">
+                    <div class="flex items-center gap-3 bg-white dark:bg-black px-4 py-2 rounded-xl border border-black/5 dark:border-white/5 mb-6">
+                        <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                        <span class="text-[10px] font-black uppercase tracking-widest">Studio Online</span>
+                    </div>
+                    <div id="clock" class="text-6xl font-black tracking-tighter tabular-nums opacity-20">00:00</div>
+                </div>
+            </div>
+            <div class="mt-24 pt-8 border-t border-black/5 text-[9px] font-bold text-neutral-400 uppercase tracking-[0.4em]">
+                © 2026 MakerAI Studio — Objeto → Luz → Contraste
+            </div>
+        </div>
+    </footer>
+
+    <div id="modal-overlay" class="fixed inset-0 z-[100] bg-black/90 backdrop-blur-xl opacity-0 pointer-events-none transition-all duration-500 flex items-center justify-center p-6">
+        <div id="modal-content" class="bg-white dark:bg-[#0a0a0a] w-full max-w-2xl rounded-[3rem] p-12 relative translate-y-20 transition-all duration-500 border border-black/5 dark:border-white/10">
+            <button onclick="closeModal()" class="absolute top-8 right-8 text-neutral-500 hover:text-black dark:hover:text-white transition-colors">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+            <div id="modal-body"></div>
+        </div>
+    </div>
+
+    <script>
+        // 1. MENU MOBILE
+        const btn = document.getElementById('menu-btn');
+        const menu = document.getElementById('mobile-menu');
+        btn.onclick = () => {
+            btn.classList.toggle('menu-open');
+            menu.classList.toggle('overlay-active');
+            document.body.classList.toggle('overflow-hidden');
+        };
+
+        // 2. HEADER SCROLL
+        window.onscroll = () => {
+            const navBase = document.querySelector('#main-header > div');
+            if (window.scrollY > 40) {
+                navBase.classList.replace('bg-white/80', 'bg-white/100');
+                navBase.classList.add('shadow-2xl', 'scale-[0.98]');
+            } else {
+                navBase.classList.replace('bg-white/100', 'bg-white/80');
+                navBase.classList.remove('shadow-2xl', 'scale-[0.98]');
+            }
+        };
+
+        // 3. RELÓGIO
+        function tick() {
+            const clock = document.getElementById('clock');
+            if (clock) clock.textContent = new Date().toLocaleTimeString('pt-PT', { hour12: false });
+        }
+        setInterval(tick, 1000); tick();
+
+        // 4. LÓGICA DO MODAL
+        const modalData = {
+            engine: { title: "Neural Engine", text: "Processamento autónomo que aprende com a interação. Desenvolvemos sistemas que evoluem sozinhos a cada ciclo de dados." },
+            interface: { title: "Brutal UI", text: "Design focado na redução total de ruído. Tipografia massiva e hierarquia clara para uma experiência de comando direta." },
+            code: { title: "Raw Code", text: "Arquitetura limpa. Sem frameworks pesados ou dependências inúteis. Apenas performance pura e escalável." },
+            lab: { title: "Maker Lab", text: "Onde o impossível é prototipado. Experimentação com modelos generativos e design regenerativo." }
+        };
+
+        function openModal(id) {
+            const data = modalData[id];
+            const body = document.getElementById('modal-body');
+            const overlay = document.getElementById('modal-overlay');
+            const content = document.getElementById('modal-content');
+
+            body.innerHTML = `
+                <h2 class="text-5xl font-black uppercase tracking-tighter mb-6 italic">${data.title}</h2>
+                <div class="w-20 h-1 bg-black dark:bg-white mb-8"></div>
+                <p class="text-xl text-neutral-500 leading-relaxed font-medium mb-12 uppercase tracking-tighter">${data.text}</p>
+                <button onclick="closeModal()" class="w-full py-5 bg-black dark:bg-white text-white dark:text-black rounded-2xl font-black uppercase text-xs tracking-widest hover:scale-[1.02] transition-transform">Fechar Detalhes</button>
+            `;
+
+            overlay.classList.remove('opacity-0', 'pointer-events-none');
+            content.classList.remove('translate-y-20');
+            document.body.classList.add('overflow-hidden');
+        }
+
+        function closeModal() {
+            const overlay = document.getElementById('modal-overlay');
+            const content = document.getElementById('modal-content');
+            overlay.classList.add('opacity-0', 'pointer-events-none');
+            content.classList.add('translate-y-20');
+            document.body.classList.remove('overflow-hidden');
+        }
+
+        // FECHAR MENU AO CLICAR NOS LINKS
+        document.querySelectorAll('.m-link').forEach(l => l.onclick = () => {
+            btn.classList.remove('menu-open');
+            menu.classList.remove('overlay-active');
+            document.body.classList.remove('overflow-hidden');
+        });
+    </script>
+</body>
+</html>
