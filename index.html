@@ -3283,38 +3283,38 @@
             }
         });
 
-        // === REDUCED MOTION SUPPORT ===
-        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-            document.documentElement.style.setProperty('--animation-speed', '0.01ms');
-        }
-
-        // === LOADING OTIMIZADO ===
+        // === CONTADOR E LOADING (SISTEMA INTEGRADO) ===
         window.addEventListener('load', function () {
-            // Forçar redraw para corrigir bugs de renderização
-            requestAnimationFrame(() => {
-                document.body.style.opacity = '0.99';
-                requestAnimationFrame(() => {
-                    document.body.style.opacity = '1';
-                });
+            // 1. Ativa os números assim que a página carrega
+            const stats = document.querySelectorAll('.stat-number');
+
+            stats.forEach(el => {
+                const target = parseInt(el.getAttribute('data-target'));
+                let count = 0;
+                const speed = 2000; // 2 segundos para completar
+                const increment = target / (speed / 30);
+
+                // Aplica a regra: Objeto -> Luz -> Movimento
+                el.style.opacity = '1';
+                el.style.transform = 'translateY(0)';
+
+                const counter = setInterval(() => {
+                    count += increment;
+                    if (count >= target) {
+                        el.innerText = target;
+                        clearInterval(counter);
+                    } else {
+                        el.innerText = Math.floor(count);
+                    }
+                }, 30);
             });
 
-            // Remover loading effects se ainda existirem
-            setTimeout(() => {
-                document.querySelectorAll('.card-loading').forEach(card => {
-                    card.classList.remove('card-loading');
-                });
-            }, 2000);
+            // 2. Redraw original do seu arquivo
+            requestAnimationFrame(() => {
+                document.body.style.opacity = '1';
+            });
         });
 
-        // === RESIZE HANDLER ===
-        let resizeTimeout;
-        window.addEventListener('resize', function () {
-            clearTimeout(resizeTimeout);
-            resizeTimeout = setTimeout(() => {
-                initCarousels();
-                initCardAnimations();
-            }, 250);
-        });
     </script>
 </body>
 
