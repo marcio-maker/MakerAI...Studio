@@ -1015,7 +1015,7 @@
                         </div>
                         <div class="text-left">
                             <div class="text-xl font-bold">Español</div>
-                            <div class="text-sm opacity-60">Latam</div>
+                            <div class="text-sm opacity-60">Latino</div>
                         </div>
                     </div>
                     <div class="opacity-0 group-hover:opacity-100 transition-opacity">
@@ -1184,35 +1184,35 @@
                 <span class="block">MAKER</span>
                 <span class="block text-neutral-200 dark:text-neutral-900 not-italic">STUDIO</span>
             </h1>
-            <p class="max-w-md mx-auto text-neutral-500 text-base md:text-lg font-medium leading-relaxed uppercase tracking-tighter px-4"
+            <p class="max-w-md mx-auto text-neutral-500 text-base md:text-lg font-medium leading-relaxed uppercase tracking-tighter px-4 hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-r hover:from-black hover:via-neutral-600 hover:to-black dark:hover:from-white dark:hover:via-neutral-400 dark:hover:to-white transition-all duration-700 ease-out cursor-default"
                 data-i18n="hero.tagline" style="opacity: 0; transform: translateY(20px);">
                 Soluções escaláveis. <br> Impacto mensurável.
             </p>
-
-            <div class="mt-12 md:mt-20 grid grid-cols-3 gap-2 md:gap-6 max-w-2xl mx-auto" aria-label="Estatísticas">
+            <div class="mt-12 md:mt-20 grid grid-cols-3 gap-2 md:gap-6 max-w-2xl mx-auto"
+                aria-label="Estatísticas em tempo real">
 
                 <div class="text-center">
-                    <div class="stat-number text-2xl md:text-5xl font-black tracking-tighter" id="projects-count"
-                        style="opacity: 0; transform: translateY(20px);">0</div>
+                    <div class="stat-number text-2xl md:text-5xl font-black tracking-tighter" id="live-projects-count"
+                        style="opacity: 0; transform: translateY(20px);" data-target="78">0</div>
                     <div class="text-[9px] md:text-xs uppercase tracking-widest text-neutral-500 mt-1"
                         data-i18n="stats.projects">
-                        Projetos</div>
+                        Projetos Ativos</div>
                 </div>
 
                 <div class="text-center">
-                    <div class="stat-number text-2xl md:text-5xl font-black tracking-tighter" id="cards-count"
-                        style="opacity: 0; transform: translateY(20px);">0</div>
+                    <div class="stat-number text-2xl md:text-5xl font-black tracking-tighter" id="live-cards-count"
+                        style="opacity: 0; transform: translateY(20px);" data-target="143">0</div>
                     <div class="text-[9px] md:text-xs uppercase tracking-widest text-neutral-500 mt-1"
                         data-i18n="stats.cards">
-                        Cards</div>
+                        Cards Gerados</div>
                 </div>
 
                 <div class="text-center">
-                    <div class="stat-number text-2xl md:text-5xl font-black tracking-tighter"
-                        style="opacity: 0; transform: translateY(20px);">3</div>
+                    <div class="stat-number text-2xl md:text-5xl font-black tracking-tighter" id="live-clients-count"
+                        style="opacity: 0; transform: translateY(20px);" data-target="42">0</div>
                     <div class="text-[9px] md:text-xs uppercase tracking-widest text-neutral-500 mt-1"
-                        data-i18n="stats.languages">
-                        Idiomas</div>
+                        data-i18n="stats.clients">
+                        Clientes</div>
                 </div>
 
             </div>
@@ -1925,39 +1925,59 @@
         </section>
     </main>
 
-    <!-- 7. FOOTER -->
-    <footer class="border-t border-black/5 dark:border-white/5 bg-neutral-50/50 dark:bg-[#080808]" style="opacity: 0;">
-        <div class="max-w-7xl mx-auto px-4 md:px-6 py-16 md:py-24">
-            <div class="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16">
-                <div class="md:col-span-6">
-                    <div class="font-black text-3xl md:text-4xl tracking-tighter uppercase mb-4 md:mb-6 italic">
-                        MAKER<span class="text-neutral-300">STUDIO</span></div>
-                    <p class="max-w-sm text-neutral-500 text-sm leading-relaxed mb-6 md:mb-8"
-                        data-i18n="footer.description">Design focado na essência. Onde a forma bruta encontra a IA para
-                        criar o amanhã.</p>
-                    <div class="flex items-center gap-3">
-                        <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse-glow"></span>
-                        <span class="text-[10px] font-black uppercase tracking-widest" data-i18n="footer.status">Studio
-                            Online</span>
+    <!-- 7. FOOTER COMPACTO E RESPONSIVO -->
+    <footer class="border-t border-black/10 dark:border-white/10 mt-8 sm:mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 py-4 sm:py-6">
+            <!-- Linha 1: Logo + Relógio + Legal -->
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-3 mb-4">
+                <!-- Logo compacto -->
+                <div class="order-2 sm:order-1 text-center sm:text-left">
+                    <div class="text-sm font-medium text-neutral-600 dark:text-neutral-400">
+                        MAKER<span class="text-neutral-400">AI</span>
                     </div>
                 </div>
 
-                <div class="md:col-span-6 flex flex-col items-center md:items-end justify-center">
-                    <div id="clock"
-                        class="font-mono text-4xl md:text-6xl font-black tracking-tighter tabular-nums opacity-20 mb-3 md:mb-4"
-                        aria-live="polite" role="timer">00:00:00</div>
-                    <div class="text-xs text-neutral-500 uppercase tracking-widest" data-i18n="footer.timezone">São Paulo,
-                        Brasil</div>
+                <!-- Relógio centralizado no mobile -->
+                <div class="order-1 sm:order-2">
+                    <div id="clock" class="font-mono text-sm sm:text-base text-neutral-500 tabular-nums">
+                        00:00
+                    </div>
+                </div>
+
+                <!-- Links legais -->
+                <div class="order-3 hidden sm:flex gap-4">
+                    <a href="/privacy.html"
+                        class="text-xs text-neutral-500 hover:text-black dark:hover:text-white">Privacidade</a>
+                    <a href="/terms.html"
+                        class="text-xs text-neutral-500 hover:text-black dark:hover:text-white">Termos</a>
                 </div>
             </div>
 
-            <div class="mt-12 md:mt-24 pt-6 md:pt-8 border-t border-black/5 dark:border-white/5 text-center">
-                <p class="text-[9px] font-bold text-neutral-400 uppercase tracking-[0.4em] mb-2"
-                    data-i18n="footer.mantra">
-                    Objeto → Luz → Contraste → Movimento → Efeito
+            <!-- Linha 2: Descrição breve -->
+            <div class="text-center mb-3 sm:mb-4">
+                <p class="text-xs text-neutral-500 max-w-md mx-auto px-2">
+                    Design systems e IA generativa para produtos digitais.
                 </p>
-                <p class="text-[9px] font-bold text-neutral-500 uppercase tracking-[0.4em]">
-                    © 2026 MakerAI Studio
+            </div>
+
+            <!-- Linha 3: Links rápidos compactos -->
+            <div class="flex flex-wrap justify-center gap-3 sm:gap-4 mb-3">
+                <a href="#agency" class="text-xs text-neutral-500 hover:text-black dark:hover:text-white">Serviços</a>
+                <a href="#portfolio"
+                    class="text-xs text-neutral-500 hover:text-black dark:hover:text-white">Portfólio</a>
+                <a href="#shop" class="text-xs text-neutral-500 hover:text-black dark:hover:text-white">Produtos</a>
+                <a href="#blog" class="text-xs text-neutral-500 hover:text-black dark:hover:text-white">Blog</a>
+                <a href="#contact" class="text-xs text-neutral-500 hover:text-black dark:hover:text-white">Contato</a>
+                <a href="mailto:contact@makerai.com"
+                    class="text-xs text-neutral-500 hover:text-black dark:hover:text-white">Email</a>
+            </div>
+
+            <!-- Linha 4: Copyright minimalista -->
+            <div class="text-center">
+                <p class="text-[10px] sm:text-xs text-neutral-400">
+                    © 2026 MakerAI Studio •
+                    <a href="/cookies.html" class="underline hover:no-underline">Cookies</a> •
+                    <span class="hidden sm:inline" data-i18n="footer.mantra">O/L/C</span>
                 </p>
             </div>
         </div>
@@ -2003,9 +2023,9 @@
                 "hero.tagline": "O objeto primeiro. O efeito eleva.",
 
                 // Stats
-                "stats.projects": "Projetos",
-                "stats.cards": "Cards",
-                "stats.languages": "Idiomas",
+                "stats.projects": "Projetos Ativos",
+                "stats.cards": "Cards Gerados",
+                "stats.clients": "Clientes",
 
                 // Agência
                 "agency.title": "/ Nossa Agência",
@@ -2112,9 +2132,9 @@
                 "hero.tagline": "The object first. The effect elevates.",
 
                 // Stats
-                "stats.projects": "Projects",
-                "stats.cards": "Cards",
-                "stats.languages": "Languages",
+                "stats.projects": "Active Projects",
+                "stats.cards": "Cards Generated",
+                "stats.clients": "Clients",
 
                 // Agency
                 "agency.title": "/ Our Agency",
@@ -2221,9 +2241,9 @@
                 "hero.tagline": "El objeto primero. El efeito eleva.",
 
                 // Stats
-                "stats.projects": "Proyectos",
-                "stats.cards": "Tarjetas",
-                "stats.languages": "Idiomas",
+                "stats.projects": "Proyectos Activos",
+                "stats.cards": "Tarjetas Generadas",
+                "stats.clients": "Clientes",
 
                 // Agencia
                 "agency.title": "/ Nuestra Agencia",
@@ -2826,30 +2846,49 @@
             }, 1500);
         }
 
-        // === STATS COUNTER ===
+        // === STATS COUNTER DINÂMICO ===
         function initStatsCounter() {
-            const projectsCount = document.getElementById('projects-count');
-            const cardsCount = document.getElementById('cards-count');
+            const counters = [
+                { element: 'live-projects-count', finalValue: 78, interval: 80 },
+                { element: 'live-cards-count', finalValue: 143, interval: 50 },
+                { element: 'live-clients-count', finalValue: 42, interval: 120 }
+            ];
 
-            if (projectsCount && cardsCount) {
-                let projects = 0;
-                let cards = 0;
+            counters.forEach(counter => {
+                const el = document.getElementById(counter.element);
+                if (!el) return;
 
-                const interval = setInterval(() => {
-                    if (projects < 10) projects++;
-                    if (cards < 14) cards++;
+                const finalValue = parseInt(el.getAttribute('data-target') || counter.finalValue);
+                let currentValue = 0;
+                const increment = finalValue / 30; // Mais suave
+                const duration = 2000; // 2 segundos no total
+                const steps = duration / counter.interval;
 
-                    projectsCount.textContent = projects;
-                    cardsCount.textContent = cards;
+                let stepValue = 0;
+                const actualIncrement = finalValue / steps;
 
-                    projectsCount.setAttribute('aria-valuenow', projects);
-                    cardsCount.setAttribute('aria-valuenow', cards);
+                const timer = setInterval(() => {
+                    stepValue += actualIncrement;
+                    currentValue = Math.min(Math.floor(stepValue), finalValue);
 
-                    if (projects >= 10 && cards >= 14) {
-                        clearInterval(interval);
+                    el.textContent = currentValue;
+                    el.setAttribute('aria-valuenow', currentValue);
+
+                    // Adicionar "+" se chegou ao final
+                    if (currentValue >= finalValue) {
+                        el.textContent = finalValue.toLocaleString() + '+';
+                        clearInterval(timer);
+
+                        // Pequena animação ao finalizar
+                        setTimeout(() => {
+                            el.style.transform = 'scale(1.05)';
+                            setTimeout(() => {
+                                el.style.transform = 'scale(1)';
+                            }, 300);
+                        }, 100);
                     }
-                }, 80);
-            }
+                }, counter.interval);
+            });
         }
 
         // === CARD ANIMATIONS COM INTERSECTION OBSERVER ===
