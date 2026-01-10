@@ -505,6 +505,28 @@
             margin-bottom: 1.5rem;
             overflow: hidden;
             position: relative;
+            background-size: cover;
+            background-position: center;
+            transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .card-image-container::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                to bottom,
+                transparent 0%,
+                rgba(0, 0, 0, 0.1) 30%,
+                rgba(0, 0, 0, 0.3) 70%,
+                rgba(0, 0, 0, 0.5) 100%
+            );
+            z-index: 1;
+        }
+
+        .card-image-container > * {
+            position: relative;
+            z-index: 2;
         }
 
         .card-image-container.gradient-bg {
@@ -924,31 +946,10 @@
             animation: pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
         }
 
-        /* Gradient backgrounds for cards */
-        .gradient-neural {
-            background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
-        }
-
-        .gradient-brutal {
-            background: linear-gradient(135deg, #000000 0%, #333333 100%);
-        }
-
-        .gradient-code {
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-        }
-
-        .gradient-lab {
-            background: linear-gradient(135deg, #4b134f 0%, #c94b4b 100%);
-        }
-
         /* Hover effects for card images */
         .feature-card:hover .card-image-container,
         .product-card:hover .card-image-container {
-            transform: scale(1.02);
-        }
-
-        .card-image-container {
-            transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            transform: scale(1.05);
         }
     </style>
 </head>
@@ -1186,7 +1187,7 @@
             </h1>
             <p class="max-w-md mx-auto text-neutral-500 text-base md:text-lg font-medium leading-relaxed uppercase tracking-tighter px-4 hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-r hover:from-black hover:via-neutral-600 hover:to-black dark:hover:from-white dark:hover:via-neutral-400 dark:hover:to-white transition-all duration-700 ease-out cursor-default"
                 data-i18n="hero.tagline" style="opacity: 0; transform: translateY(20px);">
-                Soluções escaláveis. <br> Impacto mensurável.
+                O objeto primeiro. O efeito eleva.
             </p>
             <div class="mt-12 md:mt-20 grid grid-cols-3 gap-2 md:gap-6 max-w-2xl mx-auto"
                 aria-label="Estatísticas em tempo real">
@@ -1230,7 +1231,8 @@
                         onclick="openModal('engine')" role="button" tabindex="0"
                         aria-label="Neural Engine - IA generativa aplicada"
                         style="opacity: 0; transform: translateY(50px) scale(0.95);">
-                        <div class="card-image-container gradient-neural">
+                        <div class="card-image-container"
+                            style="background-image: url('https://images.unsplash.com/photo-1635070041078-e363dbe005cb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');">
                             <div class="w-full h-full flex items-center justify-center">
                                 <div class="text-4xl font-mono text-white/30 tracking-tighter">
                                     0110<span class="text-white/50">1011</span>
@@ -1254,7 +1256,8 @@
                         onclick="openModal('interface')" role="button" tabindex="0"
                         aria-label="Brutal UI - Design systems extremos"
                         style="opacity: 0; transform: translateY(50px) scale(0.95);">
-                        <div class="card-image-container gradient-brutal">
+                        <div class="card-image-container"
+                            style="background-image: url('https://images.unsplash.com/photo-1558655146-364adaf1fcc9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');">
                             <div class="w-full h-full flex items-center justify-center">
                                 <div class="text-white dark:text-white/20 font-black text-5xl tracking-tighter">
                                     UI/BRUTAL</div>
@@ -1273,7 +1276,8 @@
                     <div class="feature-card card-loading" data-tooltip="Clique para detalhes"
                         onclick="openModal('code')" role="button" tabindex="0" aria-label="Raw Code - Performance pura"
                         style="opacity: 0; transform: translateY(50px) scale(0.95);">
-                        <div class="card-image-container gradient-code">
+                        <div class="card-image-container"
+                            style="background-image: url('https://images.unsplash.com/photo-1516116216624-53e697fedbea?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');">
                             <div class="w-full h-full flex items-center justify-center">
                                 <div class="font-mono text-white/40 text-lg tracking-tighter">
                                     { performance: true }
@@ -1294,7 +1298,8 @@
                         onclick="openModal('lab')" role="button" tabindex="0"
                         aria-label="Maker Lab - Prototipagem de futuros"
                         style="opacity: 0; transform: translateY(50px) scale(0.95);">
-                        <div class="card-image-container gradient-lab gradient-bg">
+                        <div class="card-image-container gradient-bg"
+                            style="background-image: url('https://images.unsplash.com/photo-1550745165-9bc0b252726f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');">
                             <div class="w-full h-full flex items-center justify-center">
                                 <div class="text-white/30 text-4xl font-black">⟁</div>
                                 <div class="absolute bottom-4 right-4 text-xs font-bold text-white/30">LAB</div>
@@ -1317,7 +1322,8 @@
                         <div class="carousel-slide">
                             <div class="feature-card card-loading" onclick="openModal('engine')" role="button"
                                 tabindex="0">
-                                <div class="card-image-container gradient-neural" style="height: 120px;">
+                                <div class="card-image-container"
+                                    style="background-image: url('https://images.unsplash.com/photo-1635070041078-e363dbe005cb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'); height: 120px;">
                                     <div class="w-full h-full flex items-center justify-center">
                                         <div class="text-2xl font-mono text-white/30">01101011</div>
                                     </div>
@@ -1338,7 +1344,8 @@
                         <div class="carousel-slide">
                             <div class="feature-card card-loading" onclick="openModal('interface')" role="button"
                                 tabindex="0">
-                                <div class="card-image-container gradient-brutal" style="height: 120px;">
+                                <div class="card-image-container"
+                                    style="background-image: url('https://images.unsplash.com/photo-1558655146-364adaf1fcc9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'); height: 120px;">
                                     <div class="w-full h-full flex items-center justify-center">
                                         <div class="text-white/20 font-black text-3xl">UI</div>
                                     </div>
@@ -1359,7 +1366,8 @@
                         <div class="carousel-slide">
                             <div class="feature-card card-loading" onclick="openModal('code')" role="button"
                                 tabindex="0">
-                                <div class="card-image-container gradient-code" style="height: 120px;">
+                                <div class="card-image-container"
+                                    style="background-image: url('https://images.unsplash.com/photo-1516116216624-53e697fedbea?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'); height: 120px;">
                                     <div class="w-full h-full flex items-center justify-center">
                                         <div class="font-mono text-white/40 text-sm">CODE</div>
                                     </div>
@@ -1380,7 +1388,8 @@
                         <div class="carousel-slide">
                             <div class="feature-card card-loading" onclick="openModal('lab')" role="button"
                                 tabindex="0">
-                                <div class="card-image-container gradient-lab" style="height: 120px;">
+                                <div class="card-image-container"
+                                    style="background-image: url('https://images.unsplash.com/photo-1550745165-9bc0b252726f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'); height: 120px;">
                                     <div class="w-full h-full flex items-center justify-center">
                                         <div class="text-white/30 text-2xl">⟁</div>
                                     </div>
@@ -1414,18 +1423,10 @@
                     <div class="product-card card-loading" data-tooltip="Clique para detalhes"
                         onclick="openModal('design-system')" role="button" tabindex="0"
                         aria-label="Sistema de Design AI" style="opacity: 0; transform: translateY(50px) scale(0.95);">
-                        <div
-                            class="card-image-container bg-gradient-to-br from-blue-900/20 to-purple-900/20 dark:from-blue-500/10 dark:to-purple-500/10">
-                            <div class="relative w-full h-full">
-                                <div class="absolute inset-0 grid grid-cols-4 gap-1 p-4">
-                                    <div class="bg-blue-500/20 rounded"></div>
-                                    <div class="bg-purple-500/20 rounded"></div>
-                                    <div class="bg-blue-500/20 rounded"></div>
-                                    <div class="bg-purple-500/20 rounded"></div>
-                                </div>
-                                <div class="absolute inset-0 flex items-center justify-center">
-                                    <div class="text-2xl font-black text-white dark:text-white/40">DESIGN SYSTEM</div>
-                                </div>
+                        <div class="card-image-container"
+                            style="background-image: url('https://images.unsplash.com/photo-1561070791-2526d30994b5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');">
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <div class="text-2xl font-black text-white dark:text-white/40">DESIGN SYSTEM</div>
                             </div>
                         </div>
                         <h3 class="text-xl font-black mb-3" data-i18n="portfolio.project1.title">Sistema de Design AI
@@ -1440,17 +1441,9 @@
                     <div class="product-card card-loading" data-tooltip="Clique para detalhes"
                         onclick="openModal('dashboard')" role="button" tabindex="0" aria-label="Dashboard Financeiro"
                         style="opacity: 0; transform: translateY(50px) scale(0.95);">
-                        <div
-                            class="card-image-container bg-gradient-to-br from-green-900/20 to-emerald-900/20 dark:from-green-500/10 dark:to-emerald-500/10">
-                            <div class="relative w-full h-full p-4">
-                                <div class="flex items-end h-full gap-1">
-                                    <div class="w-1/4 bg-green-500/40 h-3/4 rounded-t"></div>
-                                    <div class="w-1/4 bg-emerald-500/40 h-2/3 rounded-t"></div>
-                                    <div class="w-1/4 bg-green-600/40 h-4/5 rounded-t"></div>
-                                    <div class="w-1/4 bg-emerald-600/40 h-1/2 rounded-t"></div>
-                                </div>
-                                <div class="absolute bottom-4 left-4 text-xs font-bold text-white/50">REAL-TIME DATA
-                                </div>
+                        <div class="card-image-container"
+                            style="background-image: url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');">
+                            <div class="absolute bottom-4 left-4 text-xs font-bold text-white/50">REAL-TIME DATA
                             </div>
                         </div>
                         <h3 class="text-xl font-black mb-3" data-i18n="portfolio.project2.title">Dashboard Financeiro
@@ -1465,8 +1458,8 @@
                     <div class="product-card card-loading" data-tooltip="Clique para detalhes"
                         onclick="openModal('mobile-app')" role="button" tabindex="0" aria-label="App Mobile"
                         style="opacity: 0; transform: translateY(50px) scale(0.95);">
-                        <div
-                            class="card-image-container bg-gradient-to-br from-purple-900/20 to-pink-900/20 dark:from-purple-500/10 dark:to-pink-500/10 relative">
+                        <div class="card-image-container"
+                            style="background-image: url('https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');">
                             <div class="w-24 h-36 border-4 border-white/20 rounded-3xl relative mx-auto mt-4">
                                 <div
                                     class="absolute top-2 left-1/2 transform -translate-x-1/2 w-12 h-1 bg-white/30 rounded">
@@ -1494,8 +1487,8 @@
                         <div class="carousel-slide">
                             <div class="product-card card-loading" onclick="openModal('design-system')" role="button"
                                 tabindex="0">
-                                <div class="card-image-container bg-gradient-to-br from-blue-900/20 to-purple-900/20"
-                                    style="height: 120px;">
+                                <div class="card-image-container"
+                                    style="background-image: url('https://images.unsplash.com/photo-1561070791-2526d30994b5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'); height: 120px;">
                                     <div class="w-full h-full flex items-center justify-center">
                                         <div class="text-xl font-black text-white/30">DS</div>
                                     </div>
@@ -1513,8 +1506,8 @@
                         <div class="carousel-slide">
                             <div class="product-card card-loading" onclick="openModal('dashboard')" role="button"
                                 tabindex="0">
-                                <div class="card-image-container bg-gradient-to-br from-green-900/20 to-emerald-900/20"
-                                    style="height: 120px;">
+                                <div class="card-image-container"
+                                    style="background-image: url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'); height: 120px;">
                                     <div class="w-full h-full flex items-center justify-center">
                                         <div class="text-xl font-black text-white/30">📊</div>
                                     </div>
@@ -1532,8 +1525,8 @@
                         <div class="carousel-slide">
                             <div class="product-card card-loading" onclick="openModal('mobile-app')" role="button"
                                 tabindex="0">
-                                <div class="card-image-container bg-gradient-to-br from-purple-900/20 to-pink-900/20"
-                                    style="height: 120px;">
+                                <div class="card-image-container"
+                                    style="background-image: url('https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'); height: 120px;">
                                     <div class="w-full h-full flex items-center justify-center">
                                         <div class="text-xl font-black text-white/30">📱</div>
                                     </div>
@@ -1563,9 +1556,11 @@
                         onclick="openModal('ui-framework')" role="button" tabindex="0" aria-label="UI Framework Pro"
                         style="opacity: 0; transform: translateY(50px) scale(0.95);">
                         <div class="mb-6">
-                            <div
-                                class="w-16 h-16 bg-gradient-to-br from-gray-900 to-black dark:from-gray-800 dark:to-black rounded-2xl mb-4 flex items-center justify-center">
-                                <div class="text-white/40 font-mono text-xs">{"UI"}</div>
+                            <div class="card-image-container"
+                                style="background-image: url('https://images.unsplash.com/photo-1516035069371-29a1b244cc32?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'); height: 160px;">
+                                <div class="w-full h-full flex items-center justify-center">
+                                    <div class="text-white/40 font-mono text-xs">{"UI"}</div>
+                                </div>
                             </div>
                             <h3 class="text-xl font-black mb-2" data-i18n="shop.product1.title">UI Framework Pro</h3>
                             <p class="text-gray-500 text-sm" data-i18n="shop.product1.description">Sistema completo de
@@ -1585,10 +1580,13 @@
                         onclick="openModal('ai-agent')" role="button" tabindex="0" aria-label="AI Agent Node"
                         style="opacity: 0; transform: translateY(50px) scale(0.95);">
                         <div class="mb-6">
-                            <div
-                                class="w-16 h-16 bg-gradient-to-br from-blue-900 to-cyan-900 dark:from-blue-800 dark:to-cyan-800 rounded-2xl mb-4 flex items-center justify-center relative">
-                                <div class="absolute w-8 h-8 border-2 border-white/30 rounded-full ai-pulse-ring"></div>
-                                <div class="absolute w-4 h-4 bg-white/40 rounded-full"></div>
+                            <div class="card-image-container"
+                                style="background-image: url('https://images.unsplash.com/photo-1620712943543-bcc4688e7485?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'); height: 160px;">
+                                <div class="w-full h-full flex items-center justify-center relative">
+                                    <div class="absolute w-8 h-8 border-2 border-white/30 rounded-full ai-pulse-ring">
+                                    </div>
+                                    <div class="absolute w-4 h-4 bg-white/40 rounded-full"></div>
+                                </div>
                             </div>
                             <h3 class="text-xl font-black mb-2" data-i18n="shop.product2.title">AI Agent Node</h3>
                             <p class="text-gray-500 text-sm" data-i18n="shop.product2.description">Agente autônomo de IA
@@ -1607,13 +1605,15 @@
                         onclick="openModal('brutal-icons')" role="button" tabindex="0" aria-label="Brutal Icons"
                         style="opacity: 0; transform: translateY(50px) scale(0.95);">
                         <div class="mb-6">
-                            <div
-                                class="w-16 h-16 bg-gradient-to-br from-red-900 to-orange-900 dark:from-red-800 dark:to-orange-800 rounded-2xl mb-4 flex items-center justify-center">
-                                <div class="flex flex-wrap gap-1">
-                                    <div class="w-3 h-3 bg-white/40 rounded-sm"></div>
-                                    <div class="w-3 h-3 bg-white/40 rounded-full"></div>
-                                    <div class="w-3 h-3 bg-white/40 rounded-sm"></div>
-                                    <div class="w-3 h-3 bg-white/40 rounded-full"></div>
+                            <div class="card-image-container"
+                                style="background-image: url('https://images.unsplash.com/photo-1560472354-b33ff0c44a43?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'); height: 160px;">
+                                <div class="w-full h-full flex items-center justify-center">
+                                    <div class="flex flex-wrap gap-1">
+                                        <div class="w-3 h-3 bg-white/40 rounded-sm"></div>
+                                        <div class="w-3 h-3 bg-white/40 rounded-full"></div>
+                                        <div class="w-3 h-3 bg-white/40 rounded-sm"></div>
+                                        <div class="w-3 h-3 bg-white/40 rounded-full"></div>
+                                    </div>
                                 </div>
                             </div>
                             <h3 class="text-xl font-black mb-2" data-i18n="shop.product3.title">Brutal Icons</h3>
@@ -1633,9 +1633,11 @@
                         onclick="openModal('mesh-engine')" role="button" tabindex="0" aria-label="Mesh Engine"
                         style="opacity: 0; transform: translateY(50px) scale(0.95);">
                         <div class="mb-6">
-                            <div
-                                class="w-16 h-16 bg-gradient-to-br from-purple-900 to-violet-900 dark:from-purple-800 dark:to-violet-800 rounded-2xl mb-4 flex items-center justify-center">
-                                <div class="w-10 h-10 border border-white/30 rounded-lg transform rotate-45"></div>
+                            <div class="card-image-container"
+                                style="background-image: url('https://images.unsplash.com/photo-1535378917042-10a22c95931a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'); height: 160px;">
+                                <div class="w-full h-full flex items-center justify-center">
+                                    <div class="w-10 h-10 border border-white/30 rounded-lg transform rotate-45"></div>
+                                </div>
                             </div>
                             <h3 class="text-xl font-black mb-2" data-i18n="shop.product4.title">Mesh Engine</h3>
                             <p class="text-gray-500 text-sm" data-i18n="shop.product4.description">Motor de gradientes
@@ -1658,9 +1660,11 @@
                             <div class="product-card card-loading" onclick="openModal('ui-framework')" role="button"
                                 tabindex="0">
                                 <div class="mb-6">
-                                    <div
-                                        class="w-12 h-12 bg-gray-200 dark:bg-gray-800 rounded-2xl mb-4 flex items-center justify-center">
-                                        <div class="text-black/40 dark:text-white/40 text-xs">UI</div>
+                                    <div class="card-image-container"
+                                        style="background-image: url('https://images.unsplash.com/photo-1516035069371-29a1b244cc32?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'); height: 120px;">
+                                        <div class="w-full h-full flex items-center justify-center">
+                                            <div class="text-black/40 dark:text-white/40 text-xs">UI</div>
+                                        </div>
                                     </div>
                                     <h3 class="text-lg font-black mb-2" data-i18n="shop.product1.title">UI Framework Pro
                                     </h3>
@@ -1681,9 +1685,11 @@
                             <div class="product-card card-loading" onclick="openModal('ai-agent')" role="button"
                                 tabindex="0">
                                 <div class="mb-6">
-                                    <div
-                                        class="w-12 h-12 bg-gray-200 dark:bg-gray-800 rounded-2xl mb-4 flex items-center justify-center">
-                                        <div class="text-black/40 dark:text-white/40 text-xs">AI</div>
+                                    <div class="card-image-container"
+                                        style="background-image: url('https://images.unsplash.com/photo-1620712943543-bcc4688e7485?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'); height: 120px;">
+                                        <div class="w-full h-full flex items-center justify-center">
+                                            <div class="text-black/40 dark:text-white/40 text-xs">AI</div>
+                                        </div>
                                     </div>
                                     <h3 class="text-lg font-black mb-2" data-i18n="shop.product2.title">AI Agent Node
                                     </h3>
@@ -1704,9 +1710,11 @@
                             <div class="product-card card-loading" onclick="openModal('brutal-icons')" role="button"
                                 tabindex="0">
                                 <div class="mb-6">
-                                    <div
-                                        class="w-12 h-12 bg-gray-200 dark:bg-gray-800 rounded-2xl mb-4 flex items-center justify-center">
-                                        <div class="text-black/40 dark:text-white/40 text-xs">ICON</div>
+                                    <div class="card-image-container"
+                                        style="background-image: url('https://images.unsplash.com/photo-1560472354-b33ff0c44a43?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'); height: 120px;">
+                                        <div class="w-full h-full flex items-center justify-center">
+                                            <div class="text-black/40 dark:text-white/40 text-xs">ICON</div>
+                                        </div>
                                     </div>
                                     <h3 class="text-lg font-black mb-2" data-i18n="shop.product3.title">Brutal Icons
                                     </h3>
@@ -1727,9 +1735,11 @@
                             <div class="product-card card-loading" onclick="openModal('mesh-engine')" role="button"
                                 tabindex="0">
                                 <div class="mb-6">
-                                    <div
-                                        class="w-12 h-12 bg-gray-200 dark:bg-gray-800 rounded-2xl mb-4 flex items-center justify-center">
-                                        <div class="text-black/40 dark:text-white/40 text-xs">3D</div>
+                                    <div class="card-image-container"
+                                        style="background-image: url('https://images.unsplash.com/photo-1535378917042-10a22c95931a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'); height: 120px;">
+                                        <div class="w-full h-full flex items-center justify-center">
+                                            <div class="text-black/40 dark:text-white/40 text-xs">3D</div>
+                                        </div>
                                     </div>
                                     <h3 class="text-lg font-black mb-2" data-i18n="shop.product4.title">Mesh Engine</h3>
                                     <p class="text-gray-500 text-sm" data-i18n="shop.product4.description">Motor de
@@ -1761,8 +1771,8 @@
                         onclick="openModal('ai-future')" role="button" tabindex="0"
                         aria-label="Artigo: O Futuro da IA Generativa em 2026"
                         style="opacity: 0; transform: translateY(50px) scale(0.95);">
-                        <div class="card-image-container bg-gradient-to-br from-gray-900 to-black dark:from-gray-800 dark:to-black"
-                            style="height: 120px;">
+                        <div class="card-image-container"
+                            style="background-image: url('https://images.unsplash.com/photo-1677442136019-21780ecad995?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'); height: 120px;">
                             <div class="absolute inset-0 flex items-center justify-center">
                                 <div class="text-white/20 font-black text-3xl tracking-tighter rotate-12">AI 2026</div>
                             </div>
@@ -1787,8 +1797,8 @@
                         onclick="openModal('brutalism')" role="button" tabindex="0"
                         aria-label="Artigo: Brutalismo Digital: Por Que Funciona"
                         style="opacity: 0; transform: translateY(50px) scale(0.95);">
-                        <div class="card-image-container bg-gradient-to-br from-black to-white/10 dark:from-white dark:to-black"
-                            style="height: 120px;">
+                        <div class="card-image-container"
+                            style="background-image: url('https://images.unsplash.com/photo-1545235617-9465d2a55698?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'); height: 120px;">
                             <div class="absolute inset-0 flex items-center justify-center">
                                 <div class="text-4xl font-black tracking-tighter">
                                     <span class="text-white dark:text-black">BRUTAL</span>
@@ -1813,8 +1823,8 @@
                         onclick="openModal('monetization')" role="button" tabindex="0"
                         aria-label="Artigo: Monetizando Sistemas de Design"
                         style="opacity: 0; transform: translateY(50px) scale(0.95);">
-                        <div class="card-image-container bg-gradient-to-br from-yellow-900/30 to-amber-900/30 dark:from-yellow-500/10 dark:to-amber-500/10"
-                            style="height: 120px;">
+                        <div class="card-image-container"
+                            style="background-image: url('https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'); height: 120px;">
                             <div class="absolute inset-0 flex items-center justify-center">
                                 <div class="text-3xl font-black text-white/20 dark:text-white/10">$ € £</div>
                                 <div class="absolute bottom-4 right-4 text-xs font-bold text-white/30">REVENUE</div>
@@ -1840,8 +1850,8 @@
                         <div class="carousel-slide">
                             <article class="product-card card-loading" onclick="openModal('ai-future')" role="button"
                                 tabindex="0">
-                                <div class="card-image-container bg-gradient-to-br from-gray-900 to-black"
-                                    style="height: 100px;">
+                                <div class="card-image-container"
+                                    style="background-image: url('https://images.unsplash.com/photo-1677442136019-21780ecad995?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'); height: 100px;">
                                     <div class="w-full h-full flex items-center justify-center">
                                         <div class="text-white/20 text-xl">AI</div>
                                     </div>
@@ -1862,8 +1872,8 @@
                         <div class="carousel-slide">
                             <article class="product-card card-loading" onclick="openModal('brutalism')" role="button"
                                 tabindex="0">
-                                <div class="card-image-container bg-gradient-to-br from-black to-gray-800"
-                                    style="height: 100px;">
+                                <div class="card-image-container"
+                                    style="background-image: url('https://images.unsplash.com/photo-1545235617-9465d2a55698?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'); height: 100px;">
                                     <div class="w-full h-full flex items-center justify-center">
                                         <div class="text-white/20 text-xl">BRUTAL</div>
                                     </div>
@@ -1884,8 +1894,8 @@
                         <div class="carousel-slide">
                             <article class="product-card card-loading" onclick="openModal('monetization')" role="button"
                                 tabindex="0">
-                                <div class="card-image-container bg-gradient-to-br from-yellow-900/30 to-amber-900/30"
-                                    style="height: 100px;">
+                                <div class="card-image-container"
+                                    style="background-image: url('https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'); height: 100px;">
                                     <div class="w-full h-full flex items-center justify-center">
                                         <div class="text-white/20 text-xl">$</div>
                                     </div>
