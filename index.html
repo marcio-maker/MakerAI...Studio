@@ -347,6 +347,7 @@
         .dark #main-header.scrolled .header-inner {
             background: rgba(5, 5, 5, 0.95);
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7);
+            border-radius: 2rem;
         }
 
         /* === SPOTLIGHT OTIMIZADO === */
@@ -391,6 +392,7 @@
             transition: all 0.3s ease;
             height: 100dvh;
             overflow-y: auto;
+            padding: 2rem 1rem;
         }
 
         .mobile-menu.active {
@@ -951,6 +953,191 @@
         .product-card:hover .card-image-container {
             transform: scale(1.05);
         }
+
+        /* === CORREÇÕES DE RESPONSIVIDADE === */
+
+        /* 1. Hero text fix para foldables */
+        @media (max-width: 320px) {
+            .hero-text {
+                font-size: clamp(2rem, 8vw, 2.5rem) !important;
+                line-height: 0.9 !important;
+            }
+            
+            .hero-text span:first-child,
+            .hero-text span:last-child {
+                font-size: inherit !important;
+            }
+        }
+
+        /* 2. Indicadores de carrossel alinhados */
+        .carousel-indicators {
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        @media (max-width: 400px) {
+            .carousel-indicators {
+                gap: 0.25rem;
+            }
+            
+            .carousel-indicator {
+                width: 5px;
+                height: 5px;
+            }
+        }
+
+        /* 3. Header scrolled mantém bordas */
+        #main-header.scrolled .header-inner {
+            border-radius: 2rem !important;
+        }
+
+        @media (max-width: 640px) {
+            #main-header.scrolled .header-inner {
+                border-radius: 1.5rem !important;
+            }
+        }
+
+        /* 4. Card images responsivas */
+        .card-image-container {
+            height: clamp(120px, 30vw, 160px);
+        }
+
+        /* 5. Menu mobile otimizado */
+        @media (max-width: 400px) {
+            .mobile-menu nav {
+                gap: 1.5rem;
+            }
+            
+            .mobile-menu nav a {
+                font-size: 2rem !important;
+            }
+        }
+
+        @media (max-width: 320px) {
+            .mobile-menu nav a {
+                font-size: 1.75rem !important;
+            }
+        }
+
+        /* 6. Modal mobile com scroll */
+        @media (max-height: 700px) {
+            #modal-overlay {
+                align-items: flex-start;
+                padding-top: 2rem;
+                padding-bottom: 2rem;
+                overflow-y: auto;
+            }
+            
+            #modal-content {
+                max-height: calc(100vh - 4rem);
+                overflow-y: auto;
+            }
+        }
+
+        /* 7. Footer responsivo */
+        @media (max-width: 400px) {
+            footer .flex-wrap {
+                gap: 0.5rem 1rem;
+            }
+            
+            footer .flex-wrap a {
+                font-size: 0.6875rem;
+            }
+            
+            .max-w-7xl {
+                padding-left: 0.75rem;
+                padding-right: 0.75rem;
+            }
+        }
+
+        /* 8. Stats counter mobile */
+        @media (max-width: 400px) {
+            .stat-number {
+                font-size: 2.5rem !important;
+            }
+            
+            .grid-cols-3 {
+                gap: 0.5rem;
+            }
+        }
+
+        /* 9. Shop cards mobile */
+        @media (max-width: 400px) {
+            .product-card button {
+                padding-left: 1rem !important;
+                padding-right: 1rem !important;
+                font-size: 0.6875rem;
+            }
+        }
+
+        /* 10. Text overflow geral */
+        .text-ellipsis {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        /* 11. Garantir que imagens não quebrem layout */
+        .card-image-container img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* 12. Ajuste de padding mobile extremo */
+        @media (max-width: 280px) {
+            main, section {
+                padding-left: 0.25rem !important;
+                padding-right: 0.25rem !important;
+            }
+            
+            .header-inner {
+                padding: 0.5rem 1rem !important;
+            }
+            
+            .feature-card, .product-card {
+                padding: 1rem !important;
+            }
+        }
+
+        /* 13. Scroll suave para modal */
+        #modal-content {
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        @media (max-width: 640px) {
+            #modal-content {
+                max-height: 85vh;
+                padding: 1.5rem;
+            }
+        }
+
+        /* 14. Contact section mobile */
+        @media (max-width: 400px) {
+            #contact .text-3xl {
+                font-size: 2rem !important;
+            }
+            
+            #contact a {
+                padding-left: 1.5rem !important;
+                padding-right: 1.5rem !important;
+                font-size: 0.875rem !important;
+            }
+        }
+
+        /* 15. Section padding consistente */
+        section {
+            padding-left: 1rem !important;
+            padding-right: 1rem !important;
+        }
+
+        @media (min-width: 768px) {
+            section {
+                padding-left: 1.5rem !important;
+                padding-right: 1.5rem !important;
+            }
+        }
     </style>
 </head>
 
@@ -1069,7 +1256,7 @@
                     class="w-10 h-10 bg-black dark:bg-white rounded-xl flex items-center justify-center transition-transform group-hover:rotate-12">
                     <span class="text-white dark:text-black font-black text-lg">M</span>
                 </div>
-                <span class="font-black text-sm tracking-tighter uppercase nowrap">
+                <span class="font-black text-sm tracking-tighter uppercase nowrap text-ellipsis">
                     Maker<span class="text-neutral-400">AI</span>
                 </span>
             </a>
@@ -1077,19 +1264,19 @@
             <!-- Menu Desktop -->
             <nav class="hidden md:flex items-center gap-4 lg:gap-6" aria-label="Navegação principal">
                 <a href="#home"
-                    class="text-xs font-bold uppercase tracking-widest text-neutral-500 hover:text-black dark:hover:text-white transition-colors nowrap"
+                    class="text-xs font-bold uppercase tracking-widest text-neutral-500 hover:text-black dark:hover:text-white transition-colors nowrap text-ellipsis"
                     data-i18n="nav.home">Home</a>
                 <a href="#agency"
-                    class="text-xs font-bold uppercase tracking-widest text-neutral-500 hover:text-black dark:hover:text-white transition-colors nowrap"
+                    class="text-xs font-bold uppercase tracking-widest text-neutral-500 hover:text-black dark:hover:text-white transition-colors nowrap text-ellipsis"
                     data-i18n="nav.agency">Agência</a>
                 <a href="#portfolio"
-                    class="text-xs font-bold uppercase tracking-widest text-neutral-500 hover:text-black dark:hover:text-white transition-colors nowrap"
+                    class="text-xs font-bold uppercase tracking-widest text-neutral-500 hover:text-black dark:hover:text-white transition-colors nowrap text-ellipsis"
                     data-i18n="nav.portfolio">Portfólio</a>
                 <a href="#shop"
-                    class="text-xs font-bold uppercase tracking-widest text-neutral-500 hover:text-black dark:hover:text-white transition-colors nowrap"
+                    class="text-xs font-bold uppercase tracking-widest text-neutral-500 hover:text-black dark:hover:text-white transition-colors nowrap text-ellipsis"
                     data-i18n="nav.shop">Shop</a>
                 <a href="#blog"
-                    class="text-xs font-bold uppercase tracking-widest text-neutral-500 hover:text-black dark:hover:text-white transition-colors nowrap"
+                    class="text-xs font-bold uppercase tracking-widest text-neutral-500 hover:text-black dark:hover:text-white transition-colors nowrap text-ellipsis"
                     data-i18n="nav.blog">Blog</a>
 
                 <div class="w-px h-4 bg-gray-300 dark:bg-gray-700 mx-2" aria-hidden="true"></div>
@@ -1114,7 +1301,7 @@
                 <button id="lang-change"
                     class="flex items-center gap-2 px-3 py-2 rounded-full border border-gray-300 dark:border-gray-700 text-xs font-bold uppercase tracking-widest hover:border-accent transition-colors nowrap flex-shrink-0 focus:outline-none focus:ring-2 focus:ring-accent"
                     aria-label="Alterar idioma" aria-expanded="false">
-                    <span id="current-lang">PT</span>
+                    <span id="current-lang" class="text-ellipsis">PT</span>
                     <svg class="w-3 h-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                         aria-hidden="true">
                         <path stroke-width="2" d="M19 9l-7 7-7-7" />
@@ -1123,7 +1310,7 @@
 
                 <!-- Botão Contato Separado -->
                 <a href="#contact"
-                    class="text-xs font-bold uppercase tracking-widest px-4 py-2 bg-black dark:bg-white text-white dark:text-black rounded-full hover:scale-105 transition-transform nowrap ml-2 focus:outline-none focus:ring-2 focus:ring-accent"
+                    class="text-xs font-bold uppercase tracking-widest px-4 py-2 bg-black dark:bg-white text-white dark:text-black rounded-full hover:scale-105 transition-transform nowrap ml-2 focus:outline-none focus:ring-2 focus:ring-accent text-ellipsis"
                     data-i18n="nav.contact">Contato</a>
             </nav>
 
@@ -1141,22 +1328,22 @@
     <div id="mobile-menu" class="mobile-menu" aria-label="Menu mobile" role="dialog" aria-modal="true" hidden>
         <nav class="flex flex-col items-center gap-8 px-4" aria-label="Navegação mobile">
             <a href="#home"
-                class="text-4xl font-black uppercase tracking-tighter hover:text-accent transition-colors text-center focus:outline-none focus:ring-2 focus:ring-accent"
+                class="text-3xl sm:text-4xl font-black uppercase tracking-tighter hover:text-accent transition-colors text-center focus:outline-none focus:ring-2 focus:ring-accent"
                 data-i18n="nav.home">Home</a>
             <a href="#agency"
-                class="text-4xl font-black uppercase tracking-tighter hover:text-accent transition-colors text-center focus:outline-none focus:ring-2 focus:ring-accent"
+                class="text-3xl sm:text-4xl font-black uppercase tracking-tighter hover:text-accent transition-colors text-center focus:outline-none focus:ring-2 focus:ring-accent"
                 data-i18n="nav.agency">Agência</a>
             <a href="#portfolio"
-                class="text-4xl font-black uppercase tracking-tighter hover:text-accent transition-colors text-center focus:outline-none focus:ring-2 focus:ring-accent"
+                class="text-3xl sm:text-4xl font-black uppercase tracking-tighter hover:text-accent transition-colors text-center focus:outline-none focus:ring-2 focus:ring-accent"
                 data-i18n="nav.portfolio">Portfólio</a>
             <a href="#shop"
-                class="text-4xl font-black uppercase tracking-tighter hover:text-accent transition-colors text-center focus:outline-none focus:ring-2 focus:ring-accent"
+                class="text-3xl sm:text-4xl font-black uppercase tracking-tighter hover:text-accent transition-colors text-center focus:outline-none focus:ring-2 focus:ring-accent"
                 data-i18n="nav.shop">Shop</a>
             <a href="#blog"
-                class="text-4xl font-black uppercase tracking-tighter hover:text-accent transition-colors text-center focus:outline-none focus:ring-2 focus:ring-accent"
+                class="text-3xl sm:text-4xl font-black uppercase tracking-tighter hover:text-accent transition-colors text-center focus:outline-none focus:ring-2 focus:ring-accent"
                 data-i18n="nav.blog">Blog</a>
             <a href="#contact"
-                class="text-4xl font-black uppercase tracking-tighter hover:text-accent transition-colors text-center focus:outline-none focus:ring-2 focus:ring-accent"
+                class="text-3xl sm:text-4xl font-black uppercase tracking-tighter hover:text-accent transition-colors text-center focus:outline-none focus:ring-2 focus:ring-accent"
                 data-i18n="nav.contact">Contato</a>
 
             <div class="flex items-center gap-4 mt-8">
@@ -1323,7 +1510,7 @@
                             <div class="feature-card card-loading" onclick="openModal('engine')" role="button"
                                 tabindex="0">
                                 <div class="card-image-container"
-                                    style="background-image: url('https://images.unsplash.com/photo-1635070041078-e363dbe005cb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'); height: 120px;">
+                                    style="background-image: url('https://images.unsplash.com/photo-1635070041078-e363dbe005cb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');">
                                     <div class="w-full h-full flex items-center justify-center">
                                         <div class="text-2xl font-mono text-white/30">01101011</div>
                                     </div>
@@ -1345,7 +1532,7 @@
                             <div class="feature-card card-loading" onclick="openModal('interface')" role="button"
                                 tabindex="0">
                                 <div class="card-image-container"
-                                    style="background-image: url('https://images.unsplash.com/photo-1558655146-364adaf1fcc9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'); height: 120px;">
+                                    style="background-image: url('https://images.unsplash.com/photo-1558655146-364adaf1fcc9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');">
                                     <div class="w-full h-full flex items-center justify-center">
                                         <div class="text-white/20 font-black text-3xl">UI</div>
                                     </div>
@@ -1367,7 +1554,7 @@
                             <div class="feature-card card-loading" onclick="openModal('code')" role="button"
                                 tabindex="0">
                                 <div class="card-image-container"
-                                    style="background-image: url('https://images.unsplash.com/photo-1516116216624-53e697fedbea?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'); height: 120px;">
+                                    style="background-image: url('https://images.unsplash.com/photo-1516116216624-53e697fedbea?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');">
                                     <div class="w-full h-full flex items-center justify-center">
                                         <div class="font-mono text-white/40 text-sm">CODE</div>
                                     </div>
@@ -1389,7 +1576,7 @@
                             <div class="feature-card card-loading" onclick="openModal('lab')" role="button"
                                 tabindex="0">
                                 <div class="card-image-container"
-                                    style="background-image: url('https://images.unsplash.com/photo-1550745165-9bc0b252726f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'); height: 120px;">
+                                    style="background-image: url('https://images.unsplash.com/photo-1550745165-9bc0b252726f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');">
                                     <div class="w-full h-full flex items-center justify-center">
                                         <div class="text-white/30 text-2xl">⟁</div>
                                     </div>
@@ -1488,7 +1675,7 @@
                             <div class="product-card card-loading" onclick="openModal('design-system')" role="button"
                                 tabindex="0">
                                 <div class="card-image-container"
-                                    style="background-image: url('https://images.unsplash.com/photo-1561070791-2526d30994b5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'); height: 120px;">
+                                    style="background-image: url('https://images.unsplash.com/photo-1561070791-2526d30994b5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');">
                                     <div class="w-full h-full flex items-center justify-center">
                                         <div class="text-xl font-black text-white/30">DS</div>
                                     </div>
@@ -1507,7 +1694,7 @@
                             <div class="product-card card-loading" onclick="openModal('dashboard')" role="button"
                                 tabindex="0">
                                 <div class="card-image-container"
-                                    style="background-image: url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'); height: 120px;">
+                                    style="background-image: url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');">
                                     <div class="w-full h-full flex items-center justify-center">
                                         <div class="text-xl font-black text-white/30">📊</div>
                                     </div>
@@ -1526,7 +1713,7 @@
                             <div class="product-card card-loading" onclick="openModal('mobile-app')" role="button"
                                 tabindex="0">
                                 <div class="card-image-container"
-                                    style="background-image: url('https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'); height: 120px;">
+                                    style="background-image: url('https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');">
                                     <div class="w-full h-full flex items-center justify-center">
                                         <div class="text-xl font-black text-white/30">📱</div>
                                     </div>
@@ -1557,7 +1744,7 @@
                         style="opacity: 0; transform: translateY(50px) scale(0.95);">
                         <div class="mb-6">
                             <div class="card-image-container"
-                                style="background-image: url('https://images.unsplash.com/photo-1516035069371-29a1b244cc32?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'); height: 160px;">
+                                style="background-image: url('https://images.unsplash.com/photo-1516035069371-29a1b244cc32?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');">
                                 <div class="w-full h-full flex items-center justify-center">
                                     <div class="text-white/40 font-mono text-xs">{"UI"}</div>
                                 </div>
@@ -1581,7 +1768,7 @@
                         style="opacity: 0; transform: translateY(50px) scale(0.95);">
                         <div class="mb-6">
                             <div class="card-image-container"
-                                style="background-image: url('https://images.unsplash.com/photo-1620712943543-bcc4688e7485?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'); height: 160px;">
+                                style="background-image: url('https://images.unsplash.com/photo-1620712943543-bcc4688e7485?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');">
                                 <div class="w-full h-full flex items-center justify-center relative">
                                     <div class="absolute w-8 h-8 border-2 border-white/30 rounded-full ai-pulse-ring">
                                     </div>
@@ -1606,7 +1793,7 @@
                         style="opacity: 0; transform: translateY(50px) scale(0.95);">
                         <div class="mb-6">
                             <div class="card-image-container"
-                                style="background-image: url('https://images.unsplash.com/photo-1560472354-b33ff0c44a43?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'); height: 160px;">
+                                style="background-image: url('https://images.unsplash.com/photo-1560472354-b33ff0c44a43?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');">
                                 <div class="w-full h-full flex items-center justify-center">
                                     <div class="flex flex-wrap gap-1">
                                         <div class="w-3 h-3 bg-white/40 rounded-sm"></div>
@@ -1634,7 +1821,7 @@
                         style="opacity: 0; transform: translateY(50px) scale(0.95);">
                         <div class="mb-6">
                             <div class="card-image-container"
-                                style="background-image: url('https://images.unsplash.com/photo-1535378917042-10a22c95931a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'); height: 160px;">
+                                style="background-image: url('https://images.unsplash.com/photo-1535378917042-10a22c95931a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');">
                                 <div class="w-full h-full flex items-center justify-center">
                                     <div class="w-10 h-10 border border-white/30 rounded-lg transform rotate-45"></div>
                                 </div>
@@ -1661,7 +1848,7 @@
                                 tabindex="0">
                                 <div class="mb-6">
                                     <div class="card-image-container"
-                                        style="background-image: url('https://images.unsplash.com/photo-1516035069371-29a1b244cc32?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'); height: 120px;">
+                                        style="background-image: url('https://images.unsplash.com/photo-1516035069371-29a1b244cc32?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');">
                                         <div class="w-full h-full flex items-center justify-center">
                                             <div class="text-black/40 dark:text-white/40 text-xs">UI</div>
                                         </div>
@@ -1686,7 +1873,7 @@
                                 tabindex="0">
                                 <div class="mb-6">
                                     <div class="card-image-container"
-                                        style="background-image: url('https://images.unsplash.com/photo-1620712943543-bcc4688e7485?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'); height: 120px;">
+                                        style="background-image: url('https://images.unsplash.com/photo-1620712943543-bcc4688e7485?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');">
                                         <div class="w-full h-full flex items-center justify-center">
                                             <div class="text-black/40 dark:text-white/40 text-xs">AI</div>
                                         </div>
@@ -1711,7 +1898,7 @@
                                 tabindex="0">
                                 <div class="mb-6">
                                     <div class="card-image-container"
-                                        style="background-image: url('https://images.unsplash.com/photo-1560472354-b33ff0c44a43?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'); height: 120px;">
+                                        style="background-image: url('https://images.unsplash.com/photo-1560472354-b33ff0c44a43?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');">
                                         <div class="w-full h-full flex items-center justify-center">
                                             <div class="text-black/40 dark:text-white/40 text-xs">ICON</div>
                                         </div>
@@ -1736,7 +1923,7 @@
                                 tabindex="0">
                                 <div class="mb-6">
                                     <div class="card-image-container"
-                                        style="background-image: url('https://images.unsplash.com/photo-1535378917042-10a22c95931a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'); height: 120px;">
+                                        style="background-image: url('https://images.unsplash.com/photo-1535378917042-10a22c95931a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');">
                                         <div class="w-full h-full flex items-center justify-center">
                                             <div class="text-black/40 dark:text-white/40 text-xs">3D</div>
                                         </div>
@@ -1772,7 +1959,7 @@
                         aria-label="Artigo: O Futuro da IA Generativa em 2026"
                         style="opacity: 0; transform: translateY(50px) scale(0.95);">
                         <div class="card-image-container"
-                            style="background-image: url('https://images.unsplash.com/photo-1677442136019-21780ecad995?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'); height: 120px;">
+                            style="background-image: url('https://images.unsplash.com/photo-1677442136019-21780ecad995?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');">
                             <div class="absolute inset-0 flex items-center justify-center">
                                 <div class="text-white/20 font-black text-3xl tracking-tighter rotate-12">AI 2026</div>
                             </div>
@@ -1798,7 +1985,7 @@
                         aria-label="Artigo: Brutalismo Digital: Por Que Funciona"
                         style="opacity: 0; transform: translateY(50px) scale(0.95);">
                         <div class="card-image-container"
-                            style="background-image: url('https://images.unsplash.com/photo-1545235617-9465d2a55698?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'); height: 120px;">
+                            style="background-image: url('https://images.unsplash.com/photo-1545235617-9465d2a55698?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');">
                             <div class="absolute inset-0 flex items-center justify-center">
                                 <div class="text-4xl font-black tracking-tighter">
                                     <span class="text-white dark:text-black">BRUTAL</span>
@@ -1824,7 +2011,7 @@
                         aria-label="Artigo: Monetizando Sistemas de Design"
                         style="opacity: 0; transform: translateY(50px) scale(0.95);">
                         <div class="card-image-container"
-                            style="background-image: url('https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'); height: 120px;">
+                            style="background-image: url('https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');">
                             <div class="absolute inset-0 flex items-center justify-center">
                                 <div class="text-3xl font-black text-white/20 dark:text-white/10">$ € £</div>
                                 <div class="absolute bottom-4 right-4 text-xs font-bold text-white/30">REVENUE</div>
@@ -1851,7 +2038,7 @@
                             <article class="product-card card-loading" onclick="openModal('ai-future')" role="button"
                                 tabindex="0">
                                 <div class="card-image-container"
-                                    style="background-image: url('https://images.unsplash.com/photo-1677442136019-21780ecad995?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'); height: 100px;">
+                                    style="background-image: url('https://images.unsplash.com/photo-1677442136019-21780ecad995?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');">
                                     <div class="w-full h-full flex items-center justify-center">
                                         <div class="text-white/20 text-xl">AI</div>
                                     </div>
@@ -1873,7 +2060,7 @@
                             <article class="product-card card-loading" onclick="openModal('brutalism')" role="button"
                                 tabindex="0">
                                 <div class="card-image-container"
-                                    style="background-image: url('https://images.unsplash.com/photo-1545235617-9465d2a55698?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'); height: 100px;">
+                                    style="background-image: url('https://images.unsplash.com/photo-1545235617-9465d2a55698?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');">
                                     <div class="w-full h-full flex items-center justify-center">
                                         <div class="text-white/20 text-xl">BRUTAL</div>
                                     </div>
@@ -1895,7 +2082,7 @@
                             <article class="product-card card-loading" onclick="openModal('monetization')" role="button"
                                 tabindex="0">
                                 <div class="card-image-container"
-                                    style="background-image: url('https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'); height: 100px;">
+                                    style="background-image: url('https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');">
                                     <div class="w-full h-full flex items-center justify-center">
                                         <div class="text-white/20 text-xl">$</div>
                                     </div>
@@ -2008,7 +2195,7 @@
                     <path stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                 </svg>
             </button>
-            <div id="modal-body"></div>
+            <div id="modal-body" class="overflow-y-auto max-h-[calc(90vh-6rem)]"></div>
         </div>
     </div>
 
