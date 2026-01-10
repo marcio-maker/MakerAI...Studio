@@ -1,243 +1,3282 @@
 <!DOCTYPE html>
-<html lang="pt-PT" class="scroll-smooth">
+<html lang="pt-PT" class="scroll-smooth" data-theme="dark">
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
     <title>MakerAI | Studio</title>
 
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;800&display=swap" rel="stylesheet">
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#050505">
+    <meta name="description" content="Design focado na essência. Onde a forma bruta encontra a IA para criar o amanhã.">
+    <link rel="manifest" href="/manifest.json">
 
-    <style type="text/tailwindcss">
-        @layer base {
-            body { 
-                font-family: 'Plus Jakarta Sans', sans-serif;
-                @apply bg-white dark:bg-[#050505] text-black dark:text-white antialiased overflow-x-hidden;
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    animation: {
+                        'glow': 'glow 2s ease-in-out infinite alternate',
+                        'pulse-glow': 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                        'slide-up': 'slideUp 0.6s ease-out',
+                        'fade-in': 'fadeIn 0.8s ease-out',
+                        'gradient-shift': 'gradientShift 15s ease infinite',
+                        'pulse-ring': 'pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'loading-shine': 'loadingShine 1.5s infinite',
+                        'text-shimmer': 'textShimmer 3s ease-in-out infinite',
+                        'progress-shimmer': 'progressShimmer 2s ease-in-out infinite',
+                        'fade-scale': 'fadeScale 0.5s ease-out',
+                        'gentle-float': 'gentleFloat 8s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        glow: {
+                            from: { opacity: 0.3 },
+                            to: { opacity: 1 }
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-10px)' }
+                        },
+                        gentleFloat: {
+                            '0%, 100%': { transform: 'translateY(0px) scale(1)' },
+                            '50%': { transform: 'translateY(-15px) scale(1.02)' }
+                        },
+                        slideUp: {
+                            '0%': { opacity: 0, transform: 'translateY(30px)' },
+                            '100%': { opacity: 1, transform: 'translateY(0)' }
+                        },
+                        fadeIn: {
+                            '0%': { opacity: 0 },
+                            '100%': { opacity: 1 }
+                        },
+                        fadeScale: {
+                            '0%': { opacity: 0, transform: 'scale(0.95)' },
+                            '100%': { opacity: 1, transform: 'scale(1)' }
+                        },
+                        gradientShift: {
+                            '0%': { backgroundPosition: '0% 50%' },
+                            '50%': { backgroundPosition: '100% 50%' },
+                            '100%': { backgroundPosition: '0% 50%' }
+                        },
+                        pulseRing: {
+                            '0%': { transform: 'scale(0.8)', opacity: 0.5 },
+                            '100%': { transform: 'scale(1.2)', opacity: 0 }
+                        },
+                        loadingShine: {
+                            '0%': { transform: 'translateX(-100%)' },
+                            '100%': { transform: 'translateX(100%)' }
+                        },
+                        textShimmer: {
+                            '0%': { backgroundPosition: '-200% center' },
+                            '100%': { backgroundPosition: '200% center' }
+                        },
+                        progressShimmer: {
+                            '0%': { backgroundPosition: '-200% 0' },
+                            '100%': { backgroundPosition: '200% 0' }
+                        }
+                    },
+                    fontFamily: {
+                        'jakarta': ['"Plus Jakarta Sans"', 'sans-serif'],
+                        'mono': ['"Space Mono"', 'monospace'],
+                    },
+                    screens: {
+                        'xs': '375px',
+                        '3xl': '1920px',
+                        '4xl': '2560px',
+                    }
+                }
             }
         }
-        @layer components {
-            .feature-card {
-                @apply bg-white dark:bg-[#0a0a0a] border border-black/5 dark:border-white/5
-                       rounded-[2.5rem] p-10 min-w-[300px] md:min-w-[380px]
-                       transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)]
-                       relative overflow-hidden flex flex-col snap-center cursor-pointer;
+    </script>
+
+    <!-- Fontes -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        /* MANTRA 5V: Objeto → Luz → Contraste → Movimento → Efeito */
+        :root {
+            --bg-primary: #ffffff;
+            --text-primary: #000000;
+            --accent: #000000;
+            --card-count: 14;
+        }
+
+        .dark {
+            --bg-primary: #050505;
+            --text-primary: #ffffff;
+            --accent: #ffffff;
+        }
+
+        /* Reset e transições otimizadas */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Transições suaves para tema */
+        * {
+            transition: background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                border-color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Elementos que não devem transicionar */
+        img,
+        svg,
+        video,
+        canvas,
+        iframe,
+        .no-transition {
+            transition: none !important;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            min-height: 100vh;
+        }
+
+        /* === SELECTOR DE IDIOMAS ELEGANTE === */
+        #lang-selector {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg,
+                    rgba(5, 5, 5, 0.98) 0%,
+                    rgba(10, 10, 10, 0.98) 100%);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 99999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 1;
+            visibility: visible;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 1.5rem;
+        }
+
+        #lang-selector.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transform: scale(0.95);
+        }
+
+        .lang-selector-inner {
+            background: linear-gradient(135deg,
+                    rgba(255, 255, 255, 0.03) 0%,
+                    rgba(255, 255, 255, 0.01) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 2.5rem;
+            padding: 3rem 2rem;
+            max-width: 500px;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+            animation: fadeScale 0.8s ease-out;
+        }
+
+        .lang-selector-inner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg,
+                    transparent 0%,
+                    rgba(255, 255, 255, 0.2) 50%,
+                    transparent 100%);
+        }
+
+        .lang-selector-inner::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 50% 0%,
+                    rgba(255, 255, 255, 0.05) 0%,
+                    transparent 70%);
+            pointer-events: none;
+        }
+
+        .lang-choice {
+            background: linear-gradient(135deg,
+                    rgba(255, 255, 255, 0.05) 0%,
+                    rgba(255, 255, 255, 0.02) 100%);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .lang-choice:hover {
+            background: linear-gradient(135deg,
+                    rgba(255, 255, 255, 0.1) 0%,
+                    rgba(255, 255, 255, 0.05) 100%);
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .lang-choice:active {
+            transform: translateY(0);
+        }
+
+        /* === LOADING SCREEN ELEGANTE === */
+        #loading-screen {
+            background: linear-gradient(135deg,
+                    var(--bg-primary) 0%,
+                    color-mix(in srgb, var(--bg-primary) 90%, transparent) 100%);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        #loading-screen.visible {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: all;
+        }
+
+        #loading-progress {
+            background: linear-gradient(90deg,
+                    transparent 0%,
+                    var(--accent) 50%,
+                    transparent 100%);
+            background-size: 200% 100%;
+            animation: progressShimmer 2s ease-in-out infinite;
+            transition: width 0.3s ease-out;
+        }
+
+        .loading-logo {
+            background: linear-gradient(90deg,
+                    var(--text-primary) 0%,
+                    color-mix(in srgb, var(--text-primary) 60%, transparent) 50%,
+                    var(--text-primary) 100%);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: textShimmer 3s ease-in-out infinite;
+        }
+
+        /* === HEADER CORRIGIDO === */
+        #main-header {
+            position: fixed;
+            top: 1.5rem;
+            left: 50%;
+            transform: translateX(-50%) translateY(-80px);
+            width: 95%;
+            max-width: 1200px;
+            z-index: 100;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0;
+        }
+
+        #main-header.visible {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        #main-header.scrolled {
+            top: 0.5rem;
+            width: 100%;
+            max-width: 100%;
+            padding: 0 1rem;
+            transform: translateX(-50%) translateY(0) !important;
+        }
+
+        .header-inner {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 3rem;
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        }
+
+        .dark .header-inner {
+            background: rgba(5, 5, 5, 0.8);
+            border-color: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        #main-header.scrolled .header-inner {
+            background: rgba(255, 255, 255, 0.95);
+            transform: scale(0.98);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            border-radius: 2rem;
+        }
+
+        .dark #main-header.scrolled .header-inner {
+            background: rgba(5, 5, 5, 0.95);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7);
+        }
+
+        /* === SPOTLIGHT OTIMIZADO === */
+        .spotlight {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 10;
+            background: radial-gradient(circle 400px at var(--mouse-x, 50%) var(--mouse-y, 50%),
+                    rgba(255, 255, 255, 0.1) 0%,
+                    transparent 80%);
+            opacity: 0;
+            transition: opacity 0.8s ease !important;
+        }
+
+        .dark .spotlight {
+            background: radial-gradient(circle 400px at var(--mouse-x, 50%) var(--mouse-y, 50%),
+                    rgba(255, 255, 255, 0.05) 0%,
+                    transparent 80%);
+        }
+
+        .spotlight.visible {
+            opacity: 0.7;
+        }
+
+        .dark .spotlight.visible {
+            opacity: 0.4;
+        }
+
+        /* === MENU MOBILE OTIMIZADO === */
+        .mobile-menu {
+            position: fixed;
+            inset: 0;
+            background: var(--bg-primary);
+            z-index: 90;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            height: 100dvh;
+            overflow-y: auto;
+        }
+
+        .mobile-menu.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* === HERO RESPONSIVO === */
+        .hero-text {
+            font-size: clamp(3rem, 15vw, 12rem);
+            line-height: 0.85;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: inline-block;
+        }
+
+        .hero-text span {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: inline-block;
+        }
+
+        .hero-text:hover span:first-child {
+            transform: translateX(10px);
+            color: var(--accent);
+        }
+
+        .hero-text:hover span:last-child {
+            transform: translateX(-10px);
+            opacity: 0.3;
+        }
+
+        /* === RELÓGIO === */
+        .clock-separator {
+            animation: glow 1s ease-in-out infinite alternate;
+            opacity: 0.7;
+        }
+
+        /* === SECTIONS === */
+        .section-title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #6b7280;
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        /* === STATS COUNTER === */
+        .stat-number {
+            font-size: 3.5rem;
+            font-weight: 900;
+            line-height: 1;
+            color: var(--accent);
+            letter-spacing: -0.05em;
+        }
+
+        @media (min-width: 768px) {
+            .stat-number {
+                font-size: 5rem;
+            }
+        }
+
+        /* === CARDS BRUTAIS COM IMAGENS === */
+        .feature-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            border-radius: 2.5rem;
+            padding: 2.5rem;
+            min-width: 300px;
+            transition: all 0.7s cubic-bezier(0.23, 1, 0.32, 1);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            animation: slide-up 0.6s ease-out calc(var(--card-index, 0) * 0.1s) both;
+        }
+
+        .dark .feature-card {
+            background: rgba(10, 10, 10, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-20px) scale(1.02);
+            box-shadow: 0 40px 80px -15px rgba(0, 0, 0, 0.1);
+            border-color: var(--accent);
+        }
+
+        .dark .feature-card:hover {
+            box-shadow: 0 40px 80px -15px rgba(255, 255, 255, 0.05);
+        }
+
+        /* Efeito shine nos cards */
+        .feature-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            transition: opacity 0.5s;
+            background: linear-gradient(225deg, transparent 40%, rgba(255, 255, 255, 0.1) 50%, transparent 60%);
+            transform: translateX(-120%) translateY(-120%);
+        }
+
+        .feature-card:hover::after {
+            opacity: 1;
+            transform: translateX(120%) translateY(120%);
+            transition: transform 1.2s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        /* Container de imagem nos cards */
+        .card-image-container {
+            height: 160px;
+            border-radius: 1.5rem;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .card-image-container.gradient-bg {
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+        }
+
+        /* === CARDS DE PRODUTO === */
+        .product-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            border-radius: 2rem;
+            padding: 2rem;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            position: relative;
+            overflow: hidden;
+            animation: slide-up 0.6s ease-out calc(var(--card-index, 0) * 0.1s) both;
+        }
+
+        .dark .product-card {
+            background: rgba(10, 10, 10, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent);
+        }
+
+        /* === CARROSSEL MOBILE FUNCIONAL === */
+        .mobile-carousel {
+            display: none;
+            width: 100%;
+            position: relative;
+            padding-bottom: 3rem;
+            touch-action: pan-y;
+        }
+
+        .carousel-container {
+            display: flex;
+            overflow-x: auto;
+            gap: 1.5rem;
+            padding: 0 1.5rem 1rem 1.5rem;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            scroll-behavior: smooth;
+        }
+
+        .carousel-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        .carousel-slide {
+            flex: 0 0 85%;
+            scroll-snap-align: start;
+            min-width: 0;
+            flex-shrink: 0;
+            touch-action: pan-y;
+        }
+
+        /* Indicadores do carrossel */
+        .carousel-indicators {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 1.5rem;
+            padding: 0 1rem;
+        }
+
+        .carousel-indicator {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .dark .carousel-indicator {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .carousel-indicator.active {
+            background: var(--accent);
+            transform: scale(1.3);
+        }
+
+        /* === RESPONSIVIDADE EXTREMA === */
+
+        /* Extra small (foldables) */
+        @media (max-width: 374px) {
+            :root {
+                --card-count: 1;
             }
 
-            .feature-card:hover {
-                transform: translateY(-20px) scale(1.02);
-                @apply shadow-[0_40px_80px_-15px_rgba(0,0,0,0.1)] dark:shadow-[0_40px_80px_-15px_rgba(0,0,0,0.7)];
+            .carousel-slide {
+                flex: 0 0 92%;
             }
 
-            .feature-card::after {
-                content: '';
-                @apply absolute inset-0 opacity-0 transition-opacity duration-500;
-                background: linear-gradient(225deg, transparent 40%, rgba(255,255,255,0.1) 50%, transparent 60%);
-                transform: translateX(-120%) translateY(-120%);
+            .feature-card,
+            .product-card {
+                padding: 1.25rem !important;
+                border-radius: 1.25rem !important;
+                min-width: 260px !important;
             }
 
-            .feature-card:hover::after {
-                @apply opacity-100;
-                transform: translateX(120%) translateY(120%);
-                transition: transform 1.2s cubic-bezier(0.23,1,0.32,1);
+            .hero-text {
+                font-size: clamp(2.5rem, 10vw, 3rem) !important;
             }
 
-            .carousel-viewport {
-                @apply flex overflow-x-auto gap-8 px-8 pb-24 scrollbar-hide snap-x snap-mandatory;
+            .header-inner {
+                padding: 0.75rem 1.25rem !important;
+                border-radius: 2rem !important;
             }
 
-            .scrollbar-hide::-webkit-scrollbar { display: none; }
-            .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+            .card-image-container {
+                height: 120px !important;
+            }
+        }
 
-            .menu-open #line1 { transform: translateY(4px) rotate(45deg); }
-            .menu-open #line2 { transform: translateY(-4px) rotate(-45deg); }
-            .overlay-active { @apply opacity-100 pointer-events-auto translate-y-0 !important; }
+        /* Small mobile */
+        @media (min-width: 375px) and (max-width: 639px) {
+            :root {
+                --card-count: 1;
+            }
+
+            .carousel-slide {
+                flex: 0 0 88%;
+            }
+
+            .hero-text {
+                font-size: clamp(2.8rem, 12vw, 4rem) !important;
+            }
+
+            .hero-text span:first-child {
+                font-size: clamp(2.8rem, 12vw, 4rem) !important;
+            }
+
+            .hero-text span:last-child {
+                font-size: clamp(2.4rem, 10vw, 3.5rem) !important;
+            }
+        }
+
+        /* Mobile geral */
+        @media (max-width: 767px) {
+            .grid-desktop {
+                display: none !important;
+            }
+
+            .mobile-carousel {
+                display: block !important;
+            }
+
+            .feature-card,
+            .product-card {
+                padding: 1.5rem;
+                border-radius: 1.5rem;
+                min-width: 280px;
+                max-width: 100%;
+            }
+
+            .hero-text {
+                line-height: 0.85 !important;
+            }
+
+            .hero-text:hover span:first-child {
+                transform: translateX(5px) !important;
+            }
+
+            .hero-text:hover span:last-child {
+                transform: translateX(-5px) !important;
+            }
+
+            /* Ajuste de padding para mobile */
+            main {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+
+            section {
+                padding-left: 0.5rem !important;
+                padding-right: 0.5rem !important;
+            }
+
+            .card-image-container {
+                height: 140px;
+            }
+        }
+
+        /* Tablet vertical */
+        @media (min-width: 640px) and (max-width: 767px) {
+            :root {
+                --card-count: 2;
+            }
+
+            .grid-desktop {
+                grid-template-columns: repeat(2, 1fr);
+                display: grid !important;
+            }
+
+            .mobile-carousel {
+                display: none !important;
+            }
+        }
+
+        /* Tablet horizontal */
+        @media (min-width: 768px) and (max-width: 1023px) {
+            :root {
+                --card-count: 2;
+            }
+
+            .grid-desktop {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .hero-text {
+                font-size: 6rem !important;
+            }
+
+            .mobile-carousel {
+                display: none !important;
+            }
+        }
+
+        /* Desktop */
+        @media (min-width: 1024px) and (max-width: 1279px) {
+            :root {
+                --card-count: 3;
+            }
+
+            .grid-desktop {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        /* Large desktop */
+        @media (min-width: 1280px) {
+            :root {
+                --card-count: 4;
+            }
+
+            .grid-desktop {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        /* 4K+ screens */
+        @media (min-width: 2560px) {
+            .max-w-7xl {
+                max-width: 1440px !important;
+            }
+        }
+
+        @media (min-width: 769px) {
+            .mobile-carousel {
+                display: none !important;
+            }
+
+            .grid-desktop {
+                display: grid !important;
+            }
+        }
+
+        /* === UTILITÁRIOS === */
+        .menu-open #line1 {
+            transform: translateY(4px) rotate(45deg);
+        }
+
+        .menu-open #line2 {
+            transform: translateY(-4px) rotate(-45deg);
+        }
+
+        /* Prevenir quebra de linha */
+        .nowrap {
+            white-space: nowrap;
+        }
+
+        /* === MODAL STYLES === */
+        .modal-tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .modal-tech-tag {
+            background: rgba(0, 0, 0, 0.05);
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .dark .modal-tech-tag {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .modal-price {
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin: 1rem 0;
+        }
+
+        .modal-feature-list {
+            list-style: none;
+            margin: 1rem 0;
+        }
+
+        .modal-feature-list li {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .modal-feature-list li::before {
+            content: '→';
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        /* === TOOLTIP === */
+        [data-tooltip] {
+            position: relative;
+        }
+
+        [data-tooltip]::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            font-size: 0.75rem;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            pointer-events: none;
+        }
+
+        [data-tooltip]:hover::after {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(-0.5rem);
+        }
+
+        /* === LOADING EFFECT === */
+        .card-loading {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-loading::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg,
+                    transparent,
+                    rgba(255, 255, 255, 0.1),
+                    transparent);
+            animation: loadingShine 1.5s infinite;
+            z-index: 1;
+        }
+
+        /* === REDUCED MOTION SUPPORT === */
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+
+            .feature-card::after,
+            .card-loading::before,
+            .spotlight,
+            .clock-separator {
+                display: none !important;
+            }
+        }
+
+        /* === ACCESSIBILITY === */
+        .visually-hidden {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        /* Focus styles */
+        :focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 2px;
+        }
+
+        /* === IMAGE EFFECTS === */
+        .ai-pulse-ring {
+            animation: pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        /* Gradient backgrounds for cards */
+        .gradient-neural {
+            background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+        }
+
+        .gradient-brutal {
+            background: linear-gradient(135deg, #000000 0%, #333333 100%);
+        }
+
+        .gradient-code {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+        }
+
+        .gradient-lab {
+            background: linear-gradient(135deg, #4b134f 0%, #c94b4b 100%);
+        }
+
+        /* Hover effects for card images */
+        .feature-card:hover .card-image-container,
+        .product-card:hover .card-image-container {
+            transform: scale(1.02);
+        }
+
+        .card-image-container {
+            transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
         }
     </style>
 </head>
 
 <body>
-
-    <header class="fixed top-6 left-1/2 -translate-x-1/2 w-[90%] max-w-5xl z-50" id="main-header">
-        <div class="bg-white/80 dark:bg-black/60 backdrop-blur-2xl border border-black/5 dark:border-white/10 rounded-full px-8 h-16 flex items-center justify-between shadow-2xl transition-all duration-500">
-            <div class="flex items-center gap-3 group cursor-pointer" onclick="window.scrollTo({top:0, behavior:'smooth'})">
-                <div class="w-8 h-8 bg-black dark:bg-white rounded-lg flex items-center justify-center transition-transform group-hover:rotate-12">
-                    <span class="text-white dark:text-black font-black text-lg">M</span>
-                </div>
-                <span class="font-black text-sm tracking-tighter uppercase">Maker<span class="text-neutral-400">AI</span></span>
+    <!-- 1. SELECTOR DE IDIOMAS ELEGANTE (PRIMEIRO) -->
+    <div id="lang-selector" class="text-white" aria-modal="true" aria-label="Seleção de idioma" role="dialog">
+        <div class="lang-selector-inner text-center">
+            <!-- Logo animado -->
+            <div class="text-6xl md:text-7xl font-black italic tracking-tighter mb-12 animate-gentle-float">
+                MAKER<span class="text-gray-400">AI</span>
             </div>
 
-            <nav class="hidden md:flex items-center gap-8">
-                <a href="#features" class="text-[10px] font-bold uppercase tracking-[0.2em] text-neutral-500 hover:text-black dark:hover:text-white transition-colors">Sistemas</a>
-                <div class="w-px h-4 bg-black/10 dark:bg-white/10"></div>
-                <a href="#footer" class="text-[10px] font-bold uppercase tracking-[0.2em] px-5 py-2 bg-black dark:bg-white text-white dark:text-black rounded-full hover:scale-105 transition-transform">Contato</a>
+            <!-- Título -->
+            <h2 class="text-2xl md:text-3xl font-bold mb-10 uppercase tracking-widest" data-i18n="lang.choose">
+                Selecione seu idioma
+            </h2>
+
+            <!-- Opções de idioma -->
+            <div class="space-y-4 mb-10">
+                <button
+                    class="lang-choice w-full py-5 px-8 rounded-2xl transition-all duration-300 flex items-center justify-between group focus:outline-none focus:ring-2 focus:ring-white/30"
+                    data-lang="pt" aria-label="Português">
+                    <div class="flex items-center gap-4">
+                        <div
+                            class="w-10 h-10 rounded-xl bg-gradient-to-br from-white/10 to-white/5 flex items-center justify-center">
+                            <span class="text-lg font-black">PT</span>
+                        </div>
+                        <div class="text-left">
+                            <div class="text-xl font-bold">Português</div>
+                            <div class="text-sm opacity-60">Nativo</div>
+                        </div>
+                    </div>
+                    <div class="opacity-0 group-hover:opacity-100 transition-opacity">
+                        →
+                    </div>
+                </button>
+
+                <button
+                    class="lang-choice w-full py-5 px-8 rounded-2xl transition-all duration-300 flex items-center justify-between group focus:outline-none focus:ring-2 focus:ring-white/30"
+                    data-lang="en" aria-label="English">
+                    <div class="flex items-center gap-4">
+                        <div
+                            class="w-10 h-10 rounded-xl bg-gradient-to-br from-white/10 to-white/5 flex items-center justify-center">
+                            <span class="text-lg font-black">EN</span>
+                        </div>
+                        <div class="text-left">
+                            <div class="text-xl font-bold">English</div>
+                            <div class="text-sm opacity-60">Global</div>
+                        </div>
+                    </div>
+                    <div class="opacity-0 group-hover:opacity-100 transition-opacity">
+                        →
+                    </div>
+                </button>
+
+                <button
+                    class="lang-choice w-full py-5 px-8 rounded-2xl transition-all duration-300 flex items-center justify-between group focus:outline-none focus:ring-2 focus:ring-white/30"
+                    data-lang="es" aria-label="Español">
+                    <div class="flex items-center gap-4">
+                        <div
+                            class="w-10 h-10 rounded-xl bg-gradient-to-br from-white/10 to-white/5 flex items-center justify-center">
+                            <span class="text-lg font-black">ES</span>
+                        </div>
+                        <div class="text-left">
+                            <div class="text-xl font-bold">Español</div>
+                            <div class="text-sm opacity-60">Latam</div>
+                        </div>
+                    </div>
+                    <div class="opacity-0 group-hover:opacity-100 transition-opacity">
+                        →
+                    </div>
+                </button>
+            </div>
+
+            <!-- Auto-detect -->
+            <button id="lang-fallback"
+                class="text-sm opacity-60 hover:opacity-100 transition-opacity mb-4 px-6 py-3 rounded-full hover:bg-white/5 inline-flex items-center gap-2"
+                data-lang="auto">
+                <span>🌐</span>
+                <span>Continuar com idioma do navegador</span>
+            </button>
+
+            <!-- Mantra -->
+            <p class="text-sm opacity-60 italic mt-10 pt-6 border-t border-white/10" data-i18n="lang.desc">
+                O objeto primeiro. O efeito eleva.
+            </p>
+        </div>
+    </div>
+
+    <!-- 2. LOADING SCREEN ELEGANTE (SEGUNDO) -->
+    <div id="loading-screen" class="fixed inset-0 z-[9998] flex flex-col items-center justify-center" aria-live="polite"
+        aria-label="Carregando conteúdo">
+        <div class="loading-logo text-5xl md:text-6xl font-black italic tracking-tighter mb-10 animate-gentle-float">
+            MAKER<span class="text-gray-400">AI</span>
+        </div>
+
+        <div class="w-64 md:w-80 h-1 bg-gray-300 dark:bg-gray-800 overflow-hidden rounded-full" role="progressbar"
+            aria-valuemin="0" aria-valuemax="100">
+            <div class="h-full transition-all duration-300 ease-out" id="loading-progress" aria-valuenow="0"></div>
+        </div>
+
+        <div class="mt-8 text-sm text-gray-500 dark:text-gray-400 uppercase tracking-widest">
+            <span id="loading-status">Inicializando...</span>
+        </div>
+    </div>
+
+    <!-- 3. SPOTLIGHT -->
+    <div class="spotlight" id="spotlight" aria-hidden="true"></div>
+
+    <!-- 4. HEADER CORRIGIDO -->
+    <header id="main-header" aria-label="Navegação principal">
+        <div class="header-inner">
+            <!-- Logo -->
+            <a href="#home" class="flex items-center gap-3 group" aria-label="Ir para início">
+                <div
+                    class="w-10 h-10 bg-black dark:bg-white rounded-xl flex items-center justify-center transition-transform group-hover:rotate-12">
+                    <span class="text-white dark:text-black font-black text-lg">M</span>
+                </div>
+                <span class="font-black text-sm tracking-tighter uppercase nowrap">
+                    Maker<span class="text-neutral-400">AI</span>
+                </span>
+            </a>
+
+            <!-- Menu Desktop -->
+            <nav class="hidden md:flex items-center gap-4 lg:gap-6" aria-label="Navegação principal">
+                <a href="#home"
+                    class="text-xs font-bold uppercase tracking-widest text-neutral-500 hover:text-black dark:hover:text-white transition-colors nowrap"
+                    data-i18n="nav.home">Home</a>
+                <a href="#agency"
+                    class="text-xs font-bold uppercase tracking-widest text-neutral-500 hover:text-black dark:hover:text-white transition-colors nowrap"
+                    data-i18n="nav.agency">Agência</a>
+                <a href="#portfolio"
+                    class="text-xs font-bold uppercase tracking-widest text-neutral-500 hover:text-black dark:hover:text-white transition-colors nowrap"
+                    data-i18n="nav.portfolio">Portfólio</a>
+                <a href="#shop"
+                    class="text-xs font-bold uppercase tracking-widest text-neutral-500 hover:text-black dark:hover:text-white transition-colors nowrap"
+                    data-i18n="nav.shop">Shop</a>
+                <a href="#blog"
+                    class="text-xs font-bold uppercase tracking-widest text-neutral-500 hover:text-black dark:hover:text-white transition-colors nowrap"
+                    data-i18n="nav.blog">Blog</a>
+
+                <div class="w-px h-4 bg-gray-300 dark:bg-gray-700 mx-2" aria-hidden="true"></div>
+
+                <!-- Tema -->
+                <button id="theme-toggle"
+                    class="w-8 h-8 rounded-full border border-gray-300 dark:border-gray-700 flex items-center justify-center hover:border-accent transition-colors flex-shrink-0 focus:outline-none focus:ring-2 focus:ring-accent"
+                    aria-label="Alternar tema claro/escuro">
+                    <svg id="sun-icon" class="w-4 h-4 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                        aria-hidden="true">
+                        <path stroke-width="2"
+                            d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                    </svg>
+                    <svg id="moon-icon" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                        aria-hidden="true">
+                        <path stroke-width="2"
+                            d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                    </svg>
+                </button>
+
+                <!-- Idioma -->
+                <button id="lang-change"
+                    class="flex items-center gap-2 px-3 py-2 rounded-full border border-gray-300 dark:border-gray-700 text-xs font-bold uppercase tracking-widest hover:border-accent transition-colors nowrap flex-shrink-0 focus:outline-none focus:ring-2 focus:ring-accent"
+                    aria-label="Alterar idioma" aria-expanded="false">
+                    <span id="current-lang">PT</span>
+                    <svg class="w-3 h-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                        aria-hidden="true">
+                        <path stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </button>
+
+                <!-- Botão Contato Separado -->
+                <a href="#contact"
+                    class="text-xs font-bold uppercase tracking-widest px-4 py-2 bg-black dark:bg-white text-white dark:text-black rounded-full hover:scale-105 transition-transform nowrap ml-2 focus:outline-none focus:ring-2 focus:ring-accent"
+                    data-i18n="nav.contact">Contato</a>
             </nav>
 
-            <button id="menu-btn" class="md:hidden w-8 h-8 flex flex-col justify-center items-center gap-1">
-                <div class="w-5 h-0.5 bg-black dark:bg-white transition-all" id="line1"></div>
-                <div class="w-5 h-0.5 bg-black dark:bg-white transition-all" id="line2"></div>
+            <!-- Menu Mobile Toggle -->
+            <button id="menu-btn"
+                class="md:hidden w-10 h-10 flex flex-col justify-center items-center gap-1 flex-shrink-0 focus:outline-none focus:ring-2 focus:ring-accent"
+                aria-label="Abrir menu" aria-expanded="false" aria-controls="mobile-menu">
+                <div class="w-5 h-0.5 bg-current transition-all" id="line1"></div>
+                <div class="w-5 h-0.5 bg-current transition-all" id="line2"></div>
             </button>
         </div>
     </header>
 
-    <div id="mobile-menu" class="fixed inset-0 bg-white dark:bg-[#050505] z-40 flex flex-col items-center justify-center gap-12 opacity-0 pointer-events-none transition-all duration-500 -translate-y-8">
-        <nav class="flex flex-col items-center gap-10">
-            <a href="#features" class="m-link text-5xl font-black tracking-tighter uppercase">Sistemas</a>
-            <a href="#" class="m-link text-5xl font-black tracking-tighter uppercase">Studio</a>
-            <a href="#footer" class="m-link text-5xl font-black tracking-tighter uppercase text-neutral-300">Contato</a>
+    <!-- 5. MENU MOBILE -->
+    <div id="mobile-menu" class="mobile-menu" aria-label="Menu mobile" role="dialog" aria-modal="true" hidden>
+        <nav class="flex flex-col items-center gap-8 px-4" aria-label="Navegação mobile">
+            <a href="#home"
+                class="text-4xl font-black uppercase tracking-tighter hover:text-accent transition-colors text-center focus:outline-none focus:ring-2 focus:ring-accent"
+                data-i18n="nav.home">Home</a>
+            <a href="#agency"
+                class="text-4xl font-black uppercase tracking-tighter hover:text-accent transition-colors text-center focus:outline-none focus:ring-2 focus:ring-accent"
+                data-i18n="nav.agency">Agência</a>
+            <a href="#portfolio"
+                class="text-4xl font-black uppercase tracking-tighter hover:text-accent transition-colors text-center focus:outline-none focus:ring-2 focus:ring-accent"
+                data-i18n="nav.portfolio">Portfólio</a>
+            <a href="#shop"
+                class="text-4xl font-black uppercase tracking-tighter hover:text-accent transition-colors text-center focus:outline-none focus:ring-2 focus:ring-accent"
+                data-i18n="nav.shop">Shop</a>
+            <a href="#blog"
+                class="text-4xl font-black uppercase tracking-tighter hover:text-accent transition-colors text-center focus:outline-none focus:ring-2 focus:ring-accent"
+                data-i18n="nav.blog">Blog</a>
+            <a href="#contact"
+                class="text-4xl font-black uppercase tracking-tighter hover:text-accent transition-colors text-center focus:outline-none focus:ring-2 focus:ring-accent"
+                data-i18n="nav.contact">Contato</a>
+
+            <div class="flex items-center gap-4 mt-8">
+                <button id="mobile-theme-toggle"
+                    class="p-3 rounded-full border border-gray-300 dark:border-gray-700 hover:rotate-180 transition-transform focus:outline-none focus:ring-2 focus:ring-accent"
+                    aria-label="Alternar tema">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path stroke-width="2"
+                            d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                    </svg>
+                </button>
+                <button id="mobile-lang-change"
+                    class="px-6 py-3 rounded-full border border-gray-300 dark:border-gray-700 text-sm font-bold uppercase hover:border-accent transition-colors focus:outline-none focus:ring-2 focus:ring-accent">
+                    <span id="mobile-current-lang">PT</span>
+                </button>
+            </div>
         </nav>
     </div>
 
-    <main>
-        <section class="pt-64 pb-32 px-8 text-center">
-            <h1 class="text-7xl md:text-[12rem] font-black tracking-tighter leading-[0.8] mb-12 italic uppercase">
-                MAKER<br><span class="text-neutral-200 dark:text-neutral-900 not-italic">STUDIO</span>
+    <!-- 6. CONTEÚDO PRINCIPAL -->
+    <main class="pt-32" id="main-content">
+        <!-- Hero Section (Home) -->
+        <section id="home" class="pt-32 pb-32 px-4 md:px-6 text-center" aria-labelledby="hero-title">
+            <h1 class="hero-text text-5xl md:text-7xl lg:text-[12rem] font-black tracking-tighter leading-[0.85] md:leading-[0.8] mb-8 md:mb-12 italic uppercase cursor-pointer"
+                id="hero-title" style="opacity: 0; transform: translateY(40px) scale(0.95);">
+                <span class="block">MAKER</span>
+                <span class="block text-neutral-200 dark:text-neutral-900 not-italic">STUDIO</span>
             </h1>
-            <p class="max-w-md mx-auto text-neutral-500 text-lg font-medium leading-relaxed uppercase tracking-tighter">
-                O objeto primeiro. <br> O efeito eleva.
+            <p class="max-w-md mx-auto text-neutral-500 text-base md:text-lg font-medium leading-relaxed uppercase tracking-tighter px-4"
+                data-i18n="hero.tagline" style="opacity: 0; transform: translateY(20px);">
+                Soluções escaláveis. <br> Impacto mensurável.
             </p>
+
+            <div class="mt-12 md:mt-20 grid grid-cols-3 gap-2 md:gap-6 max-w-2xl mx-auto" aria-label="Estatísticas">
+
+                <div class="text-center">
+                    <div class="stat-number text-2xl md:text-5xl font-black tracking-tighter" id="projects-count"
+                        style="opacity: 0; transform: translateY(20px);">0</div>
+                    <div class="text-[9px] md:text-xs uppercase tracking-widest text-neutral-500 mt-1"
+                        data-i18n="stats.projects">
+                        Projetos</div>
+                </div>
+
+                <div class="text-center">
+                    <div class="stat-number text-2xl md:text-5xl font-black tracking-tighter" id="cards-count"
+                        style="opacity: 0; transform: translateY(20px);">0</div>
+                    <div class="text-[9px] md:text-xs uppercase tracking-widest text-neutral-500 mt-1"
+                        data-i18n="stats.cards">
+                        Cards</div>
+                </div>
+
+                <div class="text-center">
+                    <div class="stat-number text-2xl md:text-5xl font-black tracking-tighter"
+                        style="opacity: 0; transform: translateY(20px);">3</div>
+                    <div class="text-[9px] md:text-xs uppercase tracking-widest text-neutral-500 mt-1"
+                        data-i18n="stats.languages">
+                        Idiomas</div>
+                </div>
+
+            </div>
         </section>
 
-        <section id="features" class="pb-40 overflow-hidden">
-            <div class="carousel-viewport">
-                <div class="feature-card group" onclick="openModal('engine')">
-                    <div class="w-16 h-16 bg-neutral-100 dark:bg-white/5 rounded-3xl flex items-center justify-center mb-10 group-hover:scale-110 transition-transform">
-                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+        <!-- Agência Section -->
+        <section id="agency" class="py-24 md:py-32 px-4 md:px-6" aria-labelledby="agency-title">
+            <div class="max-w-7xl mx-auto">
+                <h2 class="section-title" id="agency-title" data-i18n="agency.title">/ Nossa Agência</h2>
+
+                <!-- Grid Desktop -->
+                <div class="grid-desktop grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+                    <!-- Neural Engine Card -->
+                    <div class="feature-card card-loading" data-tooltip="Clique para detalhes"
+                        onclick="openModal('engine')" role="button" tabindex="0"
+                        aria-label="Neural Engine - IA generativa aplicada"
+                        style="opacity: 0; transform: translateY(50px) scale(0.95);">
+                        <div class="card-image-container gradient-neural">
+                            <div class="w-full h-full flex items-center justify-center">
+                                <div class="text-4xl font-mono text-white/30 tracking-tighter">
+                                    0110<span class="text-white/50">1011</span>
+                                </div>
+                            </div>
+                            <div class="absolute bottom-4 left-4 text-xs font-bold text-white/20 uppercase">
+                                NEURAL NET
+                            </div>
+                        </div>
+                        <div class="text-6xl font-black opacity-10 mb-6">01</div>
+                        <h3 class="text-2xl md:text-3xl font-black mb-3 md:mb-4 tracking-tight uppercase"
+                            data-i18n="agency.card1.title">Neural Engine</h3>
+                        <p class="text-sm text-gray-500 leading-relaxed mb-6" data-i18n="agency.card1.description">IA
+                            generativa aplicada a sistemas autônomos de alta performance.</p>
+                        <button class="text-xs font-bold uppercase tracking-widest hover:text-accent transition-colors"
+                            data-i18n="agency.explore">Explorar →</button>
                     </div>
-                    <h3 class="text-3xl font-black mb-4 tracking-tight uppercase">Neural Engine</h3>
-                    <p class="text-sm text-neutral-500 leading-relaxed mb-8">Lógica bruta aplicada a sistemas autónomos.</p>
-                    <div class="mt-auto text-[9px] font-bold tracking-[0.4em] text-neutral-400 uppercase">/ 01 Core</div>
+
+                    <!-- Brutal UI Card -->
+                    <div class="feature-card card-loading" data-tooltip="Clique para detalhes"
+                        onclick="openModal('interface')" role="button" tabindex="0"
+                        aria-label="Brutal UI - Design systems extremos"
+                        style="opacity: 0; transform: translateY(50px) scale(0.95);">
+                        <div class="card-image-container gradient-brutal">
+                            <div class="w-full h-full flex items-center justify-center">
+                                <div class="text-white dark:text-white/20 font-black text-5xl tracking-tighter">
+                                    UI/BRUTAL</div>
+                            </div>
+                        </div>
+                        <div class="text-6xl font-black opacity-10 mb-6">02</div>
+                        <h3 class="text-2xl md:text-3xl font-black mb-3 md:mb-4 tracking-tight uppercase"
+                            data-i18n="agency.card2.title">Brutal UI</h3>
+                        <p class="text-sm text-gray-500 leading-relaxed mb-6" data-i18n="agency.card2.description">
+                            Design systems baseados em contraste extremo e tipografia massiva.</p>
+                        <button class="text-xs font-bold uppercase tracking-widest hover:text-accent transition-colors"
+                            data-i18n="agency.explore">Explorar →</button>
+                    </div>
+
+                    <!-- Raw Code Card -->
+                    <div class="feature-card card-loading" data-tooltip="Clique para detalhes"
+                        onclick="openModal('code')" role="button" tabindex="0" aria-label="Raw Code - Performance pura"
+                        style="opacity: 0; transform: translateY(50px) scale(0.95);">
+                        <div class="card-image-container gradient-code">
+                            <div class="w-full h-full flex items-center justify-center">
+                                <div class="font-mono text-white/40 text-lg tracking-tighter">
+                                    { performance: true }
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-6xl font-black opacity-10 mb-6">03</div>
+                        <h3 class="text-2xl md:text-3xl font-black mb-3 md:mb-4 tracking-tight uppercase"
+                            data-i18n="agency.card3.title">Raw Code</h3>
+                        <p class="text-sm text-gray-500 leading-relaxed mb-6" data-i18n="agency.card3.description">
+                            Arquitetura limpa, sem frameworks pesados. Performance pura.</p>
+                        <button class="text-xs font-bold uppercase tracking-widest hover:text-accent transition-colors"
+                            data-i18n="agency.explore">Explorar →</button>
+                    </div>
+
+                    <!-- Maker Lab Card -->
+                    <div class="feature-card card-loading" data-tooltip="Clique para detalhes"
+                        onclick="openModal('lab')" role="button" tabindex="0"
+                        aria-label="Maker Lab - Prototipagem de futuros"
+                        style="opacity: 0; transform: translateY(50px) scale(0.95);">
+                        <div class="card-image-container gradient-lab gradient-bg">
+                            <div class="w-full h-full flex items-center justify-center">
+                                <div class="text-white/30 text-4xl font-black">⟁</div>
+                                <div class="absolute bottom-4 right-4 text-xs font-bold text-white/30">LAB</div>
+                            </div>
+                        </div>
+                        <div class="text-6xl font-black opacity-10 mb-6">04</div>
+                        <h3 class="text-2xl md:text-3xl font-black mb-3 md:mb-4 tracking-tight uppercase"
+                            data-i18n="agency.card4.title">Maker Lab</h3>
+                        <p class="text-sm text-gray-500 leading-relaxed mb-6" data-i18n="agency.card4.description">
+                            Prototipagem de futuros possíveis com tecnologia de ponta.</p>
+                        <button class="text-xs font-bold uppercase tracking-widest hover:text-accent transition-colors"
+                            data-i18n="agency.explore">Explorar →</button>
+                    </div>
                 </div>
 
-                <div class="feature-card group" onclick="openModal('interface')">
-                    <div class="w-16 h-16 bg-neutral-100 dark:bg-white/5 rounded-3xl flex items-center justify-center mb-10 group-hover:scale-110 transition-transform">
-                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="1.5" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9"/></svg>
+                <!-- Carrossel Mobile FUNCIONAL -->
+                <div class="mobile-carousel" id="agency-carousel">
+                    <div class="carousel-container" id="agency-container">
+                        <!-- Slide 1: Neural Engine -->
+                        <div class="carousel-slide">
+                            <div class="feature-card card-loading" onclick="openModal('engine')" role="button"
+                                tabindex="0">
+                                <div class="card-image-container gradient-neural" style="height: 120px;">
+                                    <div class="w-full h-full flex items-center justify-center">
+                                        <div class="text-2xl font-mono text-white/30">01101011</div>
+                                    </div>
+                                </div>
+                                <div class="text-5xl font-black opacity-10 mb-4">01</div>
+                                <h3 class="text-xl font-black mb-3 tracking-tight uppercase"
+                                    data-i18n="agency.card1.title">Neural Engine</h3>
+                                <p class="text-sm text-gray-500 leading-relaxed mb-4"
+                                    data-i18n="agency.card1.description">IA generativa aplicada a sistemas autônomos de
+                                    alta performance.</p>
+                                <button
+                                    class="text-xs font-bold uppercase tracking-widest hover:text-accent transition-colors"
+                                    data-i18n="agency.explore">Explorar →</button>
+                            </div>
+                        </div>
+
+                        <!-- Slide 2: Brutal UI -->
+                        <div class="carousel-slide">
+                            <div class="feature-card card-loading" onclick="openModal('interface')" role="button"
+                                tabindex="0">
+                                <div class="card-image-container gradient-brutal" style="height: 120px;">
+                                    <div class="w-full h-full flex items-center justify-center">
+                                        <div class="text-white/20 font-black text-3xl">UI</div>
+                                    </div>
+                                </div>
+                                <div class="text-5xl font-black opacity-10 mb-4">02</div>
+                                <h3 class="text-xl font-black mb-3 tracking-tight uppercase"
+                                    data-i18n="agency.card2.title">Brutal UI</h3>
+                                <p class="text-sm text-gray-500 leading-relaxed mb-4"
+                                    data-i18n="agency.card2.description">Design systems baseados em contraste extremo e
+                                    tipografia massiva.</p>
+                                <button
+                                    class="text-xs font-bold uppercase tracking-widest hover:text-accent transition-colors"
+                                    data-i18n="agency.explore">Explorar →</button>
+                            </div>
+                        </div>
+
+                        <!-- Slide 3: Raw Code -->
+                        <div class="carousel-slide">
+                            <div class="feature-card card-loading" onclick="openModal('code')" role="button"
+                                tabindex="0">
+                                <div class="card-image-container gradient-code" style="height: 120px;">
+                                    <div class="w-full h-full flex items-center justify-center">
+                                        <div class="font-mono text-white/40 text-sm">CODE</div>
+                                    </div>
+                                </div>
+                                <div class="text-5xl font-black opacity-10 mb-4">03</div>
+                                <h3 class="text-xl font-black mb-3 tracking-tight uppercase"
+                                    data-i18n="agency.card3.title">Raw Code</h3>
+                                <p class="text-sm text-gray-500 leading-relaxed mb-4"
+                                    data-i18n="agency.card3.description">Arquitetura limpa, sem frameworks pesados.
+                                    Performance pura.</p>
+                                <button
+                                    class="text-xs font-bold uppercase tracking-widest hover:text-accent transition-colors"
+                                    data-i18n="agency.explore">Explorar →</button>
+                            </div>
+                        </div>
+
+                        <!-- Slide 4: Maker Lab -->
+                        <div class="carousel-slide">
+                            <div class="feature-card card-loading" onclick="openModal('lab')" role="button"
+                                tabindex="0">
+                                <div class="card-image-container gradient-lab" style="height: 120px;">
+                                    <div class="w-full h-full flex items-center justify-center">
+                                        <div class="text-white/30 text-2xl">⟁</div>
+                                    </div>
+                                </div>
+                                <div class="text-5xl font-black opacity-10 mb-4">04</div>
+                                <h3 class="text-xl font-black mb-3 tracking-tight uppercase"
+                                    data-i18n="agency.card4.title">Maker Lab</h3>
+                                <p class="text-sm text-gray-500 leading-relaxed mb-4"
+                                    data-i18n="agency.card4.description">Prototipagem de futuros possíveis com
+                                    tecnologia de ponta.</p>
+                                <button
+                                    class="text-xs font-bold uppercase tracking-widest hover:text-accent transition-colors"
+                                    data-i18n="agency.explore">Explorar →</button>
+                            </div>
+                        </div>
                     </div>
-                    <h3 class="text-3xl font-black mb-4 tracking-tight uppercase">Brutal UI</h3>
-                    <p class="text-sm text-neutral-500 leading-relaxed mb-8">Onde o contraste define a ordem da experiência.</p>
-                    <div class="mt-auto text-[9px] font-bold tracking-[0.4em] text-neutral-400 uppercase">/ 02 Interface</div>
+                    <div class="carousel-indicators" id="agency-indicators"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Portfólio Section -->
+        <section id="portfolio" class="py-24 md:py-32 px-4 md:px-6 bg-gray-50 dark:bg-gray-900"
+            aria-labelledby="portfolio-title">
+            <div class="max-w-7xl mx-auto">
+                <h2 class="section-title" id="portfolio-title" data-i18n="portfolio.title">/ Portfólio</h2>
+
+                <!-- Grid Desktop -->
+                <div class="grid-desktop grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+                    <!-- Sistema de Design AI -->
+                    <div class="product-card card-loading" data-tooltip="Clique para detalhes"
+                        onclick="openModal('design-system')" role="button" tabindex="0"
+                        aria-label="Sistema de Design AI" style="opacity: 0; transform: translateY(50px) scale(0.95);">
+                        <div
+                            class="card-image-container bg-gradient-to-br from-blue-900/20 to-purple-900/20 dark:from-blue-500/10 dark:to-purple-500/10">
+                            <div class="relative w-full h-full">
+                                <div class="absolute inset-0 grid grid-cols-4 gap-1 p-4">
+                                    <div class="bg-blue-500/20 rounded"></div>
+                                    <div class="bg-purple-500/20 rounded"></div>
+                                    <div class="bg-blue-500/20 rounded"></div>
+                                    <div class="bg-purple-500/20 rounded"></div>
+                                </div>
+                                <div class="absolute inset-0 flex items-center justify-center">
+                                    <div class="text-2xl font-black text-white dark:text-white/40">DESIGN SYSTEM</div>
+                                </div>
+                            </div>
+                        </div>
+                        <h3 class="text-xl font-black mb-3" data-i18n="portfolio.project1.title">Sistema de Design AI
+                        </h3>
+                        <p class="text-gray-500 text-sm mb-4" data-i18n="portfolio.project1.description">Sistema
+                            completo para empresas de tecnologia</p>
+                        <div class="text-xs font-bold uppercase tracking-widest text-accent" data-i18n="portfolio.view">
+                            Ver Projeto →</div>
+                    </div>
+
+                    <!-- Dashboard Financeiro -->
+                    <div class="product-card card-loading" data-tooltip="Clique para detalhes"
+                        onclick="openModal('dashboard')" role="button" tabindex="0" aria-label="Dashboard Financeiro"
+                        style="opacity: 0; transform: translateY(50px) scale(0.95);">
+                        <div
+                            class="card-image-container bg-gradient-to-br from-green-900/20 to-emerald-900/20 dark:from-green-500/10 dark:to-emerald-500/10">
+                            <div class="relative w-full h-full p-4">
+                                <div class="flex items-end h-full gap-1">
+                                    <div class="w-1/4 bg-green-500/40 h-3/4 rounded-t"></div>
+                                    <div class="w-1/4 bg-emerald-500/40 h-2/3 rounded-t"></div>
+                                    <div class="w-1/4 bg-green-600/40 h-4/5 rounded-t"></div>
+                                    <div class="w-1/4 bg-emerald-600/40 h-1/2 rounded-t"></div>
+                                </div>
+                                <div class="absolute bottom-4 left-4 text-xs font-bold text-white/50">REAL-TIME DATA
+                                </div>
+                            </div>
+                        </div>
+                        <h3 class="text-xl font-black mb-3" data-i18n="portfolio.project2.title">Dashboard Financeiro
+                        </h3>
+                        <p class="text-gray-500 text-sm mb-4" data-i18n="portfolio.project2.description">Interface para
+                            análise de dados em tempo real</p>
+                        <div class="text-xs font-bold uppercase tracking-widest text-accent" data-i18n="portfolio.view">
+                            Ver Projeto →</div>
+                    </div>
+
+                    <!-- App Mobile -->
+                    <div class="product-card card-loading" data-tooltip="Clique para detalhes"
+                        onclick="openModal('mobile-app')" role="button" tabindex="0" aria-label="App Mobile"
+                        style="opacity: 0; transform: translateY(50px) scale(0.95);">
+                        <div
+                            class="card-image-container bg-gradient-to-br from-purple-900/20 to-pink-900/20 dark:from-purple-500/10 dark:to-pink-500/10 relative">
+                            <div class="w-24 h-36 border-4 border-white/20 rounded-3xl relative mx-auto mt-4">
+                                <div
+                                    class="absolute top-2 left-1/2 transform -translate-x-1/2 w-12 h-1 bg-white/30 rounded">
+                                </div>
+                                <div
+                                    class="absolute inset-4 bg-black/20 rounded-2xl flex flex-col items-center justify-center">
+                                    <div class="w-6 h-6 rounded-full bg-purple-500/30 mb-2"></div>
+                                    <div class="text-xs text-white/40 font-bold mb-1">AI APP</div>
+                                    <div class="text-[8px] text-white/30">PRODUCTIVITY</div>
+                                </div>
+                            </div>
+                        </div>
+                        <h3 class="text-xl font-black mb-3" data-i18n="portfolio.project3.title">App Mobile</h3>
+                        <p class="text-gray-500 text-sm mb-4" data-i18n="portfolio.project3.description">Aplicativo de
+                            produtividade com IA integrada</p>
+                        <div class="text-xs font-bold uppercase tracking-widest text-accent" data-i18n="portfolio.view">
+                            Ver Projeto →</div>
+                    </div>
                 </div>
 
-                <div class="feature-card group" onclick="openModal('code')">
-                    <div class="w-16 h-16 bg-neutral-100 dark:bg-white/5 rounded-3xl flex items-center justify-center mb-10 group-hover:scale-110 transition-transform">
-                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="1.5" d="M16 18l6-6-6-6M8 6l-6 6 6 6"/></svg>
+                <!-- Carrossel Mobile FUNCIONAL -->
+                <div class="mobile-carousel" id="portfolio-carousel">
+                    <div class="carousel-container" id="portfolio-container">
+                        <!-- Slide 1 -->
+                        <div class="carousel-slide">
+                            <div class="product-card card-loading" onclick="openModal('design-system')" role="button"
+                                tabindex="0">
+                                <div class="card-image-container bg-gradient-to-br from-blue-900/20 to-purple-900/20"
+                                    style="height: 120px;">
+                                    <div class="w-full h-full flex items-center justify-center">
+                                        <div class="text-xl font-black text-white/30">DS</div>
+                                    </div>
+                                </div>
+                                <h3 class="text-lg font-black mb-3" data-i18n="portfolio.project1.title">Sistema de
+                                    Design AI</h3>
+                                <p class="text-gray-500 text-sm mb-4" data-i18n="portfolio.project1.description">Sistema
+                                    completo para empresas de tecnologia</p>
+                                <div class="text-xs font-bold uppercase tracking-widest text-accent"
+                                    data-i18n="portfolio.view">Ver Projeto →</div>
+                            </div>
+                        </div>
+
+                        <!-- Slide 2 -->
+                        <div class="carousel-slide">
+                            <div class="product-card card-loading" onclick="openModal('dashboard')" role="button"
+                                tabindex="0">
+                                <div class="card-image-container bg-gradient-to-br from-green-900/20 to-emerald-900/20"
+                                    style="height: 120px;">
+                                    <div class="w-full h-full flex items-center justify-center">
+                                        <div class="text-xl font-black text-white/30">📊</div>
+                                    </div>
+                                </div>
+                                <h3 class="text-lg font-black mb-3" data-i18n="portfolio.project2.title">Dashboard
+                                    Financeiro</h3>
+                                <p class="text-gray-500 text-sm mb-4" data-i18n="portfolio.project2.description">
+                                    Interface para análise de dados em tempo real</p>
+                                <div class="text-xs font-bold uppercase tracking-widest text-accent"
+                                    data-i18n="portfolio.view">Ver Projeto →</div>
+                            </div>
+                        </div>
+
+                        <!-- Slide 3 -->
+                        <div class="carousel-slide">
+                            <div class="product-card card-loading" onclick="openModal('mobile-app')" role="button"
+                                tabindex="0">
+                                <div class="card-image-container bg-gradient-to-br from-purple-900/20 to-pink-900/20"
+                                    style="height: 120px;">
+                                    <div class="w-full h-full flex items-center justify-center">
+                                        <div class="text-xl font-black text-white/30">📱</div>
+                                    </div>
+                                </div>
+                                <h3 class="text-lg font-black mb-3" data-i18n="portfolio.project3.title">App Mobile</h3>
+                                <p class="text-gray-500 text-sm mb-4" data-i18n="portfolio.project3.description">
+                                    Aplicativo de produtividade com IA integrada</p>
+                                <div class="text-xs font-bold uppercase tracking-widest text-accent"
+                                    data-i18n="portfolio.view">Ver Projeto →</div>
+                            </div>
+                        </div>
                     </div>
-                    <h3 class="text-3xl font-black mb-4 tracking-tight uppercase">Raw Code</h3>
-                    <p class="text-sm text-neutral-500 leading-relaxed mb-8">Arquitetura limpa e performance sem ruído técnico.</p>
-                    <div class="mt-auto text-[9px] font-bold tracking-[0.4em] text-neutral-400 uppercase">/ 03 Debug</div>
+                    <div class="carousel-indicators" id="portfolio-indicators"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Shop Section -->
+        <section id="shop" class="py-24 md:py-32 px-4 md:px-6" aria-labelledby="shop-title">
+            <div class="max-w-7xl mx-auto">
+                <h2 class="section-title" id="shop-title" data-i18n="shop.title">/ Digital Assets</h2>
+
+                <!-- Grid Desktop -->
+                <div class="grid-desktop grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+                    <!-- UI Framework Pro -->
+                    <div class="product-card card-loading" data-tooltip="Clique para detalhes"
+                        onclick="openModal('ui-framework')" role="button" tabindex="0" aria-label="UI Framework Pro"
+                        style="opacity: 0; transform: translateY(50px) scale(0.95);">
+                        <div class="mb-6">
+                            <div
+                                class="w-16 h-16 bg-gradient-to-br from-gray-900 to-black dark:from-gray-800 dark:to-black rounded-2xl mb-4 flex items-center justify-center">
+                                <div class="text-white/40 font-mono text-xs">{"UI"}</div>
+                            </div>
+                            <h3 class="text-xl font-black mb-2" data-i18n="shop.product1.title">UI Framework Pro</h3>
+                            <p class="text-gray-500 text-sm" data-i18n="shop.product1.description">Sistema completo de
+                                componentes</p>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-2xl font-black">$149</span>
+                            <button
+                                class="px-6 py-3 bg-black dark:bg-white text-white dark:text-black rounded-full text-sm font-bold uppercase hover:opacity-90 transition-opacity focus:outline-none focus:ring-2 focus:ring-accent"
+                                data-i18n="shop.buy"
+                                aria-label="Comprar UI Framework Pro por 149 dólares">Comprar</button>
+                        </div>
+                    </div>
+
+                    <!-- AI Agent Node -->
+                    <div class="product-card card-loading" data-tooltip="Clique para detalhes"
+                        onclick="openModal('ai-agent')" role="button" tabindex="0" aria-label="AI Agent Node"
+                        style="opacity: 0; transform: translateY(50px) scale(0.95);">
+                        <div class="mb-6">
+                            <div
+                                class="w-16 h-16 bg-gradient-to-br from-blue-900 to-cyan-900 dark:from-blue-800 dark:to-cyan-800 rounded-2xl mb-4 flex items-center justify-center relative">
+                                <div class="absolute w-8 h-8 border-2 border-white/30 rounded-full ai-pulse-ring"></div>
+                                <div class="absolute w-4 h-4 bg-white/40 rounded-full"></div>
+                            </div>
+                            <h3 class="text-xl font-black mb-2" data-i18n="shop.product2.title">AI Agent Node</h3>
+                            <p class="text-gray-500 text-sm" data-i18n="shop.product2.description">Agente autônomo de IA
+                            </p>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-2xl font-black">$299</span>
+                            <button
+                                class="px-6 py-3 border border-gray-300 dark:border-gray-700 rounded-full text-sm font-bold uppercase hover:border-accent transition-colors focus:outline-none focus:ring-2 focus:ring-accent"
+                                data-i18n="shop.buy" aria-label="Comprar AI Agent Node por 299 dólares">Comprar</button>
+                        </div>
+                    </div>
+
+                    <!-- Brutal Icons -->
+                    <div class="product-card card-loading" data-tooltip="Clique para detalhes"
+                        onclick="openModal('brutal-icons')" role="button" tabindex="0" aria-label="Brutal Icons"
+                        style="opacity: 0; transform: translateY(50px) scale(0.95);">
+                        <div class="mb-6">
+                            <div
+                                class="w-16 h-16 bg-gradient-to-br from-red-900 to-orange-900 dark:from-red-800 dark:to-orange-800 rounded-2xl mb-4 flex items-center justify-center">
+                                <div class="flex flex-wrap gap-1">
+                                    <div class="w-3 h-3 bg-white/40 rounded-sm"></div>
+                                    <div class="w-3 h-3 bg-white/40 rounded-full"></div>
+                                    <div class="w-3 h-3 bg-white/40 rounded-sm"></div>
+                                    <div class="w-3 h-3 bg-white/40 rounded-full"></div>
+                                </div>
+                            </div>
+                            <h3 class="text-xl font-black mb-2" data-i18n="shop.product3.title">Brutal Icons</h3>
+                            <p class="text-gray-500 text-sm" data-i18n="shop.product3.description">500+ ícones em estilo
+                                brutal</p>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-2xl font-black">$79</span>
+                            <button
+                                class="px-6 py-3 border border-gray-300 dark:border-gray-700 rounded-full text-sm font-bold uppercase hover:border-accent transition-colors focus:outline-none focus:ring-2 focus:ring-accent"
+                                data-i18n="shop.buy" aria-label="Comprar Brutal Icons por 79 dólares">Comprar</button>
+                        </div>
+                    </div>
+
+                    <!-- Mesh Engine -->
+                    <div class="product-card card-loading" data-tooltip="Clique para detalhes"
+                        onclick="openModal('mesh-engine')" role="button" tabindex="0" aria-label="Mesh Engine"
+                        style="opacity: 0; transform: translateY(50px) scale(0.95);">
+                        <div class="mb-6">
+                            <div
+                                class="w-16 h-16 bg-gradient-to-br from-purple-900 to-violet-900 dark:from-purple-800 dark:to-violet-800 rounded-2xl mb-4 flex items-center justify-center">
+                                <div class="w-10 h-10 border border-white/30 rounded-lg transform rotate-45"></div>
+                            </div>
+                            <h3 class="text-xl font-black mb-2" data-i18n="shop.product4.title">Mesh Engine</h3>
+                            <p class="text-gray-500 text-sm" data-i18n="shop.product4.description">Motor de gradientes
+                                3D</p>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-2xl font-black">$199</span>
+                            <button
+                                class="px-6 py-3 border border-gray-300 dark:border-gray-700 rounded-full text-sm font-bold uppercase hover:border-accent transition-colors focus:outline-none focus:ring-2 focus:ring-accent"
+                                data-i18n="shop.buy" aria-label="Comprar Mesh Engine por 199 dólares">Comprar</button>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="feature-card group" onclick="openModal('lab')">
-                    <div class="w-16 h-16 bg-neutral-100 dark:bg-white/5 rounded-3xl flex items-center justify-center mb-10 group-hover:scale-110 transition-transform">
-                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="1.5" d="M12 8v8M8 12h8"/></svg>
+                <!-- Carrossel Mobile FUNCIONAL -->
+                <div class="mobile-carousel" id="shop-carousel">
+                    <div class="carousel-container" id="shop-container">
+                        <!-- Slide 1 -->
+                        <div class="carousel-slide">
+                            <div class="product-card card-loading" onclick="openModal('ui-framework')" role="button"
+                                tabindex="0">
+                                <div class="mb-6">
+                                    <div
+                                        class="w-12 h-12 bg-gray-200 dark:bg-gray-800 rounded-2xl mb-4 flex items-center justify-center">
+                                        <div class="text-black/40 dark:text-white/40 text-xs">UI</div>
+                                    </div>
+                                    <h3 class="text-lg font-black mb-2" data-i18n="shop.product1.title">UI Framework Pro
+                                    </h3>
+                                    <p class="text-gray-500 text-sm" data-i18n="shop.product1.description">Sistema
+                                        completo de componentes</p>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-xl font-black">$149</span>
+                                    <button
+                                        class="px-4 py-2 bg-black dark:bg-white text-white dark:text-black rounded-full text-xs font-bold uppercase hover:opacity-90 transition-opacity focus:outline-none focus:ring-2 focus:ring-accent"
+                                        data-i18n="shop.buy">Comprar</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Slide 2 -->
+                        <div class="carousel-slide">
+                            <div class="product-card card-loading" onclick="openModal('ai-agent')" role="button"
+                                tabindex="0">
+                                <div class="mb-6">
+                                    <div
+                                        class="w-12 h-12 bg-gray-200 dark:bg-gray-800 rounded-2xl mb-4 flex items-center justify-center">
+                                        <div class="text-black/40 dark:text-white/40 text-xs">AI</div>
+                                    </div>
+                                    <h3 class="text-lg font-black mb-2" data-i18n="shop.product2.title">AI Agent Node
+                                    </h3>
+                                    <p class="text-gray-500 text-sm" data-i18n="shop.product2.description">Agente
+                                        autônomo de IA</p>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-xl font-black">$299</span>
+                                    <button
+                                        class="px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-full text-xs font-bold uppercase hover:border-accent transition-colors focus:outline-none focus:ring-2 focus:ring-accent"
+                                        data-i18n="shop.buy">Comprar</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Slide 3 -->
+                        <div class="carousel-slide">
+                            <div class="product-card card-loading" onclick="openModal('brutal-icons')" role="button"
+                                tabindex="0">
+                                <div class="mb-6">
+                                    <div
+                                        class="w-12 h-12 bg-gray-200 dark:bg-gray-800 rounded-2xl mb-4 flex items-center justify-center">
+                                        <div class="text-black/40 dark:text-white/40 text-xs">ICON</div>
+                                    </div>
+                                    <h3 class="text-lg font-black mb-2" data-i18n="shop.product3.title">Brutal Icons
+                                    </h3>
+                                    <p class="text-gray-500 text-sm" data-i18n="shop.product3.description">500+ ícones
+                                        em estilo brutal</p>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-xl font-black">$79</span>
+                                    <button
+                                        class="px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-full text-xs font-bold uppercase hover:border-accent transition-colors focus:outline-none focus:ring-2 focus:ring-accent"
+                                        data-i18n="shop.buy">Comprar</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Slide 4 -->
+                        <div class="carousel-slide">
+                            <div class="product-card card-loading" onclick="openModal('mesh-engine')" role="button"
+                                tabindex="0">
+                                <div class="mb-6">
+                                    <div
+                                        class="w-12 h-12 bg-gray-200 dark:bg-gray-800 rounded-2xl mb-4 flex items-center justify-center">
+                                        <div class="text-black/40 dark:text-white/40 text-xs">3D</div>
+                                    </div>
+                                    <h3 class="text-lg font-black mb-2" data-i18n="shop.product4.title">Mesh Engine</h3>
+                                    <p class="text-gray-500 text-sm" data-i18n="shop.product4.description">Motor de
+                                        gradientes 3D</p>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-xl font-black">$199</span>
+                                    <button
+                                        class="px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-full text-xs font-bold uppercase hover:border-accent transition-colors focus:outline-none focus:ring-2 focus:ring-accent"
+                                        data-i18n="shop.buy">Comprar</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <h3 class="text-3xl font-black mb-4 tracking-tight uppercase">Maker Lab</h3>
-                    <p class="text-sm text-neutral-500 leading-relaxed mb-8">Experimentação pura e prototipagem de futuro.</p>
-                    <div class="mt-auto text-[9px] font-bold tracking-[0.4em] text-neutral-400 uppercase">/ 04 Inovação</div>
+                    <div class="carousel-indicators" id="shop-indicators"></div>
                 </div>
+            </div>
+        </section>
+
+        <!-- Blog Section -->
+        <section id="blog" class="py-24 md:py-32 px-4 md:px-6 bg-gray-50 dark:bg-gray-900" aria-labelledby="blog-title">
+            <div class="max-w-7xl mx-auto">
+                <h2 class="section-title" id="blog-title" data-i18n="blog.title">/ Latest Insights</h2>
+
+                <!-- Grid Desktop -->
+                <div class="grid-desktop grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+                    <!-- Artigo 1 -->
+                    <article class="product-card card-loading" data-tooltip="Clique para detalhes"
+                        onclick="openModal('ai-future')" role="button" tabindex="0"
+                        aria-label="Artigo: O Futuro da IA Generativa em 2026"
+                        style="opacity: 0; transform: translateY(50px) scale(0.95);">
+                        <div class="card-image-container bg-gradient-to-br from-gray-900 to-black dark:from-gray-800 dark:to-black"
+                            style="height: 120px;">
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <div class="text-white/20 font-black text-3xl tracking-tighter rotate-12">AI 2026</div>
+                            </div>
+                            <div class="absolute bottom-4 left-4">
+                                <div class="text-xs font-bold text-white/30 uppercase">FUTURE</div>
+                            </div>
+                        </div>
+
+                        <div class="text-xs uppercase tracking-widest text-gray-500 mb-4"
+                            data-i18n="blog.article1.category">Tecnologia</div>
+                        <h3 class="text-xl font-black mb-4" data-i18n="blog.article1.title">O Futuro da IA Generativa em
+                            2026</h3>
+                        <p class="text-gray-500 text-sm mb-6" data-i18n="blog.article1.description">Como os modelos de
+                            última geração estão redefinindo o design digital.</p>
+                        <a href="#"
+                            class="text-xs font-bold uppercase tracking-widest hover:text-accent transition-colors focus:outline-none focus:ring-2 focus:ring-accent"
+                            data-i18n="blog.read">Ler Artigo →</a>
+                    </article>
+
+                    <!-- Artigo 2 -->
+                    <article class="product-card card-loading" data-tooltip="Clique para detalhes"
+                        onclick="openModal('brutalism')" role="button" tabindex="0"
+                        aria-label="Artigo: Brutalismo Digital: Por Que Funciona"
+                        style="opacity: 0; transform: translateY(50px) scale(0.95);">
+                        <div class="card-image-container bg-gradient-to-br from-black to-white/10 dark:from-white dark:to-black"
+                            style="height: 120px;">
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <div class="text-4xl font-black tracking-tighter">
+                                    <span class="text-white dark:text-black">BRUTAL</span>
+                                    <span class="text-black dark:text-white">ISM</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="text-xs uppercase tracking-widest text-gray-500 mb-4"
+                            data-i18n="blog.article2.category">Design</div>
+                        <h3 class="text-xl font-black mb-4" data-i18n="blog.article2.title">Brutalismo Digital: Por Que
+                            Funciona</h3>
+                        <p class="text-gray-500 text-sm mb-6" data-i18n="blog.article2.description">A psicologia por
+                            trás do design minimalista de alto contraste.</p>
+                        <a href="#"
+                            class="text-xs font-bold uppercase tracking-widest hover:text-accent transition-colors focus:outline-none focus:ring-2 focus:ring-accent"
+                            data-i18n="blog.read">Ler Artigo →</a>
+                    </article>
+
+                    <!-- Artigo 3 -->
+                    <article class="product-card card-loading" data-tooltip="Clique para detalhes"
+                        onclick="openModal('monetization')" role="button" tabindex="0"
+                        aria-label="Artigo: Monetizando Sistemas de Design"
+                        style="opacity: 0; transform: translateY(50px) scale(0.95);">
+                        <div class="card-image-container bg-gradient-to-br from-yellow-900/30 to-amber-900/30 dark:from-yellow-500/10 dark:to-amber-500/10"
+                            style="height: 120px;">
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <div class="text-3xl font-black text-white/20 dark:text-white/10">$ € £</div>
+                                <div class="absolute bottom-4 right-4 text-xs font-bold text-white/30">REVENUE</div>
+                            </div>
+                        </div>
+
+                        <div class="text-xs uppercase tracking-widest text-gray-500 mb-4"
+                            data-i18n="blog.article3.category">Negócios</div>
+                        <h3 class="text-xl font-black mb-4" data-i18n="blog.article3.title">Monetizando Sistemas de
+                            Design</h3>
+                        <p class="text-gray-500 text-sm mb-6" data-i18n="blog.article3.description">Estratégias para
+                            transformar UI kits em fluxos de receita.</p>
+                        <a href="#"
+                            class="text-xs font-bold uppercase tracking-widest hover:text-accent transition-colors focus:outline-none focus:ring-2 focus:ring-accent"
+                            data-i18n="blog.read">Ler Artigo →</a>
+                    </article>
+                </div>
+
+                <!-- Carrossel Mobile FUNCIONAL -->
+                <div class="mobile-carousel" id="blog-carousel">
+                    <div class="carousel-container" id="blog-container">
+                        <!-- Slide 1 -->
+                        <div class="carousel-slide">
+                            <article class="product-card card-loading" onclick="openModal('ai-future')" role="button"
+                                tabindex="0">
+                                <div class="card-image-container bg-gradient-to-br from-gray-900 to-black"
+                                    style="height: 100px;">
+                                    <div class="w-full h-full flex items-center justify-center">
+                                        <div class="text-white/20 text-xl">AI</div>
+                                    </div>
+                                </div>
+                                <div class="text-xs uppercase tracking-widest text-gray-500 mb-4"
+                                    data-i18n="blog.article1.category">Tecnologia</div>
+                                <h3 class="text-lg font-black mb-4" data-i18n="blog.article1.title">O Futuro da IA
+                                    Generativa em 2026</h3>
+                                <p class="text-gray-500 text-sm mb-6" data-i18n="blog.article1.description">Como os
+                                    modelos de última geração estão redefinindo o design digital.</p>
+                                <a href="#"
+                                    class="text-xs font-bold uppercase tracking-widest hover:text-accent transition-colors focus:outline-none focus:ring-2 focus:ring-accent"
+                                    data-i18n="blog.read">Ler Artigo →</a>
+                            </article>
+                        </div>
+
+                        <!-- Slide 2 -->
+                        <div class="carousel-slide">
+                            <article class="product-card card-loading" onclick="openModal('brutalism')" role="button"
+                                tabindex="0">
+                                <div class="card-image-container bg-gradient-to-br from-black to-gray-800"
+                                    style="height: 100px;">
+                                    <div class="w-full h-full flex items-center justify-center">
+                                        <div class="text-white/20 text-xl">BRUTAL</div>
+                                    </div>
+                                </div>
+                                <div class="text-xs uppercase tracking-widest text-gray-500 mb-4"
+                                    data-i18n="blog.article2.category">Design</div>
+                                <h3 class="text-lg font-black mb-4" data-i18n="blog.article2.title">Brutalismo Digital:
+                                    Por Que Funciona</h3>
+                                <p class="text-gray-500 text-sm mb-6" data-i18n="blog.article2.description">A psicologia
+                                    por trás do design minimalista de alto contraste.</p>
+                                <a href="#"
+                                    class="text-xs font-bold uppercase tracking-widest hover:text-accent transition-colors focus:outline-none focus:ring-2 focus:ring-accent"
+                                    data-i18n="blog.read">Ler Artigo →</a>
+                            </article>
+                        </div>
+
+                        <!-- Slide 3 -->
+                        <div class="carousel-slide">
+                            <article class="product-card card-loading" onclick="openModal('monetization')" role="button"
+                                tabindex="0">
+                                <div class="card-image-container bg-gradient-to-br from-yellow-900/30 to-amber-900/30"
+                                    style="height: 100px;">
+                                    <div class="w-full h-full flex items-center justify-center">
+                                        <div class="text-white/20 text-xl">$</div>
+                                    </div>
+                                </div>
+                                <div class="text-xs uppercase tracking-widest text-gray-500 mb-4"
+                                    data-i18n="blog.article3.category">Negócios</div>
+                                <h3 class="text-lg font-black mb-4" data-i18n="blog.article3.title">Monetizando Sistemas
+                                    de Design</h3>
+                                <p class="text-gray-500 text-sm mb-6" data-i18n="blog.article3.description">Estratégias
+                                    para transformar UI kits em fluxos de receita.</p>
+                                <a href="#"
+                                    class="text-xs font-bold uppercase tracking-widest hover:text-accent transition-colors focus:outline-none focus:ring-2 focus:ring-accent"
+                                    data-i18n="blog.read">Ler Artigo →</a>
+                            </article>
+                        </div>
+                    </div>
+                    <div class="carousel-indicators" id="blog-indicators"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="py-24 md:py-40 px-4 md:px-6" aria-labelledby="contact-title">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="text-3xl md:text-4xl lg:text-6xl font-black italic tracking-tighter mb-6 md:mb-8"
+                    id="contact-title" data-i18n="contact.title">Vamos Construir</h2>
+                <p class="text-gray-500 text-base md:text-lg mb-8 md:mb-12 max-w-xl mx-auto px-4"
+                    data-i18n="contact.description">
+                    Pronto para levar sua presença digital ao próximo nível?
+                </p>
+                <a href="mailto:studio@makerai.com"
+                    class="inline-block px-8 md:px-12 py-4 md:py-6 bg-black dark:bg-white text-white dark:text-black rounded-full text-base md:text-lg font-bold uppercase tracking-widest hover:opacity-90 transition-opacity hover:scale-105 focus:outline-none focus:ring-4 focus:ring-accent focus:ring-opacity-50"
+                    data-i18n="contact.button" aria-label="Iniciar projeto por email">
+                    Iniciar Projeto
+                </a>
             </div>
         </section>
     </main>
 
-    <footer id="footer" class="mt-40 border-t border-black/5 dark:border-white/5 bg-neutral-50/50 dark:bg-[#080808]">
-        <div class="max-w-7xl mx-auto px-8 py-24">
-            <div class="grid grid-cols-1 md:grid-cols-12 gap-16">
+    <!-- 7. FOOTER -->
+    <footer class="border-t border-black/5 dark:border-white/5 bg-neutral-50/50 dark:bg-[#080808]" style="opacity: 0;">
+        <div class="max-w-7xl mx-auto px-4 md:px-6 py-16 md:py-24">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16">
                 <div class="md:col-span-6">
-                    <div class="font-black text-4xl tracking-tighter uppercase mb-6 italic">MAKER<span class="text-neutral-300">STUDIO</span></div>
-                    <p class="max-w-sm text-neutral-500 text-sm leading-relaxed mb-8">Design focado na essência. Onde a forma bruta encontra a IA para criar o amanhã.</p>
-                </div>
-                <div class="md:col-span-3 flex flex-col items-center md:items-end">
-                    <div class="flex items-center gap-3 bg-white dark:bg-black px-4 py-2 rounded-xl border border-black/5 dark:border-white/5 mb-6">
-                        <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
-                        <span class="text-[10px] font-black uppercase tracking-widest">Studio Online</span>
+                    <div class="font-black text-3xl md:text-4xl tracking-tighter uppercase mb-4 md:mb-6 italic">
+                        MAKER<span class="text-neutral-300">STUDIO</span></div>
+                    <p class="max-w-sm text-neutral-500 text-sm leading-relaxed mb-6 md:mb-8"
+                        data-i18n="footer.description">Design focado na essência. Onde a forma bruta encontra a IA para
+                        criar o amanhã.</p>
+                    <div class="flex items-center gap-3">
+                        <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse-glow"></span>
+                        <span class="text-[10px] font-black uppercase tracking-widest" data-i18n="footer.status">Studio
+                            Online</span>
                     </div>
-                    <div id="clock" class="text-6xl font-black tracking-tighter tabular-nums opacity-20">00:00</div>
+                </div>
+
+                <div class="md:col-span-6 flex flex-col items-center md:items-end justify-center">
+                    <div id="clock"
+                        class="font-mono text-4xl md:text-6xl font-black tracking-tighter tabular-nums opacity-20 mb-3 md:mb-4"
+                        aria-live="polite" role="timer">00:00:00</div>
+                    <div class="text-xs text-neutral-500 uppercase tracking-widest" data-i18n="footer.timezone">Lisboa,
+                        Portugal</div>
                 </div>
             </div>
-            <div class="mt-24 pt-8 border-t border-black/5 text-[9px] font-bold text-neutral-400 uppercase tracking-[0.4em]">
-                © 2026 MakerAI Studio — Objeto → Luz → Contraste
+
+            <div class="mt-12 md:mt-24 pt-6 md:pt-8 border-t border-black/5 dark:border-white/5 text-center">
+                <p class="text-[9px] font-bold text-neutral-400 uppercase tracking-[0.4em] mb-2"
+                    data-i18n="footer.mantra">
+                    Objeto → Luz → Contraste → Movimento → Efeito
+                </p>
+                <p class="text-[9px] font-bold text-neutral-500 uppercase tracking-[0.4em]">
+                    © 2026 MakerAI Studio
+                </p>
             </div>
         </div>
     </footer>
 
-    <div id="modal-overlay" class="fixed inset-0 z-[100] bg-black/90 backdrop-blur-xl opacity-0 pointer-events-none transition-all duration-500 flex items-center justify-center p-6">
-        <div id="modal-content" class="bg-white dark:bg-[#0a0a0a] w-full max-w-2xl rounded-[3rem] p-12 relative translate-y-20 transition-all duration-500 border border-black/5 dark:border-white/10">
-            <button onclick="closeModal()" class="absolute top-8 right-8 text-neutral-500 hover:text-black dark:hover:text-white transition-colors">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+    <!-- 8. MODAL -->
+    <div id="modal-overlay"
+        class="fixed inset-0 z-[100] bg-black/90 backdrop-blur-xl opacity-0 pointer-events-none transition-all duration-500 flex items-center justify-center p-4 md:p-6"
+        role="dialog" aria-modal="true" aria-hidden="true" tabindex="-1">
+        <div id="modal-content"
+            class="bg-white dark:bg-[#0a0a0a] w-full max-w-2xl rounded-3xl md:rounded-[3rem] p-6 md:p-12 relative translate-y-20 transition-all duration-500 border border-black/5 dark:border-white/10"
+            role="document">
+            <button onclick="closeModal()"
+                class="absolute top-4 right-4 md:top-8 md:right-8 text-neutral-500 hover:text-black dark:hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-accent rounded-full p-1"
+                aria-label="Fechar modal">
+                <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    aria-hidden="true">
+                    <path stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
             </button>
             <div id="modal-body"></div>
         </div>
     </div>
 
+    <!-- 9. SCRIPT COMPLETO REVISADO E OTIMIZADO -->
     <script>
-        // 1. MENU MOBILE
-        const btn = document.getElementById('menu-btn');
-        const menu = document.getElementById('mobile-menu');
-        btn.onclick = () => {
-            btn.classList.toggle('menu-open');
-            menu.classList.toggle('overlay-active');
-            document.body.classList.toggle('overflow-hidden');
-        };
+        // === DADOS DE TRADUÇÃO CORRIGIDOS ===
+        const translations = {
+            pt: {
+                // Seletor de idiomas
+                "lang.choose": "Selecione seu idioma",
+                "lang.desc": "O objeto primeiro. O efeito eleva.",
 
-        // 2. HEADER SCROLL
-        window.onscroll = () => {
-            const navBase = document.querySelector('#main-header > div');
-            if (window.scrollY > 40) {
-                navBase.classList.replace('bg-white/80', 'bg-white/100');
-                navBase.classList.add('shadow-2xl', 'scale-[0.98]');
-            } else {
-                navBase.classList.replace('bg-white/100', 'bg-white/80');
-                navBase.classList.remove('shadow-2xl', 'scale-[0.98]');
+                // Navegação
+                "nav.home": "Home",
+                "nav.agency": "Agência",
+                "nav.portfolio": "Portfólio",
+                "nav.shop": "Shop",
+                "nav.blog": "Blog",
+                "nav.contact": "Contato",
+
+                // Hero
+                "hero.tagline": "O objeto primeiro. O efeito eleva.",
+
+                // Stats
+                "stats.projects": "Projetos",
+                "stats.cards": "Cards",
+                "stats.languages": "Idiomas",
+
+                // Agência
+                "agency.title": "/ Nossa Agência",
+                "agency.card1.title": "Neural Engine",
+                "agency.card1.description": "IA generativa aplicada a sistemas autônomos de alta performance.",
+                "agency.card2.title": "Brutal UI",
+                "agency.card2.description": "Design systems baseados em contraste extremo e tipografia massiva.",
+                "agency.card3.title": "Raw Code",
+                "agency.card3.description": "Arquitetura limpa, sem frameworks pesados. Performance pura.",
+                "agency.card4.title": "Maker Lab",
+                "agency.card4.description": "Prototipagem de futuros possíveis com tecnologia de ponta.",
+                "agency.explore": "Explorar →",
+
+                // Portfólio
+                "portfolio.title": "/ Portfólio",
+                "portfolio.project1.title": "Sistema de Design AI",
+                "portfolio.project1.description": "Sistema completo para empresas de tecnologia",
+                "portfolio.project2.title": "Dashboard Financeiro",
+                "portfolio.project2.description": "Interface para análise de dados em tempo real",
+                "portfolio.project3.title": "App Mobile",
+                "portfolio.project3.description": "Aplicativo de produtividade com IA integrada",
+                "portfolio.view": "Ver Projeto →",
+
+                // Shop
+                "shop.title": "/ Digital Assets",
+                "shop.product1.title": "UI Framework Pro",
+                "shop.product1.description": "Sistema completo de componentes",
+                "shop.product2.title": "AI Agent Node",
+                "shop.product2.description": "Agente autônomo de IA",
+                "shop.product3.title": "Brutal Icons",
+                "shop.product3.description": "500+ ícones em estilo brutal",
+                "shop.product4.title": "Mesh Engine",
+                "shop.product4.description": "Motor de gradientes 3D",
+                "shop.buy": "Comprar",
+
+                // Blog
+                "blog.title": "/ Latest Insights",
+                "blog.article1.category": "Tecnologia",
+                "blog.article1.title": "O Futuro da IA Generativa em 2026",
+                "blog.article1.description": "Como os modelos de última geração estão redefinindo o design digital.",
+                "blog.article2.category": "Design",
+                "blog.article2.title": "Brutalismo Digital: Por Que Funciona",
+                "blog.article2.description": "A psicologia por trás do design minimalista de alto contraste.",
+                "blog.article3.category": "Negócios",
+                "blog.article3.title": "Monetizando Sistemas de Design",
+                "blog.article3.description": "Estratégias para transformar UI kits em fluxos de receita.",
+                "blog.read": "Ler Artigo →",
+
+                // Contato
+                "contact.title": "Vamos Construir",
+                "contact.description": "Pronto para levar sua presença digital ao próximo nível?",
+                "contact.button": "Iniciar Projeto",
+
+                // Footer
+                "footer.description": "Design focado na essência. Onde a forma bruta encontra a IA para criar o amanhã.",
+                "footer.status": "Studio Online",
+                "footer.timezone": "Lisboa, Portugal",
+                "footer.mantra": "Objeto → Luz → Contraste → Movimento → Efeito",
+
+                // Modal
+                "modal.engine.title": "Neural Engine",
+                "modal.engine.text": "Processamento autónomo que aprende com a interação. Desenvolvemos sistemas que evoluem sozinhos a cada ciclo de dados.",
+                "modal.interface.title": "Brutal UI",
+                "modal.interface.text": "Design focado na redução total de ruído. Tipografia massiva e hierarquia clara para uma experiência de comando direta.",
+                "modal.code.title": "Raw Code",
+                "modal.code.text": "Arquitetura limpa. Sem frameworks pesados ou dependências inúteis. Apenas performance pura e escalável.",
+                "modal.lab.title": "Maker Lab",
+                "modal.lab.text": "Onde o impossível é prototipado. Experimentação com modelos generativos e design regenerativo.",
+
+                "modal.design-system.title": "Sistema de Design AI",
+                "modal.dashboard.title": "Dashboard Financeiro",
+                "modal.mobile-app.title": "App Mobile",
+
+                "modal.ui-framework.title": "UI Framework Pro",
+                "modal.ai-agent.title": "AI Agent Node",
+                "modal.brutal-icons.title": "Brutal Icons",
+                "modal.mesh-engine.title": "Mesh Engine",
+
+                "modal.ai-future.title": "O Futuro da IA Generativa em 2026",
+                "modal.brutalism.title": "Brutalismo Digital: Por Que Funciona",
+                "modal.monetization.title": "Monetizando Sistemas de Design",
+
+                "modal.close": "Fechar Detalhes",
+                "modal.tech": "Tecnologias:",
+                "modal.features": "Características:",
+                "modal.price": "Preço:",
+                "modal.article.content": "Conteúdo do Artigo:",
+                "modal.read.time": "Tempo de Leitura:"
+            },
+            en: {
+                // Language selector
+                "lang.choose": "Choose your language",
+                "lang.desc": "The object first. The effect elevates.",
+
+                // Navigation
+                "nav.home": "Home",
+                "nav.agency": "Agency",
+                "nav.portfolio": "Portfolio",
+                "nav.shop": "Shop",
+                "nav.blog": "Blog",
+                "nav.contact": "Contact",
+
+                // Hero
+                "hero.tagline": "The object first. The effect elevates.",
+
+                // Stats
+                "stats.projects": "Projects",
+                "stats.cards": "Cards",
+                "stats.languages": "Languages",
+
+                // Agency
+                "agency.title": "/ Our Agency",
+                "agency.card1.title": "Neural Engine",
+                "agency.card1.description": "Generative AI applied to high-performance autonomous systems.",
+                "agency.card2.title": "Brutal UI",
+                "agency.card2.description": "Design systems based on extreme contrast and massive typography.",
+                "agency.card3.title": "Raw Code",
+                "agency.card3.description": "Clean architecture, no heavy frameworks. Pure performance.",
+                "agency.card4.title": "Maker Lab",
+                "agency.card4.description": "Prototyping possible futures with cutting-edge technology.",
+                "agency.explore": "Explore →",
+
+                // Portfolio
+                "portfolio.title": "/ Portfolio",
+                "portfolio.project1.title": "AI Design System",
+                "portfolio.project1.description": "Complete system for technology companies",
+                "portfolio.project2.title": "Financial Dashboard",
+                "portfolio.project2.description": "Interface for real-time data analysis",
+                "portfolio.project3.title": "Mobile App",
+                "portfolio.project3.description": "Productivity app with integrated AI",
+                "portfolio.view": "View Project →",
+
+                // Shop
+                "shop.title": "/ Digital Assets",
+                "shop.product1.title": "UI Framework Pro",
+                "shop.product1.description": "Complete component system",
+                "shop.product2.title": "AI Agent Node",
+                "shop.product2.description": "Autonomous AI agent",
+                "shop.product3.title": "Brutal Icons",
+                "shop.product3.description": "500+ icons in brutal style",
+                "shop.product4.title": "Mesh Engine",
+                "shop.product4.description": "3D gradients engine",
+                "shop.buy": "Buy",
+
+                // Blog
+                "blog.title": "/ Latest Insights",
+                "blog.article1.category": "Technology",
+                "blog.article1.title": "The Future of Generative AI in 2026",
+                "blog.article1.description": "How next-generation models are redefining digital design.",
+                "blog.article2.category": "Design",
+                "blog.article2.title": "Digital Brutalism: Why It Works",
+                "blog.article2.description": "The psychology behind high-contrast minimalist design.",
+                "blog.article3.category": "Business",
+                "blog.article3.title": "Monetizing Design Systems",
+                "blog.article3.description": "Strategies for turning UI kits into revenue streams.",
+                "blog.read": "Read Article →",
+
+                // Contact
+                "contact.title": "Let's Build Together",
+                "contact.description": "Ready to take your digital presence to the next level?",
+                "contact.button": "Start Project",
+
+                // Footer
+                "footer.description": "Design focused on essence. Where raw form meets AI to create tomorrow.",
+                "footer.status": "Studio Online",
+                "footer.timezone": "Lisbon, Portugal",
+                "footer.mantra": "Object → Light → Contrast → Movement → Effect",
+
+                // Modal
+                "modal.engine.title": "Neural Engine",
+                "modal.engine.text": "Autonomous processing that learns with interaction. We develop systems that evolve on their own with each data cycle.",
+                "modal.interface.title": "Brutal UI",
+                "modal.interface.text": "Design focused on total noise reduction. Massive typography and clear hierarchy for a direct command experience.",
+                "modal.code.title": "Raw Code",
+                "modal.code.text": "Clean architecture. No heavy frameworks or useless dependencies. Just pure and scalable performance.",
+                "modal.lab.title": "Maker Lab",
+                "modal.lab.text": "Where the impossible is prototyped. Experimentation with generative models and regenerative design.",
+
+                "modal.design-system.title": "AI Design System",
+                "modal.dashboard.title": "Financial Dashboard",
+                "modal.mobile-app.title": "Mobile App",
+
+                "modal.ui-framework.title": "UI Framework Pro",
+                "modal.ai-agent.title": "AI Agent Node",
+                "modal.brutal-icons.title": "Brutal Icons",
+                "modal.mesh-engine.title": "Mesh Engine",
+
+                "modal.ai-future.title": "The Future of Generative AI in 2026",
+                "modal.brutalism.title": "Digital Brutalism: Why It Works",
+                "modal.monetization.title": "Monetizing Design Systems",
+
+                "modal.close": "Close Details",
+                "modal.tech": "Technologies:",
+                "modal.features": "Features:",
+                "modal.price": "Price:",
+                "modal.article.content": "Article Content:",
+                "modal.read.time": "Reading Time:"
+            },
+            es: {
+                // Selector de idioma
+                "lang.choose": "Elige tu idioma",
+                "lang.desc": "El objeto primero. El efecto eleva.",
+
+                // Navegación
+                "nav.home": "Inicio",
+                "nav.agency": "Agencia",
+                "nav.portfolio": "Portafolio",
+                "nav.shop": "Tienda",
+                "nav.blog": "Blog",
+                "nav.contact": "Contacto",
+
+                // Hero
+                "hero.tagline": "El objeto primero. El efeito eleva.",
+
+                // Stats
+                "stats.projects": "Proyectos",
+                "stats.cards": "Tarjetas",
+                "stats.languages": "Idiomas",
+
+                // Agencia
+                "agency.title": "/ Nuestra Agencia",
+                "agency.card1.title": "Motor Neural",
+                "agency.card1.description": "IA generativa aplicada a sistemas autónomos de alto rendimiento.",
+                "agency.card2.title": "UI Brutal",
+                "agency.card2.description": "Sistemas de diseño basados en contraste extremo y tipografía masiva.",
+                "agency.card3.title": "Código Crudo",
+                "agency.card3.description": "Arquitectura limpia, sin frameworks pesados. Rendimiento puro.",
+                "agency.card4.title": "Maker Lab",
+                "agency.card4.description": "Prototipado de futuros posibles con tecnología de punta.",
+                "agency.explore": "Explorar →",
+
+                // Portafolio
+                "portfolio.title": "/ Portafolio",
+                "portfolio.project1.title": "Sistema de Diseño AI",
+                "portfolio.project1.description": "Sistema completo para empresas de tecnología",
+                "portfolio.project2.title": "Dashboard Financiero",
+                "portfolio.project2.description": "Interfaz para análisis de datos en tiempo real",
+                "portfolio.project3.title": "Aplicación Móvil",
+                "portfolio.project3.description": "Aplicativo de productividad con IA integrada",
+                "portfolio.view": "Ver Proyecto →",
+
+                // Shop
+                "shop.title": "/ Activos Digitales",
+                "shop.product1.title": "UI Framework Pro",
+                "shop.product1.description": "Sistema completo de componentes",
+                "shop.product2.title": "Nodo de Agente IA",
+                "shop.product2.description": "Agente autónomo de IA",
+                "shop.product3.title": "Iconos Brutales",
+                "shop.product3.description": "500+ iconos en estilo brutal",
+                "shop.product4.title": "Motor Mesh",
+                "shop.product4.description": "Motor de gradientes 3D",
+                "shop.buy": "Comprar",
+
+                // Blog
+                "blog.title": "/ Últimas Ideas",
+                "blog.article1.category": "Tecnología",
+                "blog.article1.title": "El Futuro de la IA Generativa en 2026",
+                "blog.article1.description": "Cómo los modelos de última generación están redefiniendo el diseño digital.",
+                "blog.article2.category": "Diseño",
+                "blog.article2.title": "Brutalismo Digital: Por Qué Funciona",
+                "blog.article2.description": "La psicología detrás del diseño minimalista de alto contraste.",
+                "blog.article3.category": "Negocios",
+                "blog.article3.title": "Monetizando Sistemas de Diseño",
+                "blog.article3.description": "Estrategias para convertir kits de UI en flujos de ingresos.",
+                "blog.read": "Leer Artículo →",
+
+                // Contacto
+                "contact.title": "Construyamos Juntos",
+                "contact.description": "¿Listo para llevar tu presencia digital al siguiente nivel?",
+                "contact.button": "Iniciar Proyecto",
+
+                // Footer
+                "footer.description": "Diseño enfocado en la esencia. Donde la forma cruda se encuentra con la IA para crear el mañana.",
+                "footer.status": "Studio Online",
+                "footer.timezone": "Lisboa, Portugal",
+                "footer.mantra": "Objeto → Luz → Contraste → Movimiento → Efecto",
+
+                // Modal
+                "modal.engine.title": "Motor Neural",
+                "modal.engine.text": "Procesamiento autónomo que aprende con la interacción. Desarrollamos sistemas que evolucionan solos con cada ciclo de datos.",
+                "modal.interface.title": "UI Brutal",
+                "modal.interface.text": "Diseño enfocado en la reducción total de ruido. Tipografía masiva y jerarquía clara para una experiencia de comando directa.",
+                "modal.code.title": "Código Crudo",
+                "modal.code.text": "Arquitectura limpia. Sin frameworks pesados o dependencias inútiles. Solo rendimiento puro y escalable.",
+                "modal.lab.title": "Maker Lab",
+                "modal.lab.text": "Donde lo imposible se prototipa. Experimentación con modelos generativos y diseño regenerativo.",
+
+                "modal.design-system.title": "Sistema de Diseño AI",
+                "modal.dashboard.title": "Dashboard Financiero",
+                "modal.mobile-app.title": "Aplicación Móvil",
+
+                "modal.ui-framework.title": "UI Framework Pro",
+                "modal.ai-agent.title": "Nodo de Agente IA",
+                "modal.brutal-icons.title": "Iconos Brutales",
+                "modal.mesh-engine.title": "Motor Mesh",
+
+                "modal.ai-future.title": "El Futuro de la IA Generativa en 2026",
+                "modal.brutalism.title": "Brutalismo Digital: Por Qué Funciona",
+                "modal.monetization.title": "Monetizando Sistemas de Diseño",
+
+                "modal.close": "Cerrar Detalles",
+                "modal.tech": "Tecnologías:",
+                "modal.features": "Características:",
+                "modal.price": "Precio:",
+                "modal.article.content": "Contenido del Artículo:",
+                "modal.read.time": "Tiempo de Lectura:"
             }
         };
 
-        // 3. RELÓGIO
-        function tick() {
-            const clock = document.getElementById('clock');
-            if (clock) clock.textContent = new Date().toLocaleTimeString('pt-PT', { hour12: false });
-        }
-        setInterval(tick, 1000); tick();
-
-        // 4. LÓGICA DO MODAL
+        // === DADOS DOS MODAIS ===
         const modalData = {
-            engine: { title: "Neural Engine", text: "Processamento autónomo que aprende com a interação. Desenvolvemos sistemas que evoluem sozinhos a cada ciclo de dados." },
-            interface: { title: "Brutal UI", text: "Design focado na redução total de ruído. Tipografia massiva e hierarquia clara para uma experiência de comando direta." },
-            code: { title: "Raw Code", text: "Arquitetura limpa. Sem frameworks pesados ou dependências inúteis. Apenas performance pura e escalável." },
-            lab: { title: "Maker Lab", text: "Onde o impossível é prototipado. Experimentação com modelos generativos e design regenerativo." }
+            'engine': {
+                type: 'agency',
+                title: 'modal.engine.title',
+                text: 'modal.engine.text',
+                tech: ['TensorFlow', 'PyTorch', 'Custom RL', 'Neural Architecture'],
+                features: ['Processamento em tempo real', 'Aprendizado contínuo', 'Auto-otimização']
+            },
+            'interface': {
+                type: 'agency',
+                title: 'modal.interface.title',
+                text: 'modal.interface.text',
+                tech: ['Figma', 'WebGL', 'Three.js', 'GSAP'],
+                features: ['Tipografia massiva', 'Contraste extremo', 'Navegação por gestos']
+            },
+            'code': {
+                type: 'agency',
+                title: 'modal.code.title',
+                text: 'modal.code.text',
+                tech: ['TypeScript', 'Rust', 'WebAssembly', 'Node.js'],
+                features: ['Zero dependencies', 'Build time < 1s', 'Bundle size < 50KB']
+            },
+            'lab': {
+                type: 'agency',
+                title: 'modal.lab.title',
+                text: 'modal.lab.text',
+                tech: ['Stable Diffusion', 'GANs', '3D Printing', 'IoT'],
+                features: ['Prototipagem rápida', 'Testes A/B automáticos', 'Feedback em tempo real']
+            },
+
+            'design-system': {
+                type: 'portfolio',
+                title: 'modal.design-system.title',
+                text: 'Sistema de design completo para empresas de tecnologia, com componentes reutilizáveis e documentação automatizada.',
+                tech: ['React', 'Storybook', 'Figma API', 'Design Tokens'],
+                features: ['500+ componentes', 'Documentação viva', 'Acessibilidade AAA'],
+                link: '#'
+            },
+            'dashboard': {
+                type: 'portfolio',
+                title: 'modal.dashboard.title',
+                text: 'Dashboard financeiro em tempo real com visualizações interativas e alertas preditivos.',
+                tech: ['D3.js', 'WebSocket', 'Redis', 'Python'],
+                features: ['Atualização em tempo real', '30+ visualizações', 'Alertas inteligentes'],
+                link: '#'
+            },
+            'mobile-app': {
+                type: 'portfolio',
+                title: 'modal.mobile-app.title',
+                text: 'Aplicativo de produtividade com IA integrada para gerenciamento de tarefas e automação.',
+                tech: ['React Native', 'Firebase', 'OpenAI API', 'Push Notifications'],
+                features: ['IA para priorização', 'Sincronização offline', 'Integração com 50+ apps'],
+                link: '#'
+            },
+
+            'ui-framework': {
+                type: 'shop',
+                title: 'modal.ui-framework.title',
+                text: 'Framework de UI completo com componentes acessíveis, temas escuros/claros e suporte a todos os navegadores.',
+                price: '$149',
+                features: ['100+ componentes', 'Suporte 1 ano', 'Atualizações gratuitas', 'Documentação completa'],
+                includes: ['Código-fonte completo', 'Exemplos práticos', 'Template Figma']
+            },
+            'ai-agent': {
+                type: 'shop',
+                title: 'modal.ai-agent.title',
+                text: 'Agente de IA autônomo para automação de tarefas, processamento de dados e integração com APIs.',
+                price: '$299',
+                features: ['Multi-agente', 'API REST', 'Dashboard de monitoramento', 'Suporte prioritário'],
+                includes: ['Código-fonte', 'Docker config', 'Exemplos de uso']
+            },
+            'brutal-icons': {
+                type: 'shop',
+                title: 'modal.brutal-icons.title',
+                text: 'Pacote completo de ícones em estilo brutalista, otimizados para performance e escalabilidade.',
+                price: '$79',
+                features: ['500+ ícones SVG', '5 estilos diferentes', 'Animações CSS', 'Fonte customizada'],
+                includes: ['SVG, PNG, WebP', 'Fonte Icon', 'Documentação']
+            },
+            'mesh-engine': {
+                type: 'shop',
+                title: 'modal.mesh-engine.title',
+                text: 'Motor de gradientes 3D para criar efeitos visuais impressionantes com performance otimizada.',
+                price: '$199',
+                features: ['Renderização WebGL', '60 FPS garantido', 'Controles interativos', 'Export para video'],
+                includes: ['Exemplos completos', 'Shader pack', 'Toolkit de edição']
+            },
+
+            'ai-future': {
+                type: 'blog',
+                title: 'modal.ai-future.title',
+                text: 'Análise profunda sobre como os modelos de IA generativa de 2026 estão revolucionando o design digital, com casos de uso reais e tendências.',
+                readTime: '8 min',
+                content: ['Novos modelos de difusão', 'Design assistido por IA', 'Prototipagem instantânea', 'Ética na IA criativa']
+            },
+            'brutalism': {
+                type: 'blog',
+                title: 'modal.brutalism.title',
+                text: 'Estudo psicológico sobre o impacto do design brutalista na experiência do usuário e por que ele funciona tão bem para produtos digitais.',
+                readTime: '6 min',
+                content: ['Psicologia do contraste', 'Minimalismo funcional', 'Performance vs estética', 'Casos de sucesso']
+            },
+            'monetization': {
+                type: 'blog',
+                title: 'modal.monetization.title',
+                text: 'Guia completo sobre como transformar sistemas de design em produtos rentáveis, com estratégias de pricing, marketing e distribuição.',
+                readTime: '10 min',
+                content: ['Modelos de subscription', 'Pricing estratégico', 'Marketing para devs', 'Manutenção escalável']
+            }
         };
 
-        function openModal(id) {
-            const data = modalData[id];
-            const body = document.getElementById('modal-body');
+        // === VARIÁVEIS GLOBAIS ===
+        let currentLang = 'pt';
+        let spotlightTimeout;
+        let scrollTimeout;
+        let cardObserver = null;
+
+        // === INICIALIZAÇÃO - FLUXO CORRETO ===
+        document.addEventListener('DOMContentLoaded', function () {
+            // SEMPRE começar com o seletor de idiomas visível
+            const langSelector = document.getElementById('lang-selector');
+            const loadingScreen = document.getElementById('loading-screen');
+
+            // Garantir que o seletor esteja visível
+            langSelector.classList.remove('hidden');
+            loadingScreen.classList.remove('visible');
+
+            // Configurar botões de idioma
+            const langChoiceButtons = document.querySelectorAll('.lang-choice, #lang-fallback');
+
+            langChoiceButtons.forEach(button => {
+                button.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    let lang = this.getAttribute('data-lang');
+
+                    // Detecção automática
+                    if (lang === 'auto') {
+                        const browserLang = navigator.language.slice(0, 2);
+                        lang = ['pt', 'en', 'es'].includes(browserLang) ? browserLang : 'pt';
+                    }
+
+                    // Animar saída do seletor
+                    langSelector.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+                    langSelector.style.opacity = '0';
+                    langSelector.style.transform = 'scale(0.95)';
+
+                    setTimeout(() => {
+                        langSelector.classList.add('hidden');
+                        langSelector.style.opacity = '';
+                        langSelector.style.transform = '';
+
+                        // Iniciar loading elegante
+                        startElegantLoading(lang);
+
+                    }, 600);
+                });
+            });
+
+            // Inicializar componentes básicos
+            initTheme();
+            initMobileMenu();
+            initClock();
+        });
+
+        // === LOADING ELEGANTE ===
+        function startElegantLoading(lang) {
+            const loadingScreen = document.getElementById('loading-screen');
+            const loadingProgress = document.getElementById('loading-progress');
+            const loadingStatus = document.getElementById('loading-status');
+
+            // Mostrar loading screen
+            loadingScreen.classList.add('visible');
+            loadingProgress.style.width = '0%';
+
+            // Textos de status
+            const statusMessages = {
+                pt: ['Inicializando...', 'Carregando recursos...', 'Preparando interface...', 'Finalizando...'],
+                en: ['Initializing...', 'Loading assets...', 'Preparing UI...', 'Finishing...'],
+                es: ['Inicializando...', 'Cargando recursos...', 'Preparando interfaz...', 'Finalizando...']
+            };
+
+            let progress = 0;
+            let statusIndex = 0;
+            const messages = statusMessages[lang] || statusMessages.pt;
+
+            const interval = setInterval(() => {
+                // Progresso não-linear (mais rápido no início, mais lento no final)
+                const increment = progress < 70 ? 3 : 1.5;
+                progress = Math.min(progress + increment, 100);
+
+                // Atualizar barra
+                loadingProgress.style.width = progress + '%';
+                loadingProgress.setAttribute('aria-valuenow', Math.round(progress));
+
+                // Atualizar mensagem de status
+                if (progress >= 25 && statusIndex === 0) {
+                    loadingStatus.textContent = messages[1];
+                    statusIndex++;
+                } else if (progress >= 50 && statusIndex === 1) {
+                    loadingStatus.textContent = messages[2];
+                    statusIndex++;
+                } else if (progress >= 85 && statusIndex === 2) {
+                    loadingStatus.textContent = messages[3];
+                    statusIndex++;
+                }
+
+                // Concluir
+                if (progress >= 100) {
+                    clearInterval(interval);
+
+                    // Pequena pausa dramática
+                    setTimeout(() => {
+                        finalizeLoading(lang);
+                    }, 500);
+                }
+            }, 40);
+        }
+
+        // === FINALIZAR LOADING E MOSTRAR CONTEÚDO ===
+        function finalizeLoading(lang) {
+            const loadingScreen = document.getElementById('loading-screen');
+
+            // Animação de saída do loading
+            loadingScreen.style.transition = 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
+            loadingScreen.style.opacity = '0';
+            loadingScreen.style.transform = 'scale(1.05)';
+
+            setTimeout(() => {
+                loadingScreen.classList.remove('visible');
+                loadingScreen.style.opacity = '';
+                loadingScreen.style.transform = '';
+
+                // 1. Primeiro traduzir
+                translatePage(lang);
+
+                // 2. Inicializar componentes após tradução
+                initSpotlight();
+                initHeaderScroll();
+                initAllModals();
+                initCarousels();
+                initStatsCounter();
+                initCardAnimations();
+
+                // 3. Mostrar spotlight suavemente
+                setTimeout(() => {
+                    document.getElementById('spotlight').classList.add('visible');
+                }, 300);
+
+                // 4. Animação de entrada do conteúdo
+                animateContentEntrance();
+
+            }, 800);
+        }
+
+        // === ANIMAÇÃO DE ENTRADA DO CONTEÚDO ===
+        function animateContentEntrance() {
+            // Primeiro: Header (aparece imediatamente)
+            const header = document.getElementById('main-header');
+            if (header) {
+                // Usar classe CSS para animação
+                setTimeout(() => {
+                    header.classList.add('visible');
+                }, 100);
+            }
+
+            // Segundo: Hero com stagger
+            const heroText = document.querySelector('.hero-text');
+            const heroTagline = document.querySelector('[data-i18n="hero.tagline"]');
+
+            if (heroText) {
+                heroText.style.opacity = '0';
+                heroText.style.transform = 'translateY(40px) scale(0.95)';
+                heroText.style.transition = 'opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.3s, transform 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.3s';
+
+                setTimeout(() => {
+                    heroText.style.opacity = '1';
+                    heroText.style.transform = 'translateY(0) scale(1)';
+                }, 500);
+            }
+
+            if (heroTagline) {
+                heroTagline.style.opacity = '0';
+                heroTagline.style.transform = 'translateY(20px)';
+                heroTagline.style.transition = 'opacity 0.6s ease 0.6s, transform 0.6s ease 0.6s';
+
+                setTimeout(() => {
+                    heroTagline.style.opacity = '1';
+                    heroTagline.style.transform = 'translateY(0)';
+                }, 800);
+            }
+
+            // Stats com animação de contagem
+            const stats = document.querySelectorAll('.stat-number');
+            stats.forEach((stat, index) => {
+                stat.style.opacity = '0';
+                stat.style.transform = 'translateY(20px)';
+                stat.style.transition = `opacity 0.6s ease ${0.8 + (index * 0.1)}s, transform 0.6s ease ${0.8 + (index * 0.1)}s`;
+
+                setTimeout(() => {
+                    stat.style.opacity = '1';
+                    stat.style.transform = 'translateY(0)';
+                }, 900 + (index * 100));
+            });
+
+            // Cards em cascata
+            const cards = document.querySelectorAll('.feature-card, .product-card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(50px) scale(0.95)';
+                card.style.transition = `opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1) ${1 + (index * 0.05)}s, 
+                                         transform 0.7s cubic-bezier(0.4, 0, 0.2, 1) ${1 + (index * 0.05)}s`;
+
+                setTimeout(() => {
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0) scale(1)';
+                }, 1100 + (index * 50));
+            });
+
+            // Footer último
+            const footer = document.querySelector('footer');
+            if (footer) {
+                footer.style.opacity = '0';
+                footer.style.transition = 'opacity 1s ease 1.8s';
+
+                setTimeout(() => {
+                    footer.style.opacity = '1';
+                }, 1800);
+            }
+        }
+
+        // === FUNÇÃO DE TRADUÇÃO ===
+        function translatePage(lang) {
+            if (lang === currentLang) return;
+            currentLang = lang;
+
+            const elements = document.querySelectorAll('[data-i18n]');
+            elements.forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (translations[lang] && translations[lang][key]) {
+                    element.textContent = translations[lang][key];
+                }
+            });
+
+            // Atualizar o código do idioma
+            document.getElementById('current-lang').textContent = lang.toUpperCase();
+            document.getElementById('mobile-current-lang').textContent = lang.toUpperCase();
+
+            // Salvar idioma escolhido
+            localStorage.setItem('language', lang);
+            document.documentElement.lang = lang;
+        }
+
+        // === TEMA CLARO/ESCURO ===
+        const themeToggle = document.getElementById('theme-toggle');
+        const mobileThemeToggle = document.getElementById('mobile-theme-toggle');
+        const sunIcon = document.getElementById('sun-icon');
+        const moonIcon = document.getElementById('moon-icon');
+
+        function initTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+            if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+                document.documentElement.classList.add('dark');
+                updateThemeIcons(true);
+            } else {
+                document.documentElement.classList.remove('dark');
+                updateThemeIcons(false);
+            }
+        }
+
+        function updateThemeIcons(isDark) {
+            if (sunIcon) sunIcon.classList.toggle('hidden', !isDark);
+            if (moonIcon) moonIcon.classList.toggle('hidden', isDark);
+        }
+
+        function toggleTheme() {
+            const isDark = document.documentElement.classList.toggle('dark');
+            updateThemeIcons(isDark);
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        }
+
+        themeToggle?.addEventListener('click', toggleTheme);
+        mobileThemeToggle?.addEventListener('click', toggleTheme);
+
+        // === SPOTLIGHT OTIMIZADO ===
+        function initSpotlight() {
+            document.addEventListener('mousemove', function (e) {
+                clearTimeout(spotlightTimeout);
+                spotlightTimeout = setTimeout(() => {
+                    const spotlight = document.getElementById('spotlight');
+                    if (!spotlight) return;
+
+                    const x = (e.clientX / window.innerWidth) * 100;
+                    const y = (e.clientY / window.innerHeight) * 100;
+                    spotlight.style.setProperty('--mouse-x', x + '%');
+                    spotlight.style.setProperty('--mouse-y', y + '%');
+                }, 16); // ~60fps
+            });
+
+            // Suporte touch
+            document.addEventListener('touchmove', function (e) {
+                const spotlight = document.getElementById('spotlight');
+                if (!spotlight || !e.touches[0]) return;
+
+                const touch = e.touches[0];
+                const x = (touch.clientX / window.innerWidth) * 100;
+                const y = (touch.clientY / window.innerHeight) * 100;
+                spotlight.style.setProperty('--mouse-x', x + '%');
+                spotlight.style.setProperty('--mouse-y', y + '%');
+            }, { passive: true });
+        }
+
+        // === HEADER SCROLL EFFECT ===
+        function initHeaderScroll() {
+            window.addEventListener('scroll', function () {
+                const header = document.getElementById('main-header');
+                if (!header) return;
+
+                if (window.scrollY > 40) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+            });
+        }
+
+        // === MENU MOBILE COMPLETO ===
+        function initMobileMenu() {
+            const menuBtn = document.getElementById('menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            if (!menuBtn || !mobileMenu) return;
+
+            menuBtn.addEventListener('click', function (e) {
+                e.stopPropagation();
+                const isExpanded = menuBtn.classList.toggle('menu-open');
+                mobileMenu.classList.toggle('active');
+                mobileMenu.hidden = !mobileMenu.classList.contains('active');
+                menuBtn.setAttribute('aria-expanded', isExpanded);
+                document.body.style.overflow = isExpanded ? 'hidden' : '';
+            });
+
+            // Fechar ao clicar fora
+            document.addEventListener('click', function (e) {
+                if (mobileMenu.classList.contains('active') &&
+                    !mobileMenu.contains(e.target) &&
+                    !menuBtn.contains(e.target)) {
+                    menuBtn.classList.remove('menu-open');
+                    mobileMenu.classList.remove('active');
+                    mobileMenu.hidden = true;
+                    menuBtn.setAttribute('aria-expanded', 'false');
+                    document.body.style.overflow = '';
+                }
+            });
+
+            // Fechar ao clicar nos links
+            mobileMenu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    menuBtn.classList.remove('menu-open');
+                    mobileMenu.classList.remove('active');
+                    mobileMenu.hidden = true;
+                    menuBtn.setAttribute('aria-expanded', 'false');
+                    document.body.style.overflow = '';
+                });
+            });
+
+            // Fechar com ESC
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && mobileMenu.classList.contains('active')) {
+                    menuBtn.classList.remove('menu-open');
+                    mobileMenu.classList.remove('active');
+                    mobileMenu.hidden = true;
+                    menuBtn.setAttribute('aria-expanded', 'false');
+                    document.body.style.overflow = '';
+                }
+            });
+        }
+
+        // === INICIALIZAR RELÓGIO ===
+        function initClock() {
+            tick();
+            setInterval(tick, 1000);
+        }
+
+        function tick() {
+            const clock = document.getElementById('clock');
+            if (clock) {
+                const now = new Date();
+                const hours = now.getHours().toString().padStart(2, '0');
+                const minutes = now.getMinutes().toString().padStart(2, '0');
+                const seconds = now.getSeconds().toString().padStart(2, '0');
+
+                const separator = now.getSeconds() % 2 === 0 ? ':' : ' ';
+
+                clock.innerHTML = `${hours}<span class="clock-separator">${separator}</span>${minutes}<span class="clock-separator">${separator}</span>${seconds}`;
+            }
+        }
+
+        // === REMOVER LOADING EFFECTS ===
+        function initAllModals() {
+            setTimeout(() => {
+                document.querySelectorAll('.card-loading').forEach(card => {
+                    card.classList.remove('card-loading');
+                });
+            }, 1500);
+        }
+
+        // === STATS COUNTER ===
+        function initStatsCounter() {
+            const projectsCount = document.getElementById('projects-count');
+            const cardsCount = document.getElementById('cards-count');
+
+            if (projectsCount && cardsCount) {
+                let projects = 0;
+                let cards = 0;
+
+                const interval = setInterval(() => {
+                    if (projects < 10) projects++;
+                    if (cards < 14) cards++;
+
+                    projectsCount.textContent = projects;
+                    cardsCount.textContent = cards;
+
+                    projectsCount.setAttribute('aria-valuenow', projects);
+                    cardsCount.setAttribute('aria-valuenow', cards);
+
+                    if (projects >= 10 && cards >= 14) {
+                        clearInterval(interval);
+                    }
+                }, 80);
+            }
+        }
+
+        // === CARD ANIMATIONS COM INTERSECTION OBSERVER ===
+        function initCardAnimations() {
+            const cards = document.querySelectorAll('.feature-card, .product-card');
+
+            // Limpar observer anterior se existir
+            if (cardObserver) {
+                cardObserver.disconnect();
+            }
+
+            cardObserver = new IntersectionObserver((entries) => {
+                entries.forEach((entry, index) => {
+                    if (entry.isIntersecting) {
+                        setTimeout(() => {
+                            entry.target.style.opacity = '1';
+                            entry.target.style.transform = 'translateY(0)';
+                        }, index * 50);
+                        cardObserver.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: '50px'
+            });
+
+            cards.forEach((card, index) => {
+                card.style.setProperty('--card-index', index);
+                cardObserver.observe(card);
+            });
+        }
+
+        // === CARROSSÉIS OTIMIZADOS ===
+        function initCarousels() {
+            const carousels = [
+                { id: 'agency-carousel', container: 'agency-container', indicators: 'agency-indicators' },
+                { id: 'portfolio-carousel', container: 'portfolio-container', indicators: 'portfolio-indicators' },
+                { id: 'shop-carousel', container: 'shop-container', indicators: 'shop-indicators' },
+                { id: 'blog-carousel', container: 'blog-container', indicators: 'blog-indicators' }
+            ];
+
+            carousels.forEach(carousel => {
+                const carouselElement = document.getElementById(carousel.id);
+                if (!carouselElement) return;
+
+                const container = document.getElementById(carousel.container);
+                const indicatorsContainer = document.getElementById(carousel.indicators);
+
+                if (!container || !indicatorsContainer) return;
+
+                const slides = container.querySelectorAll('.carousel-slide');
+                if (slides.length === 0) return;
+
+                // Limpar indicadores anteriores
+                indicatorsContainer.innerHTML = '';
+
+                // Criar indicadores
+                slides.forEach((_, index) => {
+                    const indicator = document.createElement('button');
+                    indicator.className = 'carousel-indicator focus:outline-none focus:ring-2 focus:ring-accent';
+                    indicator.setAttribute('aria-label', `Ir para slide ${index + 1}`);
+                    if (index === 0) indicator.classList.add('active');
+
+                    indicator.addEventListener('click', () => {
+                        scrollToSlide(container, slides, index);
+                        updateIndicators(indicatorsContainer, index);
+                    });
+
+                    indicatorsContainer.appendChild(indicator);
+                });
+
+                // Atualizar indicadores ao scroll com debounce
+                let scrollTimeout;
+                container.addEventListener('scroll', () => {
+                    clearTimeout(scrollTimeout);
+                    scrollTimeout = setTimeout(() => {
+                        const scrollLeft = container.scrollLeft;
+                        const slideWidth = slides[0].offsetWidth + 24;
+                        const currentIndex = Math.round(scrollLeft / slideWidth);
+                        updateIndicators(indicatorsContainer, currentIndex);
+                    }, 150);
+                });
+
+                // Touch gestures
+                let startX = 0;
+                let scrollLeft = 0;
+                let isDragging = false;
+
+                container.addEventListener('touchstart', (e) => {
+                    isDragging = true;
+                    startX = e.touches[0].pageX;
+                    scrollLeft = container.scrollLeft;
+                    container.style.scrollBehavior = 'auto';
+                }, { passive: true });
+
+                container.addEventListener('touchmove', (e) => {
+                    if (!isDragging) return;
+                    e.preventDefault();
+                    const x = e.touches[0].pageX;
+                    const walk = (x - startX) * 1.5;
+                    container.scrollLeft = scrollLeft - walk;
+                }, { passive: false });
+
+                container.addEventListener('touchend', () => {
+                    isDragging = false;
+                    container.style.scrollBehavior = 'smooth';
+
+                    // Snap to nearest slide
+                    const scrollLeft = container.scrollLeft;
+                    const slideWidth = slides[0].offsetWidth + 24;
+                    const currentIndex = Math.round(scrollLeft / slideWidth);
+                    scrollToSlide(container, slides, currentIndex);
+                }, { passive: true });
+            });
+
+            function scrollToSlide(container, slides, index) {
+                const slideWidth = slides[0].offsetWidth + 24;
+                const maxIndex = slides.length - 1;
+                const safeIndex = Math.max(0, Math.min(index, maxIndex));
+
+                container.scrollTo({
+                    left: safeIndex * slideWidth,
+                    behavior: 'smooth'
+                });
+                updateIndicators(container.parentElement.querySelector('.carousel-indicators'), safeIndex);
+            }
+
+            function updateIndicators(indicatorsContainer, activeIndex) {
+                const indicators = indicatorsContainer.querySelectorAll('.carousel-indicator');
+                indicators.forEach((indicator, index) => {
+                    if (index === activeIndex) {
+                        indicator.classList.add('active');
+                        indicator.setAttribute('aria-current', 'true');
+                    } else {
+                        indicator.classList.remove('active');
+                        indicator.removeAttribute('aria-current');
+                    }
+                });
+            }
+        }
+
+        // === MODAL COMPLETO ===
+        function openModal(type) {
+            const currentLang = localStorage.getItem('language') || 'pt';
+            const t = translations[currentLang];
+            const data = modalData[type];
+
+            if (!data) {
+                console.error(`Modal data not found for type: ${type}`);
+                return;
+            }
+
+            const modalBody = document.getElementById('modal-body');
             const overlay = document.getElementById('modal-overlay');
             const content = document.getElementById('modal-content');
 
-            body.innerHTML = `
-                <h2 class="text-5xl font-black uppercase tracking-tighter mb-6 italic">${data.title}</h2>
-                <div class="w-20 h-1 bg-black dark:bg-white mb-8"></div>
-                <p class="text-xl text-neutral-500 leading-relaxed font-medium mb-12 uppercase tracking-tighter">${data.text}</p>
-                <button onclick="closeModal()" class="w-full py-5 bg-black dark:bg-white text-white dark:text-black rounded-2xl font-black uppercase text-xs tracking-widest hover:scale-[1.02] transition-transform">Fechar Detalhes</button>
+            if (!modalBody || !overlay || !content) return;
+
+            let modalHTML = '';
+
+            switch (data.type) {
+                case 'agency':
+                    modalHTML = `
+                        <h2 class="text-3xl md:text-5xl font-black uppercase tracking-tighter mb-4 md:mb-6 italic">${t[data.title]}</h2>
+                        <div class="w-16 md:w-20 h-1 bg-black dark:bg-white mb-6 md:mb-8"></div>
+                        <p class="text-base md:text-xl text-neutral-500 leading-relaxed font-medium mb-8 md:mb-12 uppercase tracking-tighter">${t[data.text]}</p>
+                        
+                        <div class="mb-6">
+                            <h3 class="text-sm font-bold uppercase tracking-widest mb-3" data-i18n="modal.tech">${t['modal.tech']}</h3>
+                            <div class="modal-tech-stack">
+                                ${data.tech.map(tech => `<span class="modal-tech-tag">${tech}</span>`).join('')}
+                            </div>
+                        </div>
+                        
+                        <div class="mb-8">
+                            <h3 class="text-sm font-bold uppercase tracking-widest mb-3" data-i18n="modal.features">${t['modal.features']}</h3>
+                            <ul class="modal-feature-list">
+                                ${data.features.map(feature => `<li class="text-sm text-neutral-600 dark:text-neutral-400">${feature}</li>`).join('')}
+                            </ul>
+                        </div>
+                    `;
+                    break;
+
+                case 'portfolio':
+                    modalHTML = `
+                        <h2 class="text-3xl md:text-5xl font-black uppercase tracking-tighter mb-4 md:mb-6 italic">${t[data.title]}</h2>
+                        <div class="w-16 md:w-20 h-1 bg-black dark:bg-white mb-6 md:mb-8"></div>
+                        <p class="text-base md:text-xl text-neutral-500 leading-relaxed font-medium mb-8 md:mb-12 uppercase tracking-tighter">${data.text}</p>
+                        
+                        <div class="mb-6">
+                            <h3 class="text-sm font-bold uppercase tracking-widest mb-3" data-i18n="modal.tech">${t['modal.tech']}</h3>
+                            <div class="modal-tech-stack">
+                                ${data.tech.map(tech => `<span class="modal-tech-tag">${tech}</span>`).join('')}
+                            </div>
+                        </div>
+                        
+                        <div class="mb-8">
+                            <h3 class="text-sm font-bold uppercase tracking-widest mb-3" data-i18n="modal.features">${t['modal.features']}</h3>
+                            <ul class="modal-feature-list">
+                                ${data.features.map(feature => `<li class="text-sm text-neutral-600 dark:text-neutral-400">${feature}</li>`).join('')}
+                            </ul>
+                        </div>
+                        
+                        <a href="${data.link}" class="block w-full py-4 md:py-5 bg-black dark:bg-white text-white dark:text-black rounded-2xl font-black uppercase text-xs tracking-widest text-center hover:scale-[1.02] transition-transform focus:outline-none focus:ring-4 focus:ring-accent focus:ring-opacity-50" target="_blank" rel="noopener noreferrer">
+                            ${t['portfolio.view']}
+                        </a>
+                    `;
+                    break;
+
+                case 'shop':
+                    modalHTML = `
+                        <h2 class="text-3xl md:text-5xl font-black uppercase tracking-tighter mb-4 md:mb-6 italic">${t[data.title]}</h2>
+                        <div class="w-16 md:w-20 h-1 bg-black dark:bg-white mb-6 md:mb-8"></div>
+                        <p class="text-base md:text-xl text-neutral-500 leading-relaxed font-medium mb-6 md:mb-8 uppercase tracking-tighter">${data.text}</p>
+                        
+                        <div class="modal-price text-accent mb-6">${data.price}</div>
+                        
+                        <div class="mb-6">
+                            <h3 class="text-sm font-bold uppercase tracking-widest mb-3" data-i18n="modal.features">${t['modal.features']}</h3>
+                            <ul class="modal-feature-list">
+                                ${data.features.map(feature => `<li class="text-sm text-neutral-600 dark:text-neutral-400">${feature}</li>`).join('')}
+                            </ul>
+                        </div>
+                        
+                        <div class="mb-8">
+                            <h3 class="text-sm font-bold uppercase tracking-widest mb-3">Inclui:</h3>
+                            <ul class="modal-feature-list">
+                                ${data.includes.map(item => `<li class="text-sm text-neutral-600 dark:text-neutral-400">${item}</li>`).join('')}
+                            </ul>
+                        </div>
+                        
+                        <button class="w-full py-4 md:py-5 bg-black dark:bg-white text-white dark:text-black rounded-2xl font-black uppercase text-xs tracking-widest hover:scale-[1.02] transition-transform focus:outline-none focus:ring-4 focus:ring-accent focus:ring-opacity-50" onclick="handlePurchase('${type}')">
+                            ${t['shop.buy']} ${data.price}
+                        </button>
+                    `;
+                    break;
+
+                case 'blog':
+                    modalHTML = `
+                        <div class="text-xs uppercase tracking-widest text-gray-500 mb-4">${t[`blog.article${type === 'ai-future' ? '1' : type === 'brutalism' ? '2' : '3'}.category`]}</div>
+                        <h2 class="text-3xl md:text-5xl font-black uppercase tracking-tighter mb-4 md:mb-6 italic">${t[data.title]}</h2>
+                        <div class="w-16 md:w-20 h-1 bg-black dark:bg-white mb-6 md:mb-8"></div>
+                        <p class="text-base md:text-xl text-neutral-500 leading-relaxed font-medium mb-6 md:mb-8 uppercase tracking-tighter">${data.text}</p>
+                        
+                        <div class="mb-6">
+                            <h3 class="text-sm font-bold uppercase tracking-widest mb-3" data-i18n="modal.article.content">${t['modal.article.content']}</h3>
+                            <ul class="modal-feature-list">
+                                ${data.content.map(item => `<li class="text-sm text-neutral-600 dark:text-neutral-400">${item}</li>`).join('')}
+                            </ul>
+                        </div>
+                        
+                        <div class="flex items-center justify-between mb-8">
+                            <span class="text-sm text-neutral-500" data-i18n="modal.read.time">${t['modal.read.time']} ${data.readTime}</span>
+                            <a href="#" class="text-xs font-bold uppercase tracking-widest hover:text-accent transition-colors focus:outline-none focus:ring-2 focus:ring-accent">
+                                ${t['blog.read']}
+                            </a>
+                        </div>
+                    `;
+                    break;
+            }
+
+            modalHTML += `
+                <button onclick="closeModal()" class="w-full py-4 md:py-5 border border-gray-300 dark:border-gray-700 rounded-2xl font-black uppercase text-xs tracking-widest hover:border-accent transition-colors mt-4 focus:outline-none focus:ring-2 focus:ring-accent">
+                    ${t['modal.close']}
+                </button>
             `;
 
+            modalBody.innerHTML = modalHTML;
+
+            // Atualizar ARIA
+            overlay.setAttribute('aria-hidden', 'false');
+            overlay.hidden = false;
+
+            // Mostrar modal
             overlay.classList.remove('opacity-0', 'pointer-events-none');
             content.classList.remove('translate-y-20');
-            document.body.classList.add('overflow-hidden');
+            document.body.style.overflow = 'hidden';
+
+            // Focar no modal
+            setTimeout(() => {
+                content.focus();
+            }, 100);
         }
 
         function closeModal() {
             const overlay = document.getElementById('modal-overlay');
             const content = document.getElementById('modal-content');
+            if (!overlay || !content) return;
+
+            overlay.setAttribute('aria-hidden', 'true');
             overlay.classList.add('opacity-0', 'pointer-events-none');
             content.classList.add('translate-y-20');
-            document.body.classList.remove('overflow-hidden');
+            document.body.style.overflow = '';
+
+            setTimeout(() => {
+                overlay.hidden = true;
+            }, 500);
         }
 
-        // FECHAR MENU AO CLICAR NOS LINKS
-        document.querySelectorAll('.m-link').forEach(l => l.onclick = () => {
-            btn.classList.remove('menu-open');
-            menu.classList.remove('overlay-active');
-            document.body.classList.remove('overflow-hidden');
+        // === HANDLE PURCHASE ===
+        function handlePurchase(productType) {
+            const currentLang = localStorage.getItem('language') || 'pt';
+            const product = modalData[productType];
+
+            alert(`${translations[currentLang]['shop.buy']} ${translations[currentLang][`modal.${productType}.title`]} ${product.price}!`);
+            closeModal();
+        }
+
+        // === TROCA DE IDIOMA DINÂMICA ===
+        document.getElementById('lang-change')?.addEventListener('click', function () {
+            const currentLang = localStorage.getItem('language') || 'pt';
+            const langs = ['pt', 'en', 'es'];
+            const currentIndex = langs.indexOf(currentLang);
+            const nextLang = langs[(currentIndex + 1) % langs.length];
+
+            translatePage(nextLang);
+            initCarousels();
+        });
+
+        document.getElementById('mobile-lang-change')?.addEventListener('click', function () {
+            const currentLang = localStorage.getItem('language') || 'pt';
+            const langs = ['pt', 'en', 'es'];
+            const currentIndex = langs.indexOf(currentLang);
+            const nextLang = langs[(currentIndex + 1) % langs.length];
+
+            translatePage(nextLang);
+            initCarousels();
+        });
+
+        // === SMOOTH SCROLL ===
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    e.preventDefault();
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 100,
+                        behavior: 'smooth'
+                    });
+
+                    // Fechar menu mobile se aberto
+                    const menuBtn = document.getElementById('menu-btn');
+                    const mobileMenu = document.getElementById('mobile-menu');
+                    if (menuBtn && mobileMenu && mobileMenu.classList.contains('active')) {
+                        menuBtn.classList.remove('menu-open');
+                        mobileMenu.classList.remove('active');
+                        mobileMenu.hidden = true;
+                        menuBtn.setAttribute('aria-expanded', 'false');
+                        document.body.style.overflow = '';
+                    }
+                }
+            });
+        });
+
+        // === KEYBOARD NAVIGATION ===
+        document.addEventListener('keydown', function (e) {
+            // Fechar modal com ESC
+            if (e.key === 'Escape') {
+                const overlay = document.getElementById('modal-overlay');
+                if (overlay && !overlay.classList.contains('opacity-0')) {
+                    closeModal();
+                }
+
+                const mobileMenu = document.getElementById('mobile-menu');
+                if (mobileMenu && mobileMenu.classList.contains('active')) {
+                    const menuBtn = document.getElementById('menu-btn');
+                    menuBtn.classList.remove('menu-open');
+                    mobileMenu.classList.remove('active');
+                    mobileMenu.hidden = true;
+                    menuBtn.setAttribute('aria-expanded', 'false');
+                    document.body.style.overflow = '';
+                }
+            }
+
+            // Navegação por tab no modal
+            if (e.key === 'Tab' && document.getElementById('modal-overlay')?.classList.contains('pointer-events-none') === false) {
+                const modalContent = document.getElementById('modal-content');
+                const focusableElements = modalContent.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+                const firstElement = focusableElements[0];
+                const lastElement = focusableElements[focusableElements.length - 1];
+
+                if (e.shiftKey && document.activeElement === firstElement) {
+                    e.preventDefault();
+                    lastElement.focus();
+                } else if (!e.shiftKey && document.activeElement === lastElement) {
+                    e.preventDefault();
+                    firstElement.focus();
+                }
+            }
+        });
+
+        // === REDUCED MOTION SUPPORT ===
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            document.documentElement.style.setProperty('--animation-speed', '0.01ms');
+        }
+
+        // === LOADING OTIMIZADO ===
+        window.addEventListener('load', function () {
+            // Forçar redraw para corrigir bugs de renderização
+            requestAnimationFrame(() => {
+                document.body.style.opacity = '0.99';
+                requestAnimationFrame(() => {
+                    document.body.style.opacity = '1';
+                });
+            });
+
+            // Remover loading effects se ainda existirem
+            setTimeout(() => {
+                document.querySelectorAll('.card-loading').forEach(card => {
+                    card.classList.remove('card-loading');
+                });
+            }, 2000);
+        });
+
+        // === RESIZE HANDLER ===
+        let resizeTimeout;
+        window.addEventListener('resize', function () {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                initCarousels();
+                initCardAnimations();
+            }, 250);
         });
     </script>
 </body>
+
 </html>
