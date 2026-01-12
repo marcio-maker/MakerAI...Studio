@@ -4,36 +4,670 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;900&display=swap');
+        body { 
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+        
+        /* Animações de gradiente */
+        @keyframes gradient-rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        @keyframes pulse-mesh {
+            0%, 100% { 
+                opacity: 0.8;
+                filter: blur(40px);
+            }
+            50% { 
+                opacity: 1;
+                filter: blur(30px);
+            }
+        }
+        
+        @keyframes mesh-flow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        @keyframes particle-float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+        
+        @keyframes glitch {
+            0% { 
+                transform: translate(0);
+                clip-path: inset(0 0 0 0);
+            }
+            20% { 
+                transform: translate(-2px, 2px);
+                clip-path: inset(20% 0 60% 0);
+            }
+            40% { 
+                transform: translate(-2px, -2px);
+                clip-path: inset(60% 0 20% 0);
+            }
+            60% { 
+                transform: translate(2px, 2px);
+                clip-path: inset(40% 0 40% 0);
+            }
+            80% { 
+                transform: translate(2px, -2px);
+                clip-path: inset(10% 0 70% 0);
+            }
+            100% { 
+                transform: translate(0);
+                clip-path: inset(0 0 0 0);
+            }
+        }
+        
+        .animate-gradient-rotate {
+            animation: gradient-rotate 20s linear infinite;
+        }
+        
+        .animate-pulse-mesh {
+            animation: pulse-mesh 4s ease-in-out infinite;
+        }
+        
+        .animate-mesh-flow {
+            animation: mesh-flow 8s ease infinite;
+            background-size: 200% 200%;
+        }
+        
+        .animate-particle-float {
+            animation: particle-float 6s ease-in-out infinite;
+        }
+        
+        .animate-glitch {
+            animation: glitch 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite;
+        }
+        
+        /* Efeitos específicos de gradiente */
+        .mesh-cursor {
+            cursor: url("data:image/svg+xml,%3Csvg width='32' height='32' viewBox='0 0 32 32' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='16' cy='16' r='8' fill='url(%23gradient)'/%3E%3Cdefs%3E%3ClinearGradient id='gradient' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23A855F7'/%3E%3Cstop offset='100%25' stop-color='%23F97316'/%3E%3C/linearGradient%3E%3C/defs%3E%3C/svg%3E"), auto;
+        }
+        
+        /* Gradiente animado como background */
+        .animated-gradient-bg {
+            background: linear-gradient(-45deg, #f0f0f0, #ffffff, #f8fafc, #f1f5f9);
+            background-size: 400% 400%;
+            animation: mesh-flow 15s ease infinite;
+        }
+        
+        /* Partículas de cor */
+        .color-particle {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            filter: blur(60px);
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        /* Efeito de vidro para cards */
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        /* Scrollbar gradient */
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f0f0f0;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(to bottom, #A855F7, #F97316);
+            border: 3px solid #f0f0f0;
+            border-radius: 6px;
+        }
+        
+        /* Texto com gradiente */
+        .gradient-text {
+            background: linear-gradient(90deg, #A855F7, #F97316);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        /* Efeito de borda gradiente */
+        .gradient-border {
+            position: relative;
+            border: 4px solid transparent;
+            background-clip: padding-box;
+        }
+        
+        .gradient-border::before {
+            content: '';
+            position: absolute;
+            top: -4px;
+            left: -4px;
+            right: -4px;
+            bottom: -4px;
+            background: linear-gradient(45deg, #A855F7, #F97316, #A855F7);
+            border-radius: inherit;
+            z-index: -1;
+            animation: gradient-rotate 3s linear infinite;
+        }
+    </style>
 </head>
-<body class="bg-white text-black min-h-screen flex flex-col p-8 md:p-16 overflow-hidden">
+<body class="bg-white text-black min-h-screen flex flex-col p-8 md:p-16 overflow-hidden mesh-cursor animated-gradient-bg">
 
-    <nav class="flex justify-between items-center mb-24 relative z-10">
-        <div class="w-12 h-12 bg-gradient-to-tr from-purple-500 to-orange-400 rounded-full animate-pulse"></div>
-        <button onclick="window.parent && window.parent.closeModal ? window.parent.closeModal() : window.location.href='../index.html'" 
-                class="font-black italic uppercase text-2xl border-b-8 border-orange-400 hover:bg-orange-400 hover:text-white transition-all px-2">
-            EXIT_MESH
-        </button>
-    </nav>
+    <!-- Partículas de cor flutuantes -->
+    <div id="colorParticles"></div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center flex-1">
-        <div class="space-y-8">
-            <h1 class="text-7xl md:text-9xl font-black italic tracking-tighter leading-none uppercase">Mesh <br>Engine</h1>
-            <p class="text-xl font-medium max-w-sm italic opacity-60">O motor de gradientes 3D que redefine o visual da web moderna.</p>
-        </div>
-
-        <div class="relative group">
-            <div class="absolute -inset-4 bg-gradient-to-tr from-purple-600 to-orange-500 blur-2xl opacity-20 group-hover:opacity-40 transition-opacity"></div>
-            <div class="relative bg-white border-4 border-black p-12 flex flex-col gap-6">
-                <div class="flex justify-between font-black text-2xl italic uppercase">
-                    <span>License</span>
-                    <span>$199</span>
-                </div>
-                <button onclick="this.style.background='black'; this.style.color='white'; this.innerText='ADDED TO CLOUD'" 
-                        class="w-full py-8 border-4 border-black font-black uppercase italic text-xl hover:bg-black hover:text-white transition-all active:translate-y-2">
-                    Unlock_Engine
-                </button>
+    <!-- Navigation -->
+    <nav class="flex justify-between items-center mb-16 relative z-20">
+        <div class="flex items-center gap-4">
+            <div class="w-12 h-12 bg-gradient-to-tr from-purple-500 to-orange-400 rounded-full animate-pulse-mesh shadow-lg"></div>
+            <div class="hidden md:block">
+                <div class="text-sm font-black uppercase tracking-widest gradient-text">MESH_ENGINE_v4.2</div>
+                <div class="text-[10px] opacity-60">Real-time 3D Gradient Processor</div>
             </div>
         </div>
-    </div>
+        
+        <div class="flex items-center gap-6">
+            <div class="hidden md:flex gap-3">
+                <a href="#demo" class="text-xs font-black uppercase px-4 py-2 border-2 border-black/20 hover:border-purple-500 hover:text-purple-600 transition-all">LIVE_DEMO</a>
+                <a href="#tech" class="text-xs font-black uppercase px-4 py-2 border-2 border-black/20 hover:border-orange-500 hover:text-orange-600 transition-all">TECH_SPECS</a>
+                <a href="#docs" class="text-xs font-black uppercase px-4 py-2 border-2 border-black/20 hover:border-black hover:bg-black hover:text-white transition-all">API_DOCS</a>
+            </div>
+            
+            <button onclick="window.parent && window.parent.closeModal ? window.parent.closeModal() : window.location.href='../index.html'" 
+                    class="font-black italic uppercase text-2xl border-b-8 border-orange-400 hover:bg-orange-400 hover:text-white transition-all px-2 group relative overflow-hidden">
+                <span class="relative z-10">EXIT_MESH</span>
+                <div class="absolute inset-0 bg-gradient-to-r from-purple-500 to-orange-400 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-right"></div>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative z-10">
+        <div class="space-y-8">
+            <div>
+                <h1 class="text-7xl md:text-9xl font-black italic tracking-tighter leading-none uppercase mb-4">
+                    Mesh <br><span class="gradient-text animate-glitch">Engine</span>
+                </h1>
+                <div class="text-sm font-black uppercase tracking-widest opacity-60 flex items-center gap-4">
+                    <span>VERSION 4.2</span>
+                    <div class="w-1 h-1 bg-black rounded-full"></div>
+                    <span class="text-purple-600">WEBGL 2.0</span>
+                    <div class="w-1 h-1 bg-black rounded-full"></div>
+                    <span class="text-orange-600">60FPS</span>
+                </div>
+            </div>
+            
+            <p class="text-xl font-medium max-w-lg italic opacity-80 leading-relaxed">
+                O motor de gradientes 3D que redefine o visual da web moderna. Processamento em tempo real de milhões de vértices com zero latência perceptível.
+            </p>
+            
+            <!-- Estatísticas -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 pt-6">
+                <div class="p-4 border-2 border-black/10 hover:border-purple-500 transition-all group">
+                    <div class="text-[10px] uppercase opacity-60 mb-2">Vertices/s</div>
+                    <div class="text-3xl font-black group-hover:text-purple-600 transition-colors">2.4M</div>
+                </div>
+                <div class="p-4 border-2 border-black/10 hover:border-orange-500 transition-all group">
+                    <div class="text-[10px] uppercase opacity-60 mb-2">FPS</div>
+                    <div class="text-3xl font-black group-hover:text-orange-600 transition-colors">60</div>
+                </div>
+                <div class="p-4 border-2 border-black/10 hover:border-purple-500 transition-all group">
+                    <div class="text-[10px] uppercase opacity-60 mb-2">LATENCY</div>
+                    <div class="text-3xl font-black group-hover:text-purple-600 transition-colors">4ms</div>
+                </div>
+                <div class="p-4 border-2 border-black/10 hover:border-orange-500 transition-all group">
+                    <div class="text-[10px] uppercase opacity-60 mb-2">BROWSERS</div>
+                    <div class="text-3xl font-black group-hover:text-orange-600 transition-colors">12+</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card de Compra -->
+        <div class="relative">
+            <!-- Efeitos de gradiente ao redor -->
+            <div class="absolute -inset-8 bg-gradient-to-tr from-purple-600 via-pink-500 to-orange-500 rounded-3xl blur-3xl opacity-20 animate-pulse-mesh"></div>
+            <div class="absolute -inset-4 bg-gradient-to-br from-purple-400 to-orange-400 rounded-2xl blur-xl opacity-10 animate-gradient-rotate"></div>
+            
+            <div class="relative bg-white border-8 border-black p-12 flex flex-col gap-8 shadow-2xl glass-effect">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <div class="text-sm font-black uppercase opacity-60">PERPETUAL LICENSE</div>
+                        <div class="text-5xl font-black italic gradient-text">$199</div>
+                    </div>
+                    <div class="text-[10px] uppercase bg-gradient-to-r from-purple-500/20 to-orange-500/20 px-3 py-1 rounded-full">
+                        ONE-TIME
+                    </div>
+                </div>
+                
+                <div class="space-y-4">
+                    <div class="flex items-center gap-3 text-sm">
+                        <div class="w-4 h-4 bg-gradient-to-tr from-purple-500 to-orange-400 rounded-full"></div>
+                        <span>Unlimited Projects</span>
+                    </div>
+                    <div class="flex items-center gap-3 text-sm">
+                        <div class="w-4 h-4 bg-gradient-to-tr from-purple-500 to-orange-400 rounded-full"></div>
+                        <span>Commercial Use</span>
+                    </div>
+                    <div class="flex items-center gap-3 text-sm">
+                        <div class="w-4 h-4 bg-gradient-to-tr from-purple-500 to-orange-400 rounded-full"></div>
+                        <span>Lifetime Updates</span>
+                    </div>
+                    <div class="flex items-center gap-3 text-sm">
+                        <div class="w-4 h-4 bg-gradient-to-tr from-purple-500 to-orange-400 rounded-full"></div>
+                        <span>Priority Support</span>
+                    </div>
+                </div>
+                
+                <button id="unlockButton" 
+                        class="w-full py-8 border-4 border-black font-black uppercase italic text-2xl hover:bg-gradient-to-r hover:from-purple-600 hover:to-orange-500 hover:text-white transition-all active:translate-y-2 mt-4 relative overflow-hidden group">
+                    <span class="relative z-10">Unlock_Engine</span>
+                    <div class="absolute inset-0 bg-gradient-to-r from-purple-600 to-orange-500 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></div>
+                </button>
+                
+                <div class="text-center text-[10px] opacity-40 italic pt-4">
+                    Instant access • No subscription • Source code included
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Seção 2: Demo Interativa -->
+    <section id="demo" class="py-20 mt-20 border-t-2 border-black/10">
+        <div class="max-w-6xl mx-auto">
+            <div class="flex justify-between items-center mb-12">
+                <h2 class="text-5xl font-black italic tracking-tighter uppercase">
+                    <span class="gradient-text">LIVE_</span>DEMO
+                </h2>
+                <div class="text-sm font-black uppercase flex items-center gap-3">
+                    <div class="w-2 h-2 bg-gradient-to-tr from-purple-500 to-orange-400 rounded-full animate-pulse"></div>
+                    <span>REAL-TIME RENDERING</span>
+                </div>
+            </div>
+            
+            <!-- Controles do Mesh -->
+            <div class="grid md:grid-cols-3 gap-8 mb-12">
+                <div class="border-4 border-black p-6">
+                    <div class="text-sm font-black uppercase mb-4">GRADIENT CONTROLS</div>
+                    <div class="space-y-4">
+                        <div>
+                            <div class="text-xs opacity-60 mb-2">Color A</div>
+                            <input type="color" value="#A855F7" class="w-full h-12 cursor-pointer border-2 border-black" id="colorA">
+                        </div>
+                        <div>
+                            <div class="text-xs opacity-60 mb-2">Color B</div>
+                            <input type="color" value="#F97316" class="w-full h-12 cursor-pointer border-2 border-black" id="colorB">
+                        </div>
+                        <div>
+                            <div class="text-xs opacity-60 mb-2">Intensity</div>
+                            <input type="range" min="1" max="100" value="50" class="w-full" id="intensity">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Canvas do Mesh -->
+                <div class="md:col-span-2 border-4 border-black relative overflow-hidden gradient-border h-96">
+                    <div id="meshCanvas" class="w-full h-full flex items-center justify-center">
+                        <!-- Mesh será gerado aqui -->
+                        <div class="text-center">
+                            <div class="text-9xl mb-4 gradient-text animate-pulse">◊</div>
+                            <div class="text-sm font-black uppercase opacity-60">MESH ENGINE ACTIVE</div>
+                        </div>
+                    </div>
+                    <div class="absolute bottom-4 right-4 text-[10px] uppercase bg-black text-white px-3 py-1">
+                        WEBGL 2.0
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Código de exemplo -->
+            <div class="border-4 border-black p-6 bg-black text-white font-mono">
+                <div class="text-sm mb-4 flex justify-between">
+                    <span class="gradient-text">mesh_engine.js</span>
+                    <button onclick="copyMeshCode()" class="text-white hover:opacity-70">
+                        <i class="fas fa-copy"></i> Copy
+                    </button>
+                </div>
+                <pre class="text-sm overflow-x-auto">
+<span class="text-purple-400">import</span> { MeshEngine } <span class="text-purple-400">from</span> <span class="text-green-400">'@makerai/mesh-engine'</span>;
+
+<span class="text-purple-400">const</span> mesh = <span class="text-purple-400">new</span> <span class="text-yellow-300">MeshEngine</span>({
+    <span class="text-cyan-400">container</span>: <span class="text-green-400">'#meshCanvas'</span>,
+    <span class="text-cyan-400">resolution</span>: <span class="text-orange-400">1920</span>,
+    <span class="text-cyan-400">fps</span>: <span class="text-orange-400">60</span>,
+    <span class="text-cyan-400">gradient</span>: {
+        <span class="text-cyan-400">colors</span>: [<span class="text-green-400">'#A855F7'</span>, <span class="text-green-400">'#F97316'</span>],
+        <span class="text-cyan-400">intensity</span>: <span class="text-orange-400">0.5</span>,
+        <span class="text-cyan-400">animation</span>: <span class="text-green-400">'flow'</span>
+    }
+});
+
+<span class="text-gray-400">// Start rendering</span>
+mesh.<span class="text-yellow-300">start</span>();
+
+<span class="text-gray-400">// Update gradient in real-time</span>
+mesh.<span class="text-yellow-300">updateGradient</span>({
+    <span class="text-cyan-400">colors</span>: [<span class="text-green-400">'#3B82F6'</span>, <span class="text-green-400">'#10B981'</span>],
+    <span class="text-cyan-400">intensity</span>: <span class="text-orange-400">0.8</span>
+});</pre>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção 3: Especificações Técnicas -->
+    <section id="tech" class="py-20 border-t-2 border-black/10 bg-gradient-to-b from-white to-purple-50">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-5xl font-black italic tracking-tighter uppercase mb-12">
+                <span class="gradient-text">TECHNICAL_</span>SPECIFICATIONS
+            </h2>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="border-4 border-black p-8 hover:bg-gradient-to-br hover:from-purple-50 hover:to-orange-50 transition-all">
+                    <div class="text-4xl mb-4 gradient-text">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3 class="text-xl font-black mb-3">PERFORMANCE</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li class="flex items-center gap-2">
+                            <div class="w-2 h-2 bg-gradient-to-tr from-purple-500 to-orange-400 rounded-full"></div>
+                            <span>2.4M vertices/second</span>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <div class="w-2 h-2 bg-gradient-to-tr from-purple-500 to-orange-400 rounded-full"></div>
+                            <span>4ms rendering latency</span>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <div class="w-2 h-2 bg-gradient-to-tr from-purple-500 to-orange-400 rounded-full"></div>
+                            <span>60 FPS stable</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="border-4 border-black p-8 hover:bg-gradient-to-br hover:from-purple-50 hover:to-orange-50 transition-all">
+                    <div class="text-4xl mb-4 gradient-text">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h3 class="text-xl font-black mb-3">TECH STACK</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li class="flex items-center gap-2">
+                            <div class="w-2 h-2 bg-gradient-to-tr from-purple-500 to-orange-400 rounded-full"></div>
+                            <span>WebGL 2.0 / Three.js</span>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <div class="w-2 h-2 bg-gradient-to-tr from-purple-500 to-orange-400 rounded-full"></div>
+                            <span>TypeScript Core</span>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <div class="w-2 h-2 bg-gradient-to-tr from-purple-500 to-orange-400 rounded-full"></div>
+                            <span>ShaderGL optimization</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="border-4 border-black p-8 hover:bg-gradient-to-br hover:from-purple-50 hover:to-orange-50 transition-all">
+                    <div class="text-4xl mb-4 gradient-text">
+                        <i class="fas fa-palette"></i>
+                    </div>
+                    <h3 class="text-xl font-black mb-3">FEATURES</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li class="flex items-center gap-2">
+                            <div class="w-2 h-2 bg-gradient-to-tr from-purple-500 to-orange-400 rounded-full"></div>
+                            <span>12 gradient algorithms</span>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <div class="w-2 h-2 bg-gradient-to-tr from-purple-500 to-orange-400 rounded-full"></div>
+                            <span>Real-time parameter control</span>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <div class="w-2 h-2 bg-gradient-to-tr from-purple-500 to-orange-400 rounded-full"></div>
+                            <span>GPU acceleration</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção 4: Documentação -->
+    <section id="docs" class="py-20 border-t-2 border-black/10">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-5xl font-black italic tracking-tighter uppercase mb-12 text-center">
+                <span class="gradient-text">INSTANT_</span>ACCESS
+            </h2>
+            
+            <div class="grid md:grid-cols-3 gap-8 text-center">
+                <div class="border-4 border-black p-8">
+                    <div class="text-5xl mb-4">⚡</div>
+                    <div class="text-xl font-black mb-3">IMMEDIATE DOWNLOAD</div>
+                    <div class="text-sm opacity-70">Get the engine files instantly after purchase</div>
+                </div>
+                
+                <div class="border-4 border-black p-8 bg-gradient-to-br from-purple-500 to-orange-400 text-white">
+                    <div class="text-5xl mb-4">📚</div>
+                    <div class="text-xl font-black mb-3">FULL DOCUMENTATION</div>
+                    <div class="text-sm opacity-90">Comprehensive API docs with examples</div>
+                </div>
+                
+                <div class="border-4 border-black p-8">
+                    <div class="text-5xl mb-4">🛠️</div>
+                    <div class="text-xl font-black mb-3">SOURCE CODE</div>
+                    <div class="text-sm opacity-70">Complete TypeScript source included</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 border-t-4 border-black mt-20">
+        <div class="max-w-6xl mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-8">
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 bg-gradient-to-tr from-purple-500 to-orange-400 rounded-full"></div>
+                    <div>
+                        <div class="text-xl font-black italic">MESH_ENGINE</div>
+                        <div class="text-[10px] uppercase opacity-60">Version 4.2 • WebGL 2.0</div>
+                    </div>
+                </div>
+                
+                <div class="text-center">
+                    <div class="text-sm font-black mb-2">©2026 MakerAI Studio • Graphics Division</div>
+                    <div class="text-[10px] uppercase opacity-40 tracking-widest">
+                        REAL-TIME 3D GRADIENT PROCESSING
+                    </div>
+                </div>
+                
+                <div class="flex gap-4">
+                    <button class="w-10 h-10 border-2 border-black flex items-center justify-center hover:bg-gradient-to-tr hover:from-purple-500 hover:to-orange-400 hover:text-white transition-all">
+                        <i class="fab fa-npm"></i>
+                    </button>
+                    <button class="w-10 h-10 border-2 border-black flex items-center justify-center hover:bg-gradient-to-tr hover:from-purple-500 hover:to-orange-400 hover:text-white transition-all">
+                        <i class="fab fa-github"></i>
+                    </button>
+                    <button class="w-10 h-10 border-2 border-black flex items-center justify-center hover:bg-gradient-to-tr hover:from-purple-500 hover:to-orange-400 hover:text-white transition-all">
+                        <i class="fas fa-book"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript para interações -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Criar partículas de cor
+            function createColorParticles() {
+                const container = document.getElementById('colorParticles');
+                const colors = [
+                    'rgba(168, 85, 247, 0.3)', // Purple
+                    'rgba(249, 115, 22, 0.3)',  // Orange
+                    'rgba(59, 130, 246, 0.3)',  // Blue
+                    'rgba(16, 185, 129, 0.3)'   // Green
+                ];
+                
+                for (let i = 0; i < 8; i++) {
+                    const particle = document.createElement('div');
+                    particle.className = 'color-particle animate-particle-float';
+                    particle.style.background = colors[i % colors.length];
+                    particle.style.left = `${Math.random() * 100}%`;
+                    particle.style.top = `${Math.random() * 100}%`;
+                    particle.style.animationDelay = `${Math.random() * 5}s`;
+                    particle.style.animationDuration = `${3 + Math.random() * 4}s`;
+                    container.appendChild(particle);
+                }
+            }
+            
+            createColorParticles();
+            
+            // Botão de unlock
+            const unlockButton = document.getElementById('unlockButton');
+            if (unlockButton) {
+                unlockButton.addEventListener('click', function() {
+                    const originalText = this.innerHTML;
+                    
+                    // Animação de sucesso
+                    this.innerHTML = '<span class="relative z-10">✓ ENGINE_UNLOCKED</span>';
+                    this.style.background = 'linear-gradient(to right, #10B981, #047857)';
+                    this.style.color = 'white';
+                    
+                    // Criar confetti de gradiente
+                    createConfetti();
+                    
+                    // Mostrar mensagem de sucesso
+                    setTimeout(() => {
+                        const success = document.createElement('div');
+                        success.className = 'mt-6 p-6 border-4 border-black text-center bg-white';
+                        success.innerHTML = `
+                            <div class="text-2xl font-black mb-2 gradient-text">ACCESS GRANTED</div>
+                            <div class="text-sm mb-4">Mesh Engine v4.2 is now available in your account</div>
+                            <button class="px-6 py-3 border-2 border-black hover:bg-black hover:text-white transition-all">
+                                GO TO DOWNLOADS →
+                            </button>
+                        `;
+                        this.parentElement.appendChild(success);
+                    }, 1000);
+                });
+            }
+            
+            // Controles do demo
+            const colorA = document.getElementById('colorA');
+            const colorB = document.getElementById('colorB');
+            const intensity = document.getElementById('intensity');
+            const meshCanvas = document.getElementById('meshCanvas');
+            
+            function updateMeshDemo() {
+                const gradient = `linear-gradient(45deg, ${colorA.value}, ${colorB.value})`;
+                meshCanvas.style.background = gradient;
+                meshCanvas.style.filter = `brightness(${intensity.value}%)`;
+                
+                // Atualizar cores no gradiente-text
+                document.querySelectorAll('.gradient-text').forEach(el => {
+                    el.style.background = `linear-gradient(90deg, ${colorA.value}, ${colorB.value})`;
+                    el.style.webkitBackgroundClip = 'text';
+                    el.style.webkitTextFillColor = 'transparent';
+                });
+            }
+            
+            colorA.addEventListener('input', updateMeshDemo);
+            colorB.addEventListener('input', updateMeshDemo);
+            intensity.addEventListener('input', updateMeshDemo);
+            
+            // Inicializar demo
+            updateMeshDemo();
+            
+            // Copiar código
+            window.copyMeshCode = function() {
+                const code = document.querySelector('pre').textContent;
+                navigator.clipboard.writeText(code).then(() => {
+                    const button = document.querySelector('button[onclick="copyMeshCode()"]');
+                    const original = button.innerHTML;
+                    button.innerHTML = '<i class="fas fa-check"></i> Copied';
+                    setTimeout(() => {
+                        button.innerHTML = original;
+                    }, 2000);
+                });
+            };
+            
+            // Criar confetti
+            function createConfetti() {
+                const confettiContainer = document.createElement('div');
+                confettiContainer.style.position = 'fixed';
+                confettiContainer.style.top = '0';
+                confettiContainer.style.left = '0';
+                confettiContainer.style.right = '0';
+                confettiContainer.style.bottom = '0';
+                confettiContainer.style.pointerEvents = 'none';
+                confettiContainer.style.zIndex = '9999';
+                
+                for (let i = 0; i < 50; i++) {
+                    const confetti = document.createElement('div');
+                    confetti.style.position = 'absolute';
+                    confetti.style.width = '10px';
+                    confetti.style.height = '10px';
+                    confetti.style.background = Math.random() > 0.5 ? colorA.value : colorB.value;
+                    confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+                    confetti.style.top = '50%';
+                    confetti.style.left = '50%';
+                    
+                    document.body.appendChild(confettiContainer);
+                    confettiContainer.appendChild(confetti);
+                    
+                    // Animação
+                    const animation = confetti.animate([
+                        { 
+                            transform: `translate(0, 0) rotate(0deg)`,
+                            opacity: 1 
+                        },
+                        { 
+                            transform: `translate(${(Math.random() - 0.5) * 500}px, ${Math.random() * 500}px) rotate(${Math.random() * 360}deg)`,
+                            opacity: 0 
+                        }
+                    ], {
+                        duration: 1000 + Math.random() * 1000,
+                        easing: 'cubic-bezier(0.215, 0.610, 0.355, 1)'
+                    });
+                    
+                    animation.onfinish = () => {
+                        confetti.remove();
+                        if (confettiContainer.children.length === 0) {
+                            confettiContainer.remove();
+                        }
+                    };
+                }
+            }
+            
+            // Efeito de parallax nas partículas
+            window.addEventListener('scroll', () => {
+                const particles = document.querySelectorAll('.color-particle');
+                const scrollY = window.scrollY;
+                
+                particles.forEach((particle, index) => {
+                    const speed = 0.1 + (index * 0.02);
+                    particle.style.transform = `translateY(${scrollY * speed}px)`;
+                });
+            });
+            
+            // Efeito de glitch aleatório no título
+            const title = document.querySelector('.gradient-text');
+            setInterval(() => {
+                if (Math.random() > 0.7) {
+                    title.classList.add('animate-glitch');
+                    setTimeout(() => {
+                        title.classList.remove('animate-glitch');
+                    }, 500);
+                }
+            }, 3000);
+        });
+    </script>
 </body>
 </html>
