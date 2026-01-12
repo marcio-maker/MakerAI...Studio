@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;900&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-white text-black min-h-screen flex flex-col p-0 selection:bg-black selection:text-white overflow-x-hidden">
+
+    <nav class="p-6 md:p-10 border-b-4 border-black flex justify-between items-center sticky top-0 bg-white z-50">
+        <div class="font-black text-3xl italic tracking-tighter">FIN_LAB_</div>
+        <button onclick="window.parent && window.parent.closeModal ? window.parent.closeModal() : window.location.href='../index.html'" 
+                class="flex items-center gap-3 group transition-all active:scale-95">
+            <span class="hidden md:block text-[10px] font-black uppercase tracking-widest opacity-40 group-hover:opacity-100 transition-all italic">Fechar Relatório</span>
+            <div class="bg-black text-white px-6 py-2 font-black italic uppercase text-sm group-hover:bg-emerald-500 transition-all shadow-[4px_4px_0px_#ccc] group-hover:shadow-none">
+                EXIT_X
+            </div>
+        </button>
+    </nav>
+
+    <main class="flex-1 p-6 md:p-12 max-w-[1400px] mx-auto w-full">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-0 border-4 border-black mb-12">
+            <div class="p-8 border-b-4 md:border-b-0 md:border-r-4 border-black hover:bg-zinc-50 transition-colors group">
+                <span class="text-[10px] font-black uppercase opacity-40">Capital Total</span>
+                <div class="text-5xl font-black mt-2 tracking-tighter group-hover:scale-105 transition-transform origin-left">€1.2M</div>
+            </div>
+            <div class="p-8 border-b-4 md:border-b-0 md:border-r-4 border-black bg-black text-white group">
+                <span class="text-[10px] font-black uppercase opacity-40">Performance</span>
+                <div class="text-5xl font-black mt-2 tracking-tighter text-emerald-400 group-hover:text-white transition-colors">+24.8%</div>
+            </div>
+            <div class="p-8 hover:bg-zinc-50 transition-colors group">
+                <span class="text-[10px] font-black uppercase opacity-40">Status do Sistema</span>
+                <div class="text-5xl font-black mt-2 tracking-tighter group-hover:italic transition-all">ESTÁVEL</div>
+            </div>
+        </div>
+
+        <div class="space-y-6">
+            <h2 class="text-sm font-black uppercase tracking-[0.5em] border-l-8 border-black pl-4">Fluxo de Dados em Tempo Real</h2>
+            <div class="h-[400px] border-4 border-black flex items-end p-6 gap-2 md:gap-4 bg-zinc-50 relative overflow-hidden group">
+                <div class="absolute inset-0 bg-gradient-to-t from-emerald-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+                
+                <div class="flex-1 bg-black/10 h-[30%] hover:h-[60%] hover:bg-black transition-all duration-500 cursor-crosshair relative group/bar">
+                    <span class="absolute -top-8 left-0 text-[10px] font-black opacity-0 group-hover/bar:opacity-100">30%</span>
+                </div>
+                <div class="flex-1 bg-black h-[75%] hover:h-[90%] transition-all duration-500 cursor-crosshair relative group/bar text-white p-2 overflow-hidden">
+                    <span class="text-[8px] font-black rotate-90 absolute bottom-4">MAX_LEVEL</span>
+                </div>
+                <div class="flex-1 bg-black/10 h-[45%] hover:h-[70%] hover:bg-black transition-all duration-500 cursor-crosshair relative group/bar"></div>
+                <div class="flex-1 bg-black/10 h-[20%] hover:h-[50%] hover:bg-black transition-all duration-500 cursor-crosshair relative group/bar"></div>
+                <div class="flex-1 bg-black/10 h-[65%] hover:h-[85%] hover:bg-black transition-all duration-500 cursor-crosshair relative group/bar"></div>
+                <div class="flex-1 bg-black h-[40%] hover:h-[60%] transition-all duration-500 cursor-crosshair relative group/bar"></div>
+            </div>
+        </div>
+
+        <p class="mt-8 text-[10px] font-black uppercase opacity-30 text-center tracking-[1em]">Brutalism // Finance // MakerAI</p>
+    </main>
+
+</body>
+</html>

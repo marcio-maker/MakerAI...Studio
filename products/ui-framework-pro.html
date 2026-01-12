@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-zinc-100 text-zinc-900 min-h-screen flex flex-col p-0 font-sans">
+
+    <header class="p-6 border-b border-zinc-300 flex justify-between items-center bg-white sticky top-0 z-50">
+        <span class="font-black italic tracking-tighter">UI_FRAMEWORK_PRO</span>
+        <button onclick="window.parent && window.parent.closeModal ? window.parent.closeModal() : window.location.href='../index.html'" 
+                class="text-xs font-bold uppercase tracking-widest hover:underline">Close_Preview</button>
+    </header>
+
+    <div class="flex-1 grid grid-cols-1 lg:grid-cols-2">
+        <div class="p-12 border-r border-zinc-300 space-y-8 flex flex-col justify-center">
+            <h1 class="text-6xl font-black italic tracking-tighter uppercase leading-none">A base do seu <br>próximo unicórnio.</h1>
+            <p class="text-zinc-500 font-medium">Componentes React/Tailwind puristas para quem não aceita o medíocre.</p>
+        </div>
+
+        <div class="bg-white p-12 flex flex-col justify-center gap-8">
+            <div class="space-y-4">
+                <div class="flex justify-between text-xs font-bold opacity-40 uppercase"><span>Subtotal</span><span>$149.00</span></div>
+                <div class="flex justify-between text-xs font-bold opacity-40 uppercase"><span>Tax</span><span>$0.00</span></div>
+                <div class="h-px bg-zinc-300 w-full"></div>
+                <div class="flex justify-between text-2xl font-black italic"><span>TOTAL</span><span>$149.00</span></div>
+            </div>
+            <button onclick="this.innerText='SYNCING WITH GITHUB...'" 
+                    class="w-full py-5 bg-blue-600 text-white font-black italic uppercase tracking-widest hover:bg-black transition-all">
+                Complete_Purchase
+            </button>
+        </div>
+    </div>
+</body>
+</html>

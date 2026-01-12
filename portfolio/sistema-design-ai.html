@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema Design AI | MakerAI Studio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@900&display=swap');
+        
+        body { font-family: 'Instrument Serif', serif; }
+        .font-brutal { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-[#f0f0f0] text-[#1a1a1a] min-h-screen flex flex-col italic selection:bg-orange-500 selection:text-white">
+
+    <nav class="p-8 md:p-12 flex justify-between items-start sticky top-0 bg-[#f0f0f0]/80 backdrop-blur-sm z-50">
+        <div class="text-4xl font-brutal font-black not-italic tracking-tighter uppercase leading-[0.8]">
+            M_A<br><span class="text-orange-500">S_T</span>
+        </div>
+
+        <button 
+            onclick="window.parent && window.parent.closeModal ? window.parent.closeModal() : window.location.href='../index.html'" 
+            class="group text-right transition-all active:scale-95"
+            aria-label="Voltar para o início">
+            <span class="block text-[10px] font-brutal font-black uppercase not-italic tracking-[0.3em] opacity-40 group-hover:opacity-100 group-hover:text-orange-600 transition-all">
+                Voltar ao
+            </span>
+            <span class="text-2xl font-brutal font-black uppercase not-italic tracking-tighter border-b-4 border-black group-hover:border-orange-500 group-hover:text-orange-500 transition-all px-1">
+                Studio_
+            </span>
+        </button>
+    </nav>
+
+    <main class="flex-1 flex flex-col md:flex-row items-center p-8 md:p-20 gap-16 md:gap-24">
+        
+        <div class="relative w-full max-w-md aspect-square group">
+            <div class="absolute inset-0 bg-black rotate-3 group-hover:rotate-0 transition-transform duration-500 shadow-2xl"></div>
+            <div class="absolute inset-0 bg-zinc-200 -rotate-3 group-hover:rotate-0 transition-transform duration-500 border border-black flex items-center justify-center overflow-hidden">
+                 <span class="text-[250px] font-brutal font-black not-italic opacity-5 select-none">AI</span>
+                 <div class="absolute inset-0 bg-gradient-to-tr from-orange-500/10 to-transparent"></div>
+                 <div class="w-24 h-[1px] bg-black animate-[ping_3s_infinite] opacity-20"></div>
+            </div>
+        </div>
+
+        <div class="max-w-xl space-y-8">
+            <h1 class="text-7xl md:text-9xl font-brutal font-black uppercase not-italic tracking-tighter leading-[0.8]">
+                Geração <br><span class="text-zinc-400 group-hover:text-black transition-colors">Infinita</span>
+            </h1>
+            
+            <div class="space-y-4">
+                <p class="text-2xl md:text-3xl leading-tight border-l-4 border-orange-500 pl-6">
+                    "A forma não segue apenas a função. Ela segue a intenção algorítmica."
+                </p>
+                <p class="font-brutal not-italic text-sm uppercase tracking-widest opacity-60">
+                    Design System V.01 // MakerAI Laboratory
+                </p>
+            </div>
+
+            <div class="flex gap-4 pt-6">
+                <div class="h-14 w-14 rounded-full bg-black flex items-center justify-center text-white font-brutal not-italic text-[10px] hover:rotate-12 transition-transform cursor-crosshair">CORE</div>
+                <div class="h-14 w-14 rounded-full border-2 border-black"></div>
+                <div class="h-14 w-14 rounded-full bg-orange-500 animate-pulse"></div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="p-8 md:p-12 opacity-30 font-brutal not-italic text-[10px] tracking-[0.5em] uppercase">
+        ©2026 MakerAI Studio // Todos os direitos reservados.
+    </footer>
+
+</body>
+</html>

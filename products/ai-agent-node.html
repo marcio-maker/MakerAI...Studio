@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap');
+        body { font-family: 'Space Mono', monospace; }
+        .blink { animation: blink 1s step-end infinite; }
+        @keyframes blink { 50% { opacity: 0; } }
+    </style>
+</head>
+<body class="bg-[#050505] text-green-500 min-h-screen p-6 md:p-12 overflow-x-hidden">
+
+    <nav class="flex justify-between items-start mb-16">
+        <div class="text-xs tracking-tighter leading-none uppercase">
+            Product_ID: 001<br>Status: Available
+        </div>
+        <button onclick="window.parent && window.parent.closeModal ? window.parent.closeModal() : window.location.href='../index.html'" 
+                class="group flex flex-col items-end transition-all active:scale-95">
+            <span class="text-[9px] uppercase tracking-[0.4em] opacity-40 group-hover:opacity-100 transition-all">Abort_Purchase</span>
+            <span class="text-xl font-bold text-white border-b-2 border-green-500 group-hover:bg-green-500 transition-all px-1">RETURN_TO_BASE</span>
+        </button>
+    </nav>
+
+    <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12">
+        <div class="space-y-6">
+            <h1 class="text-5xl md:text-7xl font-bold text-white uppercase italic leading-none">AI Agent Node</h1>
+            <p class="text-green-900 bg-green-500/10 p-4 border-l-4 border-green-500 text-sm">
+                Autonomia total. Desprenda-se da infraestrutura tradicional e rode agentes de IA em nós locais descentralizados.
+            </p>
+            <div class="text-4xl text-white font-black italic">$299.00</div>
+        </div>
+
+        <div class="bg-zinc-900 border-2 border-green-500/30 p-8 relative group overflow-hidden">
+            <div class="absolute inset-0 bg-green-500/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+            <h3 class="text-white text-xs font-bold mb-6 uppercase tracking-widest">Secure_Payment_Gateway</h3>
+            <div class="space-y-4">
+                <div class="border-b border-green-500/20 py-2 text-[10px]">AUTH_TOKEN: <span class="text-white">active_4829</span></div>
+                <button onclick="this.innerHTML='PROCESSING...'; setTimeout(()=>this.innerHTML='PURCHASED_SUCCESSFULLY', 2000)" 
+                        class="w-full py-6 bg-green-500 text-black font-black uppercase italic hover:bg-white transition-all transform active:scale-95 shadow-[8px_8px_0px_#14532d]">
+                    Deploy_Agent_Now
+                </button>
+            </div>
+            <div class="mt-4 text-[8px] opacity-30 italic">Ao clicar, você inicia a sincronização do nó via Web3.</div>
+        </div>
+    </div>
+</body>
+</html>
