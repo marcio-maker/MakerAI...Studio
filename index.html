@@ -9,7 +9,44 @@
     <!-- PWA Meta Tags -->
     <meta name="theme-color" content="#050505">
     <meta name="description" content="Design focado na essência. Onde a forma bruta encontra a IA para criar o amanhã.">
+    <meta name="keywords" content="design, IA, interface, brutalismo, tecnologia, desenvolvimento web, UI/UX">
+    <meta name="author" content="MakerAI Studio">
+    <meta property="og:title" content="MakerAI | Studio">
+    <meta property="og:description"
+        content="Design focado na essência. Onde a forma bruta encontra a IA para criar o amanhã.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="./assets/makerai-og-image.jpg">
     <link rel="manifest" href="/manifest.json">
+
+    <!-- SEO Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "CreativeWork",
+        "name": "MakerAI Studio",
+        "description": "Design focado na essência. Onde a forma bruta encontra a IA para criar o amanhã.",
+        "url": "https://makerai.studio",
+        "logo": "https://makerai.studio/assets/logo.png",
+        "sameAs": [
+            "https://twitter.com/makerai",
+            "https://github.com/makerai",
+            "https://dribbble.com/makerai"
+        ],
+        "contactPoint": {
+            "@type": "ContactPoint",
+            "email": "studio@makerai.com",
+            "contactType": "Customer Service"
+        }
+    }
+    </script>
+
+    <!-- Preload Critical Resources -->
+    <link rel="preload"
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap"
+        as="style">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="https://images.unsplash.com">
 
     <!-- Tailwind -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -516,17 +553,15 @@
             content: '';
             position: absolute;
             inset: 0;
-            background: linear-gradient(
-                to bottom,
-                transparent 0%,
-                rgba(0, 0, 0, 0.1) 30%,
-                rgba(0, 0, 0, 0.3) 70%,
-                rgba(0, 0, 0, 0.5) 100%
-            );
+            background: linear-gradient(to bottom,
+                    transparent 0%,
+                    rgba(0, 0, 0, 0.1) 30%,
+                    rgba(0, 0, 0, 0.3) 70%,
+                    rgba(0, 0, 0, 0.5) 100%);
             z-index: 1;
         }
 
-        .card-image-container > * {
+        .card-image-container>* {
             position: relative;
             z-index: 2;
         }
@@ -962,7 +997,7 @@
                 font-size: clamp(2rem, 8vw, 2.5rem) !important;
                 line-height: 0.9 !important;
             }
-            
+
             .hero-text span:first-child,
             .hero-text span:last-child {
                 font-size: inherit !important;
@@ -979,7 +1014,7 @@
             .carousel-indicators {
                 gap: 0.25rem;
             }
-            
+
             .carousel-indicator {
                 width: 5px;
                 height: 5px;
@@ -1007,7 +1042,7 @@
             .mobile-menu nav {
                 gap: 1.5rem;
             }
-            
+
             .mobile-menu nav a {
                 font-size: 2rem !important;
             }
@@ -1027,7 +1062,7 @@
                 padding-bottom: 2rem;
                 overflow-y: auto;
             }
-            
+
             #modal-content {
                 max-height: calc(100vh - 4rem);
                 overflow-y: auto;
@@ -1039,11 +1074,11 @@
             footer .flex-wrap {
                 gap: 0.5rem 1rem;
             }
-            
+
             footer .flex-wrap a {
                 font-size: 0.6875rem;
             }
-            
+
             .max-w-7xl {
                 padding-left: 0.75rem;
                 padding-right: 0.75rem;
@@ -1055,7 +1090,7 @@
             .stat-number {
                 font-size: 2.5rem !important;
             }
-            
+
             .grid-cols-3 {
                 gap: 0.5rem;
             }
@@ -1086,16 +1121,19 @@
 
         /* 12. Ajuste de padding mobile extremo */
         @media (max-width: 280px) {
-            main, section {
+
+            main,
+            section {
                 padding-left: 0.25rem !important;
                 padding-right: 0.25rem !important;
             }
-            
+
             .header-inner {
                 padding: 0.5rem 1rem !important;
             }
-            
-            .feature-card, .product-card {
+
+            .feature-card,
+            .product-card {
                 padding: 1rem !important;
             }
         }
@@ -1118,7 +1156,7 @@
             #contact .text-3xl {
                 font-size: 2rem !important;
             }
-            
+
             #contact a {
                 padding-left: 1.5rem !important;
                 padding-right: 1.5rem !important;
@@ -1137,6 +1175,113 @@
                 padding-left: 1.5rem !important;
                 padding-right: 1.5rem !important;
             }
+        }
+
+        /* === NOVOS ESTILOS === */
+        /* Lazy loading para imagens */
+        img.lazy {
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        img.loaded {
+            opacity: 1;
+        }
+
+        /* Performance */
+        .will-change-transform {
+            will-change: transform;
+        }
+
+        /* Botão de whatsapp flutuante */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: #25D366;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 20px rgba(37, 211, 102, 0.3);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .whatsapp-float:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 25px rgba(37, 211, 102, 0.4);
+        }
+
+        /* Botão de voltar ao topo */
+        .back-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--accent);
+            color: var(--bg-primary);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 999;
+        }
+
+        .back-to-top.visible {
+            display: flex;
+            opacity: 0.8;
+        }
+
+        .back-to-top:hover {
+            opacity: 1;
+            transform: translateY(-3px);
+        }
+
+        /* === FOOTER ENHANCEMENTS === */
+        footer a {
+            position: relative;
+        }
+
+        footer a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 1px;
+            bottom: 0;
+            left: 50%;
+            background-color: currentColor;
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        footer a:hover::after {
+            width: 100%;
+        }
+
+        /* Status badge animation */
+        @keyframes status-pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        .bg-green-500.animate-pulse {
+            animation: status-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
         }
     </style>
 </head>
@@ -1974,9 +2119,9 @@
                             2026</h3>
                         <p class="text-gray-500 text-sm mb-6" data-i18n="blog.article1.description">Como os modelos de
                             última geração estão redefinindo o design digital.</p>
-                        <a href="#"
+                        <a href="./articles/futuro-ia-2026.html"
                             class="text-xs font-bold uppercase tracking-widest hover:text-accent transition-colors focus:outline-none focus:ring-2 focus:ring-accent"
-                            data-i18n="blog.read">Ler Artigo →</a>
+                            data-i18n="blog.read">Ler Artigo</a>
                     </article>
 
                     <!-- Artigo 2 -->
@@ -2000,7 +2145,7 @@
                             Funciona</h3>
                         <p class="text-gray-500 text-sm mb-6" data-i18n="blog.article2.description">A psicologia por
                             trás do design minimalista de alto contraste.</p>
-                        <a href="#"
+                        <a href="./articles/brutalismo-digital.html"
                             class="text-xs font-bold uppercase tracking-widest hover:text-accent transition-colors focus:outline-none focus:ring-2 focus:ring-accent"
                             data-i18n="blog.read">Ler Artigo →</a>
                     </article>
@@ -2024,7 +2169,7 @@
                             Design</h3>
                         <p class="text-gray-500 text-sm mb-6" data-i18n="blog.article3.description">Estratégias para
                             transformar UI kits em fluxos de receita.</p>
-                        <a href="#"
+                        <a href="./articles/monetizando-design.html"
                             class="text-xs font-bold uppercase tracking-widest hover:text-accent transition-colors focus:outline-none focus:ring-2 focus:ring-accent"
                             data-i18n="blog.read">Ler Artigo →</a>
                     </article>
@@ -2049,7 +2194,7 @@
                                     Generativa em 2026</h3>
                                 <p class="text-gray-500 text-sm mb-6" data-i18n="blog.article1.description">Como os
                                     modelos de última geração estão redefinindo o design digital.</p>
-                                <a href="#"
+                                <a href="./articles/futuro-ia-2026.html"
                                     class="text-xs font-bold uppercase tracking-widest hover:text-accent transition-colors focus:outline-none focus:ring-2 focus:ring-accent"
                                     data-i18n="blog.read">Ler Artigo →</a>
                             </article>
@@ -2071,7 +2216,7 @@
                                     Por Que Funciona</h3>
                                 <p class="text-gray-500 text-sm mb-6" data-i18n="blog.article2.description">A psicologia
                                     por trás do design minimalista de alto contraste.</p>
-                                <a href="#"
+                                <a href="./articles/brutalismo-digital.html"
                                     class="text-xs font-bold uppercase tracking-widest hover:text-accent transition-colors focus:outline-none focus:ring-2 focus:ring-accent"
                                     data-i18n="blog.read">Ler Artigo →</a>
                             </article>
@@ -2093,7 +2238,7 @@
                                     de Design</h3>
                                 <p class="text-gray-500 text-sm mb-6" data-i18n="blog.article3.description">Estratégias
                                     para transformar UI kits em fluxos de receita.</p>
-                                <a href="#"
+                                <a href="./articles/monetizando-design.html"
                                     class="text-xs font-bold uppercase tracking-widest hover:text-accent transition-colors focus:outline-none focus:ring-2 focus:ring-accent"
                                     data-i18n="blog.read">Ler Artigo →</a>
                             </article>
@@ -2125,79 +2270,110 @@
     <!-- 7. FOOTER COMPACTO E RESPONSIVO -->
     <footer class="border-t border-black/10 dark:border-white/10 mt-8 sm:mt-12">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 py-4 sm:py-6">
-            <!-- Linha 1: Logo + Relógio + Legal -->
+            <!-- Topo: Logo + Relógio -->
             <div class="flex flex-col sm:flex-row items-center justify-between gap-3 mb-4">
-                <!-- Logo compacto -->
-                <div class="order-2 sm:order-1 text-center sm:text-left">
-                    <div class="text-sm font-medium text-neutral-600 dark:text-neutral-400">
-                        MAKER<span class="text-neutral-400">AI</span>
+                <!-- Logo que volta ao topo -->
+                <a href="#home" class="order-2 sm:order-1 text-center sm:text-left group">
+                    <div
+                        class="text-sm font-medium text-neutral-600 dark:text-neutral-400 group-hover:text-black dark:group-hover:text-white transition-colors">
+                        MAKER<span
+                            class="text-neutral-400 group-hover:text-neutral-600 dark:group-hover:text-neutral-300 transition-colors">AI</span>
                     </div>
-                </div>
+                </a>
 
-                <!-- Relógio centralizado no mobile -->
+                <!-- Relógio funcional -->
                 <div class="order-1 sm:order-2">
-                    <div id="clock" class="font-mono text-sm sm:text-base text-neutral-500 tabular-nums">
-                        00:00
+                    <div id="clock"
+                        class="font-mono text-sm sm:text-base text-neutral-500 dark:text-neutral-400 tabular-nums">
                     </div>
                 </div>
+            </div>
 
-                <!-- Links legais -->
-                <div class="order-3 hidden sm:flex gap-4">
-                    <a href="/privacy.html"
-                        class="text-xs text-neutral-500 hover:text-black dark:hover:text-white">Privacidade</a>
-                    <a href="/terms.html"
-                        class="text-xs text-neutral-500 hover:text-black dark:hover:text-white">Termos</a>
+            <!-- Links de navegação principal -->
+            <div class="flex flex-wrap justify-center gap-3 sm:gap-4 mb-3">
+                <a href="#agency"
+                    class="text-xs text-neutral-500 hover:text-black dark:hover:text-white transition-colors px-2 py-1"
+                    data-i18n="nav.agency">Agência</a>
+                <a href="#portfolio"
+                    class="text-xs text-neutral-500 hover:text-black dark:hover:text-white transition-colors px-2 py-1"
+                    data-i18n="nav.portfolio">Portfólio</a>
+                <a href="#shop"
+                    class="text-xs text-neutral-500 hover:text-black dark:hover:text-white transition-colors px-2 py-1"
+                    data-i18n="nav.shop">Shop</a>
+                <a href="#blog"
+                    class="text-xs text-neutral-500 hover:text-black dark:hover:text-white transition-colors px-2 py-1"
+                    data-i18n="nav.blog">Blog</a>
+                <a href="#contact"
+                    class="text-xs text-neutral-500 hover:text-black dark:hover:text-white transition-colors px-2 py-1"
+                    data-i18n="nav.contact">Contato</a>
+            </div>
+
+            <!-- Status do studio -->
+            <div class="text-center mb-2">
+                <div class="inline-flex items-center gap-2 px-3 py-1 bg-gray-100 dark:bg-gray-900 rounded-full">
+                    <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                    <span class="text-xs text-neutral-500" data-i18n="footer.status">Studio Online</span>
                 </div>
             </div>
 
-            <!-- Linha 2: Descrição breve -->
-            <div class="text-center mb-3 sm:mb-4">
-                <p class="text-xs text-neutral-500 max-w-md mx-auto px-2">
-                    Design systems e IA generativa para produtos digitais.
-                </p>
-            </div>
-
-            <!-- Linha 3: Links rápidos compactos -->
-            <div class="flex flex-wrap justify-center gap-3 sm:gap-4 mb-3">
-                <a href="#agency" class="text-xs text-neutral-500 hover:text-black dark:hover:text-white">Serviços</a>
-                <a href="#portfolio"
-                    class="text-xs text-neutral-500 hover:text-black dark:hover:text-white">Portfólio</a>
-                <a href="#shop" class="text-xs text-neutral-500 hover:text-black dark:hover:text-white">Produtos</a>
-                <a href="#blog" class="text-xs text-neutral-500 hover:text-black dark:hover:text-white">Blog</a>
-                <a href="#contact" class="text-xs text-neutral-500 hover:text-black dark:hover:text-white">Contato</a>
-                <a href="mailto:contact@makerai.com"
-                    class="text-xs text-neutral-500 hover:text-black dark:hover:text-white">Email</a>
-            </div>
-
-            <!-- Linha 4: Copyright minimalista -->
+            <!-- Copyright e links legais -->
             <div class="text-center">
-                <p class="text-[10px] sm:text-xs text-neutral-400">
+                <p class="text-xs text-neutral-400">
                     © 2026 MakerAI Studio •
-                    <a href="/cookies.html" class="underline hover:no-underline">Cookies</a> •
-                    <span class="hidden sm:inline" data-i18n="footer.mantra">O/L/C</span>
+                    <a href="./legal/privacidade.html"
+                        class="hover:text-black dark:hover:text-white transition-colors hover:underline">
+                        Privacidade
+                    </a> •
+                    <a href="./legal/termos.html"
+                        class="hover:text-black dark:hover:text-white transition-colors hover:underline">
+                        Termos
+                    </a> •
+                    <a href="./legal/cookies.html"
+                        class="hover:text-black dark:hover:text-white transition-colors hover:underline">
+                        Cookies
+                    </a>
+                </p>
+
+                <!-- Mantra apenas em desktop -->
+                <p class="hidden sm:block mt-2 text-xs text-neutral-500 font-mono tracking-tighter">
+                    <span data-i18n="footer.mantra">Objeto → Luz → Contraste → Movimento → Efeito</span>
                 </p>
             </div>
         </div>
     </footer>
 
-    <!-- 8. MODAL -->
+    <!-- 8. MODAL - CORRIGIDO -->
     <div id="modal-overlay"
-        class="fixed inset-0 z-[100] bg-black/90 backdrop-blur-xl opacity-0 pointer-events-none transition-all duration-500 flex items-center justify-center p-4 md:p-6"
+        class="fixed inset-0 z-[10000] bg-black/80 backdrop-blur-xl opacity-0 pointer-events-none transition-all duration-500 flex items-center justify-center p-4 md:p-6"
         role="dialog" aria-modal="true" aria-hidden="true" tabindex="-1">
         <div id="modal-content"
-            class="bg-white dark:bg-[#0a0a0a] w-full max-w-2xl rounded-3xl md:rounded-[3rem] p-6 md:p-12 relative translate-y-20 transition-all duration-500 border border-black/5 dark:border-white/10"
+            class="bg-white dark:bg-[#0a0a0a] w-full max-w-2xl rounded-3xl md:rounded-[3rem] p-6 md:p-12 relative translate-y-20 transition-all duration-500 border border-black/5 dark:border-white/10 max-h-[85vh] overflow-y-auto"
             role="document">
             <button onclick="closeModal()"
-                class="absolute top-4 right-4 md:top-8 md:right-8 text-neutral-500 hover:text-black dark:hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-accent rounded-full p-1"
+                class="absolute top-4 right-4 md:top-8 md:right-8 text-neutral-500 hover:text-black dark:hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-accent rounded-full p-2 bg-white/10 dark:bg-black/10 hover:bg-white/20 dark:hover:bg-black/20 z-10"
                 aria-label="Fechar modal">
                 <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                     aria-hidden="true">
                     <path stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                 </svg>
             </button>
-            <div id="modal-body" class="overflow-y-auto max-h-[calc(90vh-6rem)]"></div>
+            <div id="modal-body"></div>
         </div>
     </div>
+
+    <!-- Botão WhatsApp Flutuante -->
+    <a href="https://wa.me/5511999999999?text=Olá! Gostaria de mais informações sobre o MakerAI Studio" target="_blank"
+        rel="noopener noreferrer" class="whatsapp-float" aria-label="Contato via WhatsApp">
+        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 448 512">
+            <path
+                d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z" />
+        </svg>
+    </a>
+
+    <!-- Botão Voltar ao Topo -->
+    <button id="back-to-top" class="back-to-top" aria-label="Voltar ao topo">
+        ↑
+    </button>
 
     <!-- 9. SCRIPT COMPLETO REVISADO E OTIMIZADO -->
     <script>
@@ -2569,7 +2745,7 @@
                 text: 'Sistema de design completo para empresas de tecnologia, com componentes reutilizáveis e documentação automatizada.',
                 tech: ['React', 'Storybook', 'Figma API', 'Design Tokens'],
                 features: ['500+ componentes', 'Documentação viva', 'Acessibilidade AAA'],
-                link: '#'
+                link: './portfolio/sistema-design-ai.html'
             },
             'dashboard': {
                 type: 'portfolio',
@@ -2577,7 +2753,7 @@
                 text: 'Dashboard financeiro em tempo real com visualizações interativas e alertas preditivos.',
                 tech: ['D3.js', 'WebSocket', 'Redis', 'Python'],
                 features: ['Atualização em tempo real', '30+ visualizações', 'Alertas inteligentes'],
-                link: '#'
+                link: './portfolio/dashboard-financeiro.html'
             },
             'mobile-app': {
                 type: 'portfolio',
@@ -2585,7 +2761,7 @@
                 text: 'Aplicativo de produtividade com IA integrada para gerenciamento de tarefas e automação.',
                 tech: ['React Native', 'Firebase', 'OpenAI API', 'Push Notifications'],
                 features: ['IA para priorização', 'Sincronização offline', 'Integração com 50+ apps'],
-                link: '#'
+                link: './portfolio/app-mobile.html'
             },
 
             'ui-framework': {
@@ -2594,7 +2770,8 @@
                 text: 'Framework de UI completo com componentes acessíveis, temas escuros/claros e suporte a todos os navegadores.',
                 price: '$149',
                 features: ['100+ componentes', 'Suporte 1 ano', 'Atualizações gratuitas', 'Documentação completa'],
-                includes: ['Código-fonte completo', 'Exemplos práticos', 'Template Figma']
+                includes: ['Código-fonte completo', 'Exemplos práticos', 'Template Figma'],
+                link: './products/ui-framework-pro.html'
             },
             'ai-agent': {
                 type: 'shop',
@@ -2602,7 +2779,8 @@
                 text: 'Agente de IA autônomo para automação de tarefas, processamento de dados e integração com APIs.',
                 price: '$299',
                 features: ['Multi-agente', 'API REST', 'Dashboard de monitoramento', 'Suporte prioritário'],
-                includes: ['Código-fonte', 'Docker config', 'Exemplos de uso']
+                includes: ['Código-fonte', 'Docker config', 'Exemplos de uso'],
+                link: './products/ai-agent-node.html'
             },
             'brutal-icons': {
                 type: 'shop',
@@ -2610,7 +2788,8 @@
                 text: 'Pacote completo de ícones em estilo brutalista, otimizados para performance e escalabilidade.',
                 price: '$79',
                 features: ['500+ ícones SVG', '5 estilos diferentes', 'Animações CSS', 'Fonte customizada'],
-                includes: ['SVG, PNG, WebP', 'Fonte Icon', 'Documentação']
+                includes: ['SVG, PNG, WebP', 'Fonte Icon', 'Documentação'],
+                link: './products/brutal-icons.html'
             },
             'mesh-engine': {
                 type: 'shop',
@@ -2618,7 +2797,8 @@
                 text: 'Motor de gradientes 3D para criar efeitos visuais impressionantes com performance otimizada.',
                 price: '$199',
                 features: ['Renderização WebGL', '60 FPS garantido', 'Controles interativos', 'Export para video'],
-                includes: ['Exemplos completos', 'Shader pack', 'Toolkit de edição']
+                includes: ['Exemplos completos', 'Shader pack', 'Toolkit de edição'],
+                link: './products/mesh-engine.html'
             },
 
             'ai-future': {
@@ -2626,21 +2806,24 @@
                 title: 'modal.ai-future.title',
                 text: 'Análise profunda sobre como os modelos de IA generativa de 2026 estão revolucionando o design digital, com casos de uso reais e tendências.',
                 readTime: '8 min',
-                content: ['Novos modelos de difusão', 'Design assistido por IA', 'Prototipagem instantânea', 'Ética na IA criativa']
+                content: ['Novos modelos de difusão', 'Design assistido por IA', 'Prototipagem instantânea', 'Ética na IA criativa'],
+                link: './articles/futuro-ia-2026.html'
             },
             'brutalism': {
                 type: 'blog',
                 title: 'modal.brutalism.title',
                 text: 'Estudo psicológico sobre o impacto do design brutalista na experiência do usuário e por que ele funciona tão bem para produtos digitais.',
                 readTime: '6 min',
-                content: ['Psicologia do contraste', 'Minimalismo funcional', 'Performance vs estética', 'Casos de sucesso']
+                content: ['Psicologia do contraste', 'Minimalismo funcional', 'Performance vs estética', 'Casos de sucesso'],
+                link: './articles/brutalismo-digital.html'
             },
             'monetization': {
                 type: 'blog',
                 title: 'modal.monetization.title',
                 text: 'Guia completo sobre como transformar sistemas de design em produtos rentáveis, com estratégias de pricing, marketing e distribuição.',
                 readTime: '10 min',
-                content: ['Modelos de subscription', 'Pricing estratégico', 'Marketing para devs', 'Manutenção escalável']
+                content: ['Modelos de subscription', 'Pricing estratégico', 'Marketing para devs', 'Manutenção escalável'],
+                link: './articles/monetizando-design.html'
             }
         };
 
@@ -2697,6 +2880,7 @@
             initTheme();
             initMobileMenu();
             initClock();
+            initBackToTop();
         });
 
         // === LOADING ELEGANTE ===
@@ -2777,6 +2961,7 @@
                 initCarousels();
                 initStatsCounter();
                 initCardAnimations();
+                initLazyLoading();
 
                 // 3. Mostrar spotlight suavemente
                 setTimeout(() => {
@@ -2787,6 +2972,54 @@
                 animateContentEntrance();
 
             }, 800);
+        }
+
+        // === LAZY LOADING PARA IMAGENS ===
+        function initLazyLoading() {
+            const images = document.querySelectorAll('img[data-src]');
+
+            if ('IntersectionObserver' in window) {
+                const imageObserver = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            const img = entry.target;
+                            img.src = img.dataset.src;
+                            img.classList.remove('lazy');
+                            img.classList.add('loaded');
+                            imageObserver.unobserve(img);
+                        }
+                    });
+                });
+
+                images.forEach(img => imageObserver.observe(img));
+            } else {
+                // Fallback para navegadores antigos
+                images.forEach(img => {
+                    img.src = img.dataset.src;
+                    img.classList.remove('lazy');
+                    img.classList.add('loaded');
+                });
+            }
+        }
+
+        // === BOTÃO VOLTAR AO TOPO ===
+        function initBackToTop() {
+            const backToTop = document.getElementById('back-to-top');
+
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 300) {
+                    backToTop.classList.add('visible');
+                } else {
+                    backToTop.classList.remove('visible');
+                }
+            });
+
+            backToTop.addEventListener('click', () => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
         }
 
         // === ANIMAÇÃO DE ENTRADA DO CONTEÚDO ===
@@ -3014,24 +3247,53 @@
             });
         }
 
-        // === INICIALIZAR RELÓGIO ===
+        // === RELÓGIO OTIMIZADO COM ESTILO EXISTENTE ===
         function initClock() {
-            tick();
-            setInterval(tick, 1000);
-        }
+            // Função para formatar o tempo com animação de separador
+            const formatTime = (date) => {
+                const hours = date.getHours().toString().padStart(2, '0');
+                const minutes = date.getMinutes().toString().padStart(2, '0');
+                const seconds = date.getSeconds().toString().padStart(2, '0');
 
-        function tick() {
-            const clock = document.getElementById('clock');
-            if (clock) {
-                const now = new Date();
-                const hours = now.getHours().toString().padStart(2, '0');
-                const minutes = now.getMinutes().toString().padStart(2, '0');
-                const seconds = now.getSeconds().toString().padStart(2, '0');
+                // Separador que pisca a cada segundo (mantendo o efeito original)
+                const separator = date.getSeconds() % 2 === 0 ? ':' : ' ';
 
-                const separator = now.getSeconds() % 2 === 0 ? ':' : ' ';
+                return `${hours}<span class="clock-separator">${separator}</span>${minutes}<span class="clock-separator">${separator}</span>${seconds}`;
+            };
 
-                clock.innerHTML = `${hours}<span class="clock-separator">${separator}</span>${minutes}<span class="clock-separator">${separator}</span>${seconds}`;
-            }
+            // Função para atualizar o relógio
+            const updateClock = () => {
+                const clock = document.getElementById('clock');
+                if (clock) {
+                    clock.innerHTML = formatTime(new Date());
+
+                    // Pequeno efeito sutil a cada minuto
+                    const now = new Date();
+                    if (now.getSeconds() === 0) {
+                        clock.style.transform = 'scale(1.05)';
+                        setTimeout(() => {
+                            clock.style.transform = 'scale(1)';
+                        }, 300);
+                    }
+                }
+            };
+
+            // Atualizar imediatamente e configurar intervalo
+            updateClock();
+            const clockInterval = setInterval(updateClock, 1000);
+
+            // Otimizar performance: pausar quando a página não estiver visível
+            document.addEventListener('visibilitychange', () => {
+                if (document.hidden) {
+                    clearInterval(clockInterval);
+                } else {
+                    updateClock();
+                    setInterval(updateClock, 1000);
+                }
+            });
+
+            // Retornar a função de limpeza se necessário
+            return () => clearInterval(clockInterval);
         }
 
         // === REMOVER LOADING EFFECTS ===
@@ -3249,109 +3511,141 @@
             switch (data.type) {
                 case 'agency':
                     modalHTML = `
+                    <div class="mb-8">
                         <h2 class="text-3xl md:text-5xl font-black uppercase tracking-tighter mb-4 md:mb-6 italic">${t[data.title]}</h2>
                         <div class="w-16 md:w-20 h-1 bg-black dark:bg-white mb-6 md:mb-8"></div>
                         <p class="text-base md:text-xl text-neutral-500 leading-relaxed font-medium mb-8 md:mb-12 uppercase tracking-tighter">${t[data.text]}</p>
                         
                         <div class="mb-6">
-                            <h3 class="text-sm font-bold uppercase tracking-widest mb-3" data-i18n="modal.tech">${t['modal.tech']}</h3>
+                            <h3 class="text-sm font-bold uppercase tracking-widest mb-3">${t['modal.tech'] || 'Tecnologías:'}</h3>
                             <div class="modal-tech-stack">
                                 ${data.tech.map(tech => `<span class="modal-tech-tag">${tech}</span>`).join('')}
                             </div>
                         </div>
                         
                         <div class="mb-8">
-                            <h3 class="text-sm font-bold uppercase tracking-widest mb-3" data-i18n="modal.features">${t['modal.features']}</h3>
+                            <h3 class="text-sm font-bold uppercase tracking-widest mb-3">${t['modal.features'] || 'Características:'}</h3>
                             <ul class="modal-feature-list">
                                 ${data.features.map(feature => `<li class="text-sm text-neutral-600 dark:text-neutral-400">${feature}</li>`).join('')}
                             </ul>
                         </div>
-                    `;
+                        
+                    </div>
+                `;
                     break;
 
                 case 'portfolio':
                     modalHTML = `
-                        <h2 class="text-3xl md:text-5xl font-black uppercase tracking-tighter mb-4 md:mb-6 italic">${t[data.title]}</h2>
-                        <div class="w-16 md:w-20 h-1 bg-black dark:bg-white mb-6 md:mb-8"></div>
-                        <p class="text-base md:text-xl text-neutral-500 leading-relaxed font-medium mb-8 md:mb-12 uppercase tracking-tighter">${data.text}</p>
-                        
-                        <div class="mb-6">
-                            <h3 class="text-sm font-bold uppercase tracking-widest mb-3" data-i18n="modal.tech">${t['modal.tech']}</h3>
-                            <div class="modal-tech-stack">
-                                ${data.tech.map(tech => `<span class="modal-tech-tag">${tech}</span>`).join('')}
-                            </div>
-                        </div>
-                        
-                        <div class="mb-8">
-                            <h3 class="text-sm font-bold uppercase tracking-widest mb-3" data-i18n="modal.features">${t['modal.features']}</h3>
-                            <ul class="modal-feature-list">
-                                ${data.features.map(feature => `<li class="text-sm text-neutral-600 dark:text-neutral-400">${feature}</li>`).join('')}
-                            </ul>
-                        </div>
-                        
-                        <a href="${data.link}" class="block w-full py-4 md:py-5 bg-black dark:bg-white text-white dark:text-black rounded-2xl font-black uppercase text-xs tracking-widest text-center hover:scale-[1.02] transition-transform focus:outline-none focus:ring-4 focus:ring-accent focus:ring-opacity-50" target="_blank" rel="noopener noreferrer">
-                            ${t['portfolio.view']}
-                        </a>
-                    `;
+                <h2 class="text-3xl md:text-5xl font-black uppercase tracking-tighter mb-4 md:mb-6 italic">${t[data.title]}</h2>
+                <div class="w-16 md:w-20 h-1 bg-black dark:bg-white mb-6 md:mb-8"></div>
+                <p class="text-base md:text-xl text-neutral-500 leading-relaxed font-medium mb-8 md:mb-12 uppercase tracking-tighter">${data.text}</p>
+                
+                <div class="mb-6">
+                    <h3 class="text-sm font-bold uppercase tracking-widest mb-3" data-i18n="modal.tech">${t['modal.tech']}</h3>
+                    <div class="modal-tech-stack">
+                        ${data.tech.map(tech => `<span class="modal-tech-tag">${tech}</span>`).join('')}
+                    </div>
+                </div>
+                
+                <div class="mb-8">
+                    <h3 class="text-sm font-bold uppercase tracking-widest mb-3" data-i18n="modal.features">${t['modal.features']}</h3>
+                    <ul class="modal-feature-list">
+                        ${data.features.map(feature => `<li class="text-sm text-neutral-600 dark:text-neutral-400">${feature}</li>`).join('')}
+                    </ul>
+                </div>
+                
+                <a href="${data.link}" class="block w-full py-4 md:py-5 bg-black dark:bg-white text-white dark:text-black rounded-2xl font-black uppercase text-xs tracking-widest text-center hover:scale-[1.02] transition-transform focus:outline-none focus:ring-4 focus:ring-accent focus:ring-opacity-50" target="_blank" rel="noopener noreferrer">
+                    ${t['portfolio.view']}
+                </a>
+            `;
                     break;
 
                 case 'shop':
                     modalHTML = `
-                        <h2 class="text-3xl md:text-5xl font-black uppercase tracking-tighter mb-4 md:mb-6 italic">${t[data.title]}</h2>
-                        <div class="w-16 md:w-20 h-1 bg-black dark:bg-white mb-6 md:mb-8"></div>
-                        <p class="text-base md:text-xl text-neutral-500 leading-relaxed font-medium mb-6 md:mb-8 uppercase tracking-tighter">${data.text}</p>
-                        
-                        <div class="modal-price text-accent mb-6">${data.price}</div>
-                        
-                        <div class="mb-6">
-                            <h3 class="text-sm font-bold uppercase tracking-widest mb-3" data-i18n="modal.features">${t['modal.features']}</h3>
-                            <ul class="modal-feature-list">
-                                ${data.features.map(feature => `<li class="text-sm text-neutral-600 dark:text-neutral-400">${feature}</li>`).join('')}
-                            </ul>
-                        </div>
-                        
-                        <div class="mb-8">
-                            <h3 class="text-sm font-bold uppercase tracking-widest mb-3">Inclui:</h3>
-                            <ul class="modal-feature-list">
-                                ${data.includes.map(item => `<li class="text-sm text-neutral-600 dark:text-neutral-400">${item}</li>`).join('')}
-                            </ul>
-                        </div>
-                        
-                        <button class="w-full py-4 md:py-5 bg-black dark:bg-white text-white dark:text-black rounded-2xl font-black uppercase text-xs tracking-widest hover:scale-[1.02] transition-transform focus:outline-none focus:ring-4 focus:ring-accent focus:ring-opacity-50" onclick="handlePurchase('${type}')">
-                            ${t['shop.buy']} ${data.price}
-                        </button>
-                    `;
+                <h2 class="text-3xl md:text-5xl font-black uppercase tracking-tighter mb-4 md:mb-6 italic">${t[data.title]}</h2>
+                <div class="w-16 md:w-20 h-1 bg-black dark:bg-white mb-6 md:mb-8"></div>
+                <p class="text-base md:text-xl text-neutral-500 leading-relaxed font-medium mb-6 md:mb-8 uppercase tracking-tighter">${data.text}</p>
+                
+                <div class="modal-price text-accent mb-6">${data.price}</div>
+                
+                <div class="mb-6">
+                    <h3 class="text-sm font-bold uppercase tracking-widest mb-3" data-i18n="modal.features">${t['modal.features']}</h3>
+                    <ul class="modal-feature-list">
+                        ${data.features.map(feature => `<li class="text-sm text-neutral-600 dark:text-neutral-400">${feature}</li>`).join('')}
+                    </ul>
+                </div>
+                
+                <div class="mb-8">
+                    <h3 class="text-sm font-bold uppercase tracking-widest mb-3">Inclui:</h3>
+                    <ul class="modal-feature-list">
+                        ${data.includes.map(item => `<li class="text-sm text-neutral-600 dark:text-neutral-400">${item}</li>`).join('')}
+                    </ul>
+                </div>
+                
+                <a href="${data.link}" class="block w-full py-4 md:py-5 bg-black dark:bg-white text-white dark:text-black rounded-2xl font-black uppercase text-xs tracking-widest text-center hover:scale-[1.02] transition-transform focus:outline-none focus:ring-4 focus:ring-accent focus:ring-opacity-50">
+                    ${t['shop.buy']} ${data.price}
+                </a>
+            `;
                     break;
 
                 case 'blog':
                     modalHTML = `
-                        <div class="text-xs uppercase tracking-widest text-gray-500 mb-4">${t[`blog.article${type === 'ai-future' ? '1' : type === 'brutalism' ? '2' : '3'}.category`]}</div>
-                        <h2 class="text-3xl md:text-5xl font-black uppercase tracking-tighter mb-4 md:mb-6 italic">${t[data.title]}</h2>
-                        <div class="w-16 md:w-20 h-1 bg-black dark:bg-white mb-6 md:mb-8"></div>
-                        <p class="text-base md:text-xl text-neutral-500 leading-relaxed font-medium mb-6 md:mb-8 uppercase tracking-tighter">${data.text}</p>
-                        
-                        <div class="mb-6">
-                            <h3 class="text-sm font-bold uppercase tracking-widest mb-3" data-i18n="modal.article.content">${t['modal.article.content']}</h3>
-                            <ul class="modal-feature-list">
-                                ${data.content.map(item => `<li class="text-sm text-neutral-600 dark:text-neutral-400">${item}</li>`).join('')}
-                            </ul>
-                        </div>
-                        
-                        <div class="flex items-center justify-between mb-8">
-                            <span class="text-sm text-neutral-500" data-i18n="modal.read.time">${t['modal.read.time']} ${data.readTime}</span>
-                            <a href="#" class="text-xs font-bold uppercase tracking-widest hover:text-accent transition-colors focus:outline-none focus:ring-2 focus:ring-accent">
-                                ${t['blog.read']}
-                            </a>
-                        </div>
-                    `;
+                <div class="text-xs uppercase tracking-widest text-gray-500 mb-4">
+                    ${t[`blog.article${type === 'ai-future' ? '1' : type === 'brutalism' ? '2' : '3'}.category`]}
+                </div>
+                <h2 class="text-3xl md:text-5xl font-black uppercase tracking-tighter mb-4 md:mb-6 italic">
+                    ${t[data.title]}
+                </h2>
+                <div class="w-16 md:w-20 h-1 bg-black dark:bg-white mb-6 md:mb-8"></div>
+                <p class="text-base md:text-xl text-neutral-500 leading-relaxed font-medium mb-6 md:mb-8 uppercase tracking-tighter">
+                    ${data.text}
+                </p>
+                
+                <div class="mb-6">
+                    <h3 class="text-sm font-bold uppercase tracking-widest mb-3" data-i18n="modal.article.content">
+                        ${t['modal.article.content']}
+                    </h3>
+                    <ul class="modal-feature-list">
+                        ${data.content.map(item => `
+                            <li class="text-sm text-neutral-600 dark:text-neutral-400 flex items-center gap-2 mb-2">
+                                <span class="w-1 h-1 bg-black dark:bg-white"></span>
+                                ${item}
+                            </li>
+                        `).join('')}
+                    </ul>
+                </div>
+                
+                <div class="flex items-center justify-between mb-8">
+                    <span class="text-sm text-neutral-500" data-i18n="modal.read.time">
+                        ${t['modal.read.time']} ${data.readTime}
+                    </span>
+                    <a href="${data.link}" class="group flex items-center gap-2 text-xs font-bold uppercase tracking-widest hover:text-accent transition-all focus:outline-none focus:ring-2 focus:ring-accent">
+                        ${t['blog.read']}
+                        <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                        </svg>
+                    </a>
+                </div>
+            `;
                     break;
             }
 
-            modalHTML += `
-                <button onclick="closeModal()" class="w-full py-4 md:py-5 border border-gray-300 dark:border-gray-700 rounded-2xl font-black uppercase text-xs tracking-widest hover:border-accent transition-colors mt-4 focus:outline-none focus:ring-2 focus:ring-accent">
+            // Botão de fechar para agência, botões de ação para outros
+            if (data.type === 'agency') {
+                modalHTML += `
+            <button onclick="closeModal()" class="w-full py-4 md:py-5 border border-gray-300 dark:border-gray-700 rounded-2xl font-black uppercase text-xs tracking-widest hover:border-accent transition-colors mt-4 focus:outline-none focus:ring-2 focus:ring-accent">
+                ${t['modal.close']}
+            </button>
+        `;
+            } else {
+                modalHTML += `
+            <div class="flex gap-4 mt-6">
+                <button onclick="closeModal()" class="flex-1 py-4 md:py-5 border border-gray-300 dark:border-gray-700 rounded-2xl font-black uppercase text-xs tracking-widest hover:border-accent transition-colors focus:outline-none focus:ring-2 focus:ring-accent">
                     ${t['modal.close']}
                 </button>
-            `;
+            </div>
+        `;
+            }
 
             modalBody.innerHTML = modalHTML;
 
@@ -3368,30 +3662,6 @@
             setTimeout(() => {
                 content.focus();
             }, 100);
-        }
-
-        function closeModal() {
-            const overlay = document.getElementById('modal-overlay');
-            const content = document.getElementById('modal-content');
-            if (!overlay || !content) return;
-
-            overlay.setAttribute('aria-hidden', 'true');
-            overlay.classList.add('opacity-0', 'pointer-events-none');
-            content.classList.add('translate-y-20');
-            document.body.style.overflow = '';
-
-            setTimeout(() => {
-                overlay.hidden = true;
-            }, 500);
-        }
-
-        // === HANDLE PURCHASE ===
-        function handlePurchase(productType) {
-            const currentLang = localStorage.getItem('language') || 'pt';
-            const product = modalData[productType];
-
-            alert(`${translations[currentLang]['shop.buy']} ${translations[currentLang][`modal.${productType}.title`]} ${product.price}!`);
-            closeModal();
         }
 
         // === TROCA DE IDIOMA DINÂMICA ===
@@ -3511,6 +3781,77 @@
                 document.body.style.opacity = '1';
             });
         });
+
+        // === VERIFICAÇÃO GLOBAL DA FUNÇÃO CLOSE MODAL ===
+        window.closeModal = function () {
+            const overlay = document.getElementById('modal-overlay');
+            const content = document.getElementById('modal-content');
+            const modalBody = document.getElementById('modal-body');
+
+            if (!overlay || !content || !modalBody) {
+                console.error('Elementos do modal não encontrados');
+                return;
+            }
+
+            console.log('Fechando modal...');
+
+            // Esconder modal
+            overlay.classList.add('opacity-0', 'pointer-events-none');
+            content.classList.add('translate-y-20');
+
+            // Limpar conteúdo após animação
+            setTimeout(() => {
+                modalBody.innerHTML = '';
+                overlay.setAttribute('aria-hidden', 'true');
+                overlay.setAttribute('hidden', 'true');
+                document.body.style.overflow = '';
+
+                // Focar no body
+                document.body.focus();
+            }, 500);
+        };
+
+        // === DEBUGAÇÃO: Verificar se a função está sendo chamada ===
+        document.addEventListener('click', function (e) {
+            if (e.target && e.target.onclick && e.target.onclick.toString().includes('closeModal')) {
+                console.log('Botão de fechar modal clicado');
+            }
+        });
+
+        // === PWA SUPPORT ===
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(registration => console.log('Service Worker registrado:', registration.scope))
+                    .catch(err => console.log('Service Worker falhou:', err));
+            });
+        }
+
+        // === PERFORMANCE MONITORING ===
+        if (window.performance) {
+            const perfData = performance.getEntriesByType('navigation')[0];
+            console.log('Performance:', {
+                loadTime: perfData.loadEventEnd - perfData.loadEventStart,
+                domContentLoaded: perfData.domContentLoadedEventEnd - perfData.domContentLoadedEventStart,
+                timeToInteractive: perfData.domInteractive - perfData.fetchStart
+            });
+        }
+
+        // === ERROR HANDLING ===
+        window.addEventListener('error', (e) => {
+            console.error('Global error:', e.error);
+            // Enviar para serviço de monitoramento
+            if (window.monitoringService) {
+                window.monitoringService.captureException(e.error);
+            }
+        });
+
+        // === CONSOLE CLEANUP PARA PRODUÇÃO ===
+        if (window.location.hostname !== 'localhost') {
+            const noop = () => { };
+            console.debug = noop;
+            // console.log e console.warn permanecem para debugging limitado
+        }
 
     </script>
 </body>
