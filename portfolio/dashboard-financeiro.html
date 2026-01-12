@@ -4,60 +4,566 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;900&display=swap');
-        body { font-family: 'Inter', sans-serif; }
+        body { 
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+        }
+        
+        /* Animações financeiras */
+        @keyframes ticker {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+        
+        @keyframes pulse-finance {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 0 5px rgba(34, 197, 94, 0.3); }
+            50% { box-shadow: 0 0 20px rgba(34, 197, 94, 0.6); }
+        }
+        
+        @keyframes chart-line {
+            0% { stroke-dashoffset: 1000; }
+            100% { stroke-dashoffset: 0; }
+        }
+        
+        .animate-ticker {
+            animation: ticker 30s linear infinite;
+        }
+        
+        .animate-pulse-finance {
+            animation: pulse-finance 2s ease-in-out infinite;
+        }
+        
+        .animate-glow {
+            animation: glow 3s ease-in-out infinite;
+        }
+        
+        .chart-line {
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            animation: chart-line 3s ease-out forwards;
+        }
+        
+        /* Efeitos específicos financeiros */
+        .profit { color: #10b981; }
+        .loss { color: #ef4444; }
+        
+        /* Scrollbar financeira */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #000;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #10b981;
+            border: 2px solid #000;
+        }
+        
+        /* Cursor de dinheiro */
+        .cursor-money {
+            cursor: url("data:image/svg+xml,%3Csvg width='32' height='32' viewBox='0 0 32 32' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='16' cy='16' r='14' stroke='%2310B981' stroke-width='2'/%3E%3Ctext x='16' y='20' text-anchor='middle' font-family='Inter' font-weight='900' font-size='10' fill='%2310B981'%3E€%3C/text%3E%3C/svg%3E"), auto;
+        }
+        
+        /* Grid de fundo financeiro */
+        .finance-grid {
+            background-size: 40px 40px;
+            background-image: 
+                linear-gradient(to right, rgba(0,0,0,0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0,0,0,0.05) 1px, transparent 1px);
+        }
+        
+        /* Efeito de terminal */
+        .terminal-text {
+            font-family: 'Courier New', monospace;
+            background: #000;
+            color: #10b981;
+        }
+        
+        /* Efeito de brilho em números */
+        .number-glow {
+            text-shadow: 0 0 10px currentColor;
+        }
     </style>
 </head>
-<body class="bg-white text-black min-h-screen flex flex-col p-0 selection:bg-black selection:text-white overflow-x-hidden">
+<body class="bg-white text-black min-h-screen flex flex-col p-0 selection:bg-black selection:text-white overflow-x-hidden cursor-money">
 
+    <!-- Ticker de mercado -->
+    <div class="bg-black text-white py-2 overflow-hidden border-b-2 border-emerald-500">
+        <div class="animate-ticker whitespace-nowrap text-xs font-black">
+            €AAPL +2.4% • €TSLA -1.8% • €GOOGL +0.9% • €MSFT +1.2% • €AMZN -0.5% • €NVDA +4.7% • €BTC +3.2% • €ETH +1.8% • 
+            €AAPL +2.4% • €TSLA -1.8% • €GOOGL +0.9% • €MSFT +1.2% • €AMZN -0.5% • €NVDA +4.7% • €BTC +3.2% • €ETH +1.8% •
+        </div>
+    </div>
+
+    <!-- Navigation -->
     <nav class="p-6 md:p-10 border-b-4 border-black flex justify-between items-center sticky top-0 bg-white z-50">
-        <div class="font-black text-3xl italic tracking-tighter">FIN_LAB_</div>
+        <div class="flex items-center gap-4">
+            <div class="font-black text-3xl italic tracking-tighter hover:scale-105 transition-transform cursor-help" title="Finance Laboratory">FIN_LAB_</div>
+            <div class="hidden md:flex gap-2">
+                <a href="#overview" class="text-[10px] font-black uppercase px-3 py-1 border border-black hover:bg-black hover:text-white transition-all">OVERVIEW</a>
+                <a href="#markets" class="text-[10px] font-black uppercase px-3 py-1 border border-black hover:bg-black hover:text-white transition-all">MARKETS</a>
+                <a href="#portfolio" class="text-[10px] font-black uppercase px-3 py-1 border border-black hover:bg-black hover:text-white transition-all">PORTFOLIO</a>
+                <a href="#ai" class="text-[10px] font-black uppercase px-3 py-1 border border-black hover:bg-black hover:text-white transition-all">AI INSIGHTS</a>
+            </div>
+        </div>
+        
         <button onclick="window.parent && window.parent.closeModal ? window.parent.closeModal() : window.location.href='../index.html'" 
                 class="flex items-center gap-3 group transition-all active:scale-95">
             <span class="hidden md:block text-[10px] font-black uppercase tracking-widest opacity-40 group-hover:opacity-100 transition-all italic">Fechar Relatório</span>
-            <div class="bg-black text-white px-6 py-2 font-black italic uppercase text-sm group-hover:bg-emerald-500 transition-all shadow-[4px_4px_0px_#ccc] group-hover:shadow-none">
+            <div class="bg-black text-white px-6 py-2 font-black italic uppercase text-sm group-hover:bg-emerald-500 transition-all shadow-[4px_4px_0px_#ccc] group-hover:shadow-none animate-pulse-finance">
                 EXIT_X
             </div>
         </button>
     </nav>
 
+    <!-- Main Content -->
     <main class="flex-1 p-6 md:p-12 max-w-[1400px] mx-auto w-full">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-0 border-4 border-black mb-12">
+        <!-- KPI Overview -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-0 border-4 border-black mb-12 animate-glow">
             <div class="p-8 border-b-4 md:border-b-0 md:border-r-4 border-black hover:bg-zinc-50 transition-colors group">
                 <span class="text-[10px] font-black uppercase opacity-40">Capital Total</span>
-                <div class="text-5xl font-black mt-2 tracking-tighter group-hover:scale-105 transition-transform origin-left">€1.2M</div>
+                <div class="text-5xl font-black mt-2 tracking-tighter group-hover:scale-105 transition-transform origin-left number-glow profit">
+                    €1,247,892
+                </div>
+                <div class="text-xs font-black mt-2 profit">+€28,450 (2.3%)</div>
             </div>
+            
             <div class="p-8 border-b-4 md:border-b-0 md:border-r-4 border-black bg-black text-white group">
                 <span class="text-[10px] font-black uppercase opacity-40">Performance</span>
-                <div class="text-5xl font-black mt-2 tracking-tighter text-emerald-400 group-hover:text-white transition-colors">+24.8%</div>
+                <div class="text-5xl font-black mt-2 tracking-tighter text-emerald-400 group-hover:text-white transition-colors number-glow">
+                    +24.8%
+                </div>
+                <div class="text-xs font-black mt-2 text-emerald-300">vs. S&P 500 +18.2%</div>
             </div>
+            
             <div class="p-8 hover:bg-zinc-50 transition-colors group">
                 <span class="text-[10px] font-black uppercase opacity-40">Status do Sistema</span>
-                <div class="text-5xl font-black mt-2 tracking-tighter group-hover:italic transition-all">ESTÁVEL</div>
+                <div class="text-5xl font-black mt-2 tracking-tighter group-hover:italic transition-all animate-pulse-finance">
+                    <span class="profit">ESTÁVEL</span>
+                </div>
+                <div class="text-xs font-black mt-2">98.7% Uptime</div>
             </div>
         </div>
 
-        <div class="space-y-6">
-            <h2 class="text-sm font-black uppercase tracking-[0.5em] border-l-8 border-black pl-4">Fluxo de Dados em Tempo Real</h2>
-            <div class="h-[400px] border-4 border-black flex items-end p-6 gap-2 md:gap-4 bg-zinc-50 relative overflow-hidden group">
-                <div class="absolute inset-0 bg-gradient-to-t from-emerald-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+        <!-- Seção 1: Gráfico Principal -->
+        <section id="overview" class="mb-16">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-sm font-black uppercase tracking-[0.5em] border-l-8 border-black pl-4">
+                    Fluxo de Dados em Tempo Real
+                </h2>
+                <div class="flex gap-2">
+                    <button class="text-[10px] font-black uppercase px-3 py-1 border border-black bg-black text-white">24H</button>
+                    <button class="text-[10px] font-black uppercase px-3 py-1 border border-black hover:bg-black hover:text-white transition-all">7D</button>
+                    <button class="text-[10px] font-black uppercase px-3 py-1 border border-black hover:bg-black hover:text-white transition-all">1M</button>
+                    <button class="text-[10px] font-black uppercase px-3 py-1 border border-black hover:bg-black hover:text-white transition-all">1Y</button>
+                </div>
+            </div>
+            
+            <div class="h-[400px] border-4 border-black flex items-end p-6 gap-2 md:gap-4 bg-zinc-50 relative overflow-hidden group finance-grid">
+                <div class="absolute inset-0 bg-gradient-to-t from-emerald-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
                 
-                <div class="flex-1 bg-black/10 h-[30%] hover:h-[60%] hover:bg-black transition-all duration-500 cursor-crosshair relative group/bar">
-                    <span class="absolute -top-8 left-0 text-[10px] font-black opacity-0 group-hover/bar:opacity-100">30%</span>
+                <!-- Barras do gráfico -->
+                <div class="flex-1 bg-black/10 h-[30%] hover:h-[60%] hover:bg-emerald-600 transition-all duration-500 cursor-crosshair relative group/bar">
+                    <div class="absolute -top-8 left-0 text-[10px] font-black opacity-0 group-hover/bar:opacity-100 profit">€42K</div>
+                    <div class="absolute bottom-0 left-0 right-0 text-center text-[8px] font-black opacity-40">MON</div>
                 </div>
-                <div class="flex-1 bg-black h-[75%] hover:h-[90%] transition-all duration-500 cursor-crosshair relative group/bar text-white p-2 overflow-hidden">
-                    <span class="text-[8px] font-black rotate-90 absolute bottom-4">MAX_LEVEL</span>
+                
+                <div class="flex-1 bg-emerald-600 h-[75%] hover:h-[90%] transition-all duration-500 cursor-crosshair relative group/bar text-white p-2 overflow-hidden">
+                    <span class="text-[8px] font-black rotate-90 absolute bottom-4">€89K PEAK</span>
+                    <div class="absolute bottom-0 left-0 right-0 text-center text-[8px] font-black">TUE</div>
                 </div>
-                <div class="flex-1 bg-black/10 h-[45%] hover:h-[70%] hover:bg-black transition-all duration-500 cursor-crosshair relative group/bar"></div>
-                <div class="flex-1 bg-black/10 h-[20%] hover:h-[50%] hover:bg-black transition-all duration-500 cursor-crosshair relative group/bar"></div>
-                <div class="flex-1 bg-black/10 h-[65%] hover:h-[85%] hover:bg-black transition-all duration-500 cursor-crosshair relative group/bar"></div>
-                <div class="flex-1 bg-black h-[40%] hover:h-[60%] transition-all duration-500 cursor-crosshair relative group/bar"></div>
+                
+                <div class="flex-1 bg-black/10 h-[45%] hover:h-[70%] hover:bg-emerald-600 transition-all duration-500 cursor-crosshair relative group/bar">
+                    <div class="absolute bottom-0 left-0 right-0 text-center text-[8px] font-black opacity-40">WED</div>
+                </div>
+                
+                <div class="flex-1 bg-black/10 h-[20%] hover:h-[50%] hover:bg-emerald-600 transition-all duration-500 cursor-crosshair relative group/bar">
+                    <div class="absolute bottom-0 left-0 right-0 text-center text-[8px] font-black opacity-40">THU</div>
+                </div>
+                
+                <div class="flex-1 bg-black/10 h-[65%] hover:h-[85%] hover:bg-emerald-600 transition-all duration-500 cursor-crosshair relative group/bar">
+                    <div class="absolute bottom-0 left-0 right-0 text-center text-[8px] font-black opacity-40">FRI</div>
+                </div>
+                
+                <div class="flex-1 bg-emerald-600 h-[40%] hover:h-[60%] transition-all duration-500 cursor-crosshair relative group/bar">
+                    <div class="absolute bottom-0 left-0 right-0 text-center text-[8px] font-black">SAT</div>
+                </div>
+                
+                <div class="flex-1 bg-black/10 h-[55%] hover:h-[75%] hover:bg-emerald-600 transition-all duration-500 cursor-crosshair relative group/bar">
+                    <div class="absolute bottom-0 left-0 right-0 text-center text-[8px] font-black opacity-40">SUN</div>
+                </div>
             </div>
+            
+            <!-- Legendas e controles -->
+            <div class="flex justify-between items-center mt-4">
+                <div class="flex items-center gap-4">
+                    <div class="flex items-center gap-2">
+                        <div class="w-4 h-4 bg-emerald-600"></div>
+                        <span class="text-[10px] font-black uppercase">Profit</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <div class="w-4 h-4 bg-black/10"></div>
+                        <span class="text-[10px] font-black uppercase">Base</span>
+                    </div>
+                </div>
+                <div class="text-[10px] font-black uppercase opacity-40">
+                    Última atualização: <span class="profit">14:32:45</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seção 2: Portfolio & Markets -->
+        <div class="grid md:grid-cols-2 gap-8 mb-16">
+            <!-- Portfolio -->
+            <section id="portfolio" class="border-4 border-black p-6">
+                <h3 class="text-sm font-black uppercase tracking-[0.3em] mb-6 border-b-2 border-black pb-2">
+                    PORTFOLIO_ALOCATION
+                </h3>
+                
+                <div class="space-y-4">
+                    <!-- Ativo 1 -->
+                    <div class="flex items-center justify-between p-4 border border-black hover:bg-black hover:text-white transition-all group cursor-help">
+                        <div class="flex items-center gap-4">
+                            <div class="w-10 h-10 bg-emerald-500/20 border-2 border-emerald-500 flex items-center justify-center font-black">
+                                €A
+                            </div>
+                            <div>
+                                <div class="font-black">AAPL</div>
+                                <div class="text-[10px] uppercase opacity-60">Apple Inc.</div>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <div class="font-black text-lg profit">+2.4%</div>
+                            <div class="text-[10px]">€247,320</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Ativo 2 -->
+                    <div class="flex items-center justify-between p-4 border border-black hover:bg-black hover:text-white transition-all group">
+                        <div class="flex items-center gap-4">
+                            <div class="w-10 h-10 bg-black/20 border-2 border-black flex items-center justify-center font-black">
+                                €T
+                            </div>
+                            <div>
+                                <div class="font-black">TSLA</div>
+                                <div class="text-[10px] uppercase opacity-60">Tesla Inc.</div>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <div class="font-black text-lg loss">-1.8%</div>
+                            <div class="text-[10px]">€189,450</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Ativo 3 -->
+                    <div class="flex items-center justify-between p-4 border border-black hover:bg-black hover:text-white transition-all group">
+                        <div class="flex items-center gap-4">
+                            <div class="w-10 h-10 bg-emerald-500/20 border-2 border-emerald-500 flex items-center justify-center font-black">
+                                €N
+                            </div>
+                            <div>
+                                <div class="font-black">NVDA</div>
+                                <div class="text-[10px] uppercase opacity-60">NVIDIA Corp.</div>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <div class="font-black text-lg profit number-glow">+4.7%</div>
+                            <div class="text-[10px]">€312,780</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Ativo 4 -->
+                    <div class="flex items-center justify-between p-4 border border-black hover:bg-black hover:text-white transition-all group">
+                        <div class="flex items-center gap-4">
+                            <div class="w-10 h-10 bg-black/20 border-2 border-black flex items-center justify-center font-black">
+                                €B
+                            </div>
+                            <div>
+                                <div class="font-black">BTC</div>
+                                <div class="text-[10px] uppercase opacity-60">Bitcoin</div>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <div class="font-black text-lg profit">+3.2%</div>
+                            <div class="text-[10px]">€156,340</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-6 pt-4 border-t border-black">
+                    <div class="flex justify-between text-[10px] font-black uppercase">
+                        <span>Total Alocado:</span>
+                        <span class="profit">€905,890</span>
+                    </div>
+                    <div class="flex justify-between text-[10px] font-black uppercase mt-2">
+                        <span>Livre para Investir:</span>
+                        <span>€342,002</span>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Mercados Globais -->
+            <section id="markets" class="border-4 border-black p-6">
+                <h3 class="text-sm font-black uppercase tracking-[0.3em] mb-6 border-b-2 border-black pb-2">
+                    GLOBAL_MARKETS
+                </h3>
+                
+                <div class="space-y-3">
+                    <div class="flex justify-between items-center p-3 border-b border-black/10">
+                        <span class="font-black">S&P 500</span>
+                        <span class="profit font-black">+1.2%</span>
+                        <span class="text-[10px] opacity-60">4,850.43</span>
+                    </div>
+                    
+                    <div class="flex justify-between items-center p-3 border-b border-black/10">
+                        <span class="font-black">NASDAQ</span>
+                        <span class="profit font-black">+2.1%</span>
+                        <span class="text-[10px] opacity-60">15,230.67</span>
+                    </div>
+                    
+                    <div class="flex justify-between items-center p-3 border-b border-black/10">
+                        <span class="font-black">DOW JONES</span>
+                        <span class="loss font-black">-0.3%</span>
+                        <span class="text-[10px] opacity-60">37,450.12</span>
+                    </div>
+                    
+                    <div class="flex justify-between items-center p-3 border-b border-black/10">
+                        <span class="font-black">FTSE 100</span>
+                        <span class="profit font-black">+0.8%</span>
+                        <span class="text-[10px] opacity-60">7,680.34</span>
+                    </div>
+                    
+                    <div class="flex justify-between items-center p-3">
+                        <span class="font-black">DAX</span>
+                        <span class="profit font-black">+1.5%</span>
+                        <span class="text-[10px] opacity-60">16,720.89</span>
+                    </div>
+                </div>
+                
+                <!-- Gráfico de calor de mercado -->
+                <div class="mt-8">
+                    <div class="text-[10px] font-black uppercase mb-3">Market Heatmap</div>
+                    <div class="grid grid-cols-6 gap-1">
+                        <div class="h-8 bg-emerald-500/30 hover:bg-emerald-500 transition-all cursor-help" title="TECH +2.4%"></div>
+                        <div class="h-8 bg-emerald-500/50 hover:bg-emerald-500 transition-all cursor-help" title="FIN +1.8%"></div>
+                        <div class="h-8 bg-red-500/30 hover:bg-red-500 transition-all cursor-help" title="ENERGY -0.9%"></div>
+                        <div class="h-8 bg-emerald-500/70 hover:bg-emerald-500 transition-all cursor-help" title="HLTH +3.2%"></div>
+                        <div class="h-8 bg-emerald-500/40 hover:bg-emerald-500 transition-all cursor-help" title="CONS +1.1%"></div>
+                        <div class="h-8 bg-red-500/50 hover:bg-red-500 transition-all cursor-help" title="UTIL -0.5%"></div>
+                    </div>
+                </div>
+            </section>
         </div>
 
-        <p class="mt-8 text-[10px] font-black uppercase opacity-30 text-center tracking-[1em]">Brutalism // Finance // MakerAI</p>
+        <!-- Seção 3: AI Insights -->
+        <section id="ai" class="border-4 border-black p-6 mb-12 bg-black text-white">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-sm font-black uppercase tracking-[0.3em]">
+                    <span class="text-emerald-400">AI_</span>INSIGHTS
+                </h3>
+                <div class="flex items-center gap-2">
+                    <div class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse-finance"></div>
+                    <span class="text-[10px] font-black uppercase text-emerald-400">LIVE ANALYSIS</span>
+                </div>
+            </div>
+            
+            <div class="terminal-text p-4 mb-4">
+                <div class="text-emerald-400 font-mono text-sm">
+                    <span class="opacity-60">$</span> analyze_market_patterns --depth=7 --ai-model=fin-gpt4<br>
+                    <span class="opacity-60">></span> <span class="text-white">Detected bullish pattern in TECH sector (87% confidence)</span><br>
+                    <span class="opacity-60">></span> <span class="text-white">Recommendation: Increase NVDA allocation by 2.4%</span><br>
+                    <span class="opacity-60">></span> <span class="text-white">Risk level: LOW (0.23/1.0)</span><br>
+                    <span class="opacity-60">></span> <span class="text-white">Projected 7-day return: +3.8% to +5.2%</span><br>
+                    <span class="opacity-60">></span> <span class="text-white">AI Confidence Score: 92.7%</span><br>
+                </div>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-4">
+                <div class="border border-emerald-500/30 p-4">
+                    <div class="text-[10px] font-black uppercase text-emerald-400 mb-2">TOP PREDICTION</div>
+                    <div class="text-xl font-black">NVDA → +5.2%</div>
+                    <div class="text-[10px] opacity-60 mt-1">Next 72 hours</div>
+                </div>
+                
+                <div class="border border-white/30 p-4">
+                    <div class="text-[10px] font-black uppercase opacity-60 mb-2">RISK ASSESSMENT</div>
+                    <div class="text-xl font-black">LOW</div>
+                    <div class="text-[10px] opacity-60 mt-1">0.23/1.0 score</div>
+                </div>
+                
+                <div class="border border-emerald-500/30 p-4">
+                    <div class="text-[10px] font-black uppercase text-emerald-400 mb-2">AI CONFIDENCE</div>
+                    <div class="text-xl font-black">92.7%</div>
+                    <div class="text-[10px] opacity-60 mt-1">Based on 2.1M data points</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seção 4: Ações Rápidas -->
+        <div class="grid md:grid-cols-4 gap-4 mb-12">
+            <button class="border-4 border-black p-6 hover:bg-black hover:text-white transition-all group active:scale-95">
+                <div class="text-3xl font-black mb-2 group-hover:scale-110 transition-transform">↻</div>
+                <div class="text-[10px] font-black uppercase">Refresh Data</div>
+            </button>
+            
+            <button class="border-4 border-black p-6 hover:bg-emerald-500 hover:text-white transition-all group active:scale-95">
+                <div class="text-3xl font-black mb-2 group-hover:scale-110 transition-transform">⚡</div>
+                <div class="text-[10px] font-black uppercase">Execute Trade</div>
+            </button>
+            
+            <button class="border-4 border-black p-6 hover:bg-black hover:text-white transition-all group active:scale-95">
+                <div class="text-3xl font-black mb-2 group-hover:scale-110 transition-transform">📊</div>
+                <div class="text-[10px] font-black uppercase">New Report</div>
+            </button>
+            
+            <button class="border-4 border-black p-6 hover:bg-black hover:text-white transition-all group active:scale-95">
+                <div class="text-3xl font-black mb-2 group-hover:scale-110 transition-transform">🤖</div>
+                <div class="text-[10px] font-black uppercase">AI Scan</div>
+            </button>
+        </div>
+
+        <!-- Footer -->
+        <div class="border-t-4 border-black pt-8">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+                <div class="text-center md:text-left">
+                    <div class="font-black text-2xl italic tracking-tighter mb-2">FIN_LAB_</div>
+                    <p class="text-[10px] font-black uppercase opacity-30 tracking-[0.2em]">
+                        Brutalism // Finance // MakerAI // Real-time Analytics
+                    </p>
+                </div>
+                
+                <div class="flex gap-4">
+                    <div class="text-center">
+                        <div class="text-[10px] font-black uppercase opacity-40">Latência</div>
+                        <div class="text-lg font-black profit">12ms</div>
+                    </div>
+                    
+                    <div class="text-center">
+                        <div class="text-[10px] font-black uppercase opacity-40">Data Points</div>
+                        <div class="text-lg font-black">2.1M</div>
+                    </div>
+                    
+                    <div class="text-center">
+                        <div class="text-[10px] font-black uppercase opacity-40">Uptime</div>
+                        <div class="text-lg font-black profit">99.97%</div>
+                    </div>
+                </div>
+                
+                <div class="flex gap-3">
+                    <button class="w-10 h-10 border-2 border-black flex items-center justify-center hover:bg-black hover:text-white transition-all">
+                        <i class="fas fa-download"></i>
+                    </button>
+                    <button class="w-10 h-10 border-2 border-black flex items-center justify-center hover:bg-black hover:text-white transition-all">
+                        <i class="fas fa-chart-line"></i>
+                    </button>
+                    <button class="w-10 h-10 border-2 border-black flex items-center justify-center hover:bg-black hover:text-white transition-all">
+                        <i class="fas fa-robot"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
     </main>
 
+    <!-- JavaScript para interações financeiras -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Atualizar números em tempo real (simulação)
+            function updateMarketNumbers() {
+                const elements = document.querySelectorAll('.profit, .loss');
+                elements.forEach(el => {
+                    if(el.classList.contains('profit')) {
+                        const randomChange = (Math.random() * 3).toFixed(1);
+                        if(el.textContent.includes('%')) {
+                            el.textContent = `+${randomChange}%`;
+                        }
+                    }
+                });
+                
+                // Atualizar ticker
+                const ticker = document.querySelector('.animate-ticker');
+                if(ticker) {
+                    const newContent = ticker.textContent.split('•').slice(1).concat(ticker.textContent.split('•')[0]).join('•');
+                    ticker.textContent = newContent;
+                }
+            }
+            
+            // Atualizar a cada 5 segundos
+            setInterval(updateMarketNumbers, 5000);
+            
+            // Efeito de hover nas barras do gráfico
+            const bars = document.querySelectorAll('[class*="group/bar"]');
+            bars.forEach(bar => {
+                bar.addEventListener('mouseenter', function() {
+                    const value = this.querySelector('.profit, .loss')?.textContent || '€0';
+                    const day = this.querySelector('div[class*="text-center"]')?.textContent || '';
+                    
+                    // Criar tooltip
+                    const tooltip = document.createElement('div');
+                    tooltip.className = 'absolute -top-12 left-1/2 transform -translate-x-1/2 bg-black text-white px-3 py-1 text-xs font-black whitespace-nowrap z-50';
+                    tooltip.textContent = `${day}: ${value}`;
+                    this.appendChild(tooltip);
+                });
+                
+                bar.addEventListener('mouseleave', function() {
+                    const tooltip = this.querySelector('.absolute.-top-12');
+                    if(tooltip) tooltip.remove();
+                });
+            });
+            
+            // Terminal typing effect
+            const terminal = document.querySelector('.terminal-text');
+            if(terminal) {
+                setTimeout(() => {
+                    terminal.classList.add('opacity-100');
+                }, 1000);
+            }
+            
+            // Atualizar horário em tempo real
+            function updateTime() {
+                const now = new Date();
+                const timeString = now.toLocaleTimeString('pt-BR', { 
+                    hour12: false,
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit'
+                });
+                
+                const timeElement = document.querySelector('.profit:contains(":")');
+                if(timeElement && !timeElement.textContent.includes('%')) {
+                    timeElement.textContent = timeString;
+                }
+            }
+            
+            setInterval(updateTime, 1000);
+            
+            // Efeito de clique nos botões de ação
+            const actionButtons = document.querySelectorAll('button[class*="active\\:scale-95"]');
+            actionButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // Som de clique (simulado)
+                    const audio = new Audio('data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEAQB8AAEAfAAABAAgAZGF0YQ');
+                    audio.volume = 0.1;
+                    // audio.play(); // Descomente se tiver som real
+                    
+                    // Efeito visual
+                    this.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        this.style.transform = '';
+                    }, 100);
+                });
+            });
+        });
+    </script>
 </body>
 </html>
