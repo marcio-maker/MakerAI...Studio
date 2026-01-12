@@ -4,69 +4,587 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap');
-        body { font-family: 'Space Mono', monospace; }
-        @keyframes scan { 0% { top: -10%; } 100% { top: 110%; } }
-        .scanner { animation: scan 2s linear infinite; }
-        .blob { filter: blur(40px); }
+        body { 
+            font-family: 'Space Mono', monospace;
+            scroll-behavior: smooth;
+        }
+        
+        /* Animações futuristas */
+        @keyframes scan { 
+            0% { top: -10%; opacity: 0; } 
+            50% { opacity: 1; }
+            100% { top: 110%; opacity: 0; } 
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        @keyframes matrix-rain {
+            0% { transform: translateY(-100%); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(100vh); opacity: 0; }
+        }
+        
+        @keyframes glitch {
+            0% { transform: translate(0); filter: hue-rotate(0); }
+            20% { transform: translate(-2px, 2px); filter: hue-rotate(90deg); }
+            40% { transform: translate(-2px, -2px); filter: hue-rotate(180deg); }
+            60% { transform: translate(2px, 2px); filter: hue-rotate(270deg); }
+            80% { transform: translate(2px, -2px); filter: hue-rotate(360deg); }
+            100% { transform: translate(0); filter: hue-rotate(0); }
+        }
+        
+        @keyframes pulse-neural {
+            0%, 100% { opacity: 1; box-shadow: 0 0 20px rgba(59, 130, 246, 0.5); }
+            50% { opacity: 0.7; box-shadow: 0 0 40px rgba(59, 130, 246, 0.8); }
+        }
+        
+        .scanner { 
+            animation: scan 3s linear infinite;
+            background: linear-gradient(to bottom, transparent, rgba(59, 130, 246, 0.4), transparent);
+        }
+        
+        .blob { 
+            filter: blur(40px);
+            animation: pulse-neural 2s ease-in-out infinite;
+        }
+        
+        .animate-float {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        .animate-glitch {
+            animation: glitch 0.5s linear infinite;
+        }
+        
+        /* Efeitos específicos mobile */
+        .mobile-grid {
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(59, 130, 246, 0.05) 0%, transparent 50%);
+        }
+        
+        /* Cursor de IA */
+        .cursor-ai {
+            cursor: url("data:image/svg+xml,%3Csvg width='32' height='32' viewBox='0 0 32 32' fill='none' xmlns='http://www.w3.org2000/svg'%3E%3Ccircle cx='16' cy='16' r='8' fill='%233B82F6'/%3E%3Cpath d='M16 4 L16 28 M4 16 L28 16' stroke='%233B82F6' stroke-width='2'/%3E%3C/svg%3E"), auto;
+        }
+        
+        /* Scrollbar futurista */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #050505;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(to bottom, #3B82F6, #1E40AF);
+            border-radius: 4px;
+        }
+        
+        /* Efeito de texto digital */
+        .digital-text {
+            text-shadow: 0 0 10px rgba(59, 130, 246, 0.7);
+        }
+        
+        /* Gradiente animado */
+        .animated-gradient {
+            background: linear-gradient(270deg, #3B82F6, #1E40AF, #3B82F6);
+            background-size: 600% 600%;
+            animation: gradient 3s ease infinite;
+        }
+        
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        /* Efeito de matriz (chuva de código) */
+        .matrix-rain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .matrix-character {
+            position: absolute;
+            color: #3B82F6;
+            font-size: 14px;
+            font-family: 'Space Mono', monospace;
+            animation: matrix-rain linear infinite;
+        }
     </style>
 </head>
-<body class="bg-[#050505] text-blue-400 min-h-screen flex flex-col p-6 selection:bg-blue-500 selection:text-white overflow-x-hidden">
+<body class="bg-[#050505] text-blue-400 min-h-screen flex flex-col p-6 selection:bg-blue-500 selection:text-white overflow-x-hidden cursor-ai mobile-grid">
 
-    <nav class="flex justify-between items-center mb-12">
-        <div class="text-2xl font-black tracking-tighter text-white italic">M_A <span class="text-blue-500">SYS</span></div>
-        <button onclick="window.parent && window.parent.closeModal ? window.parent.closeModal() : window.location.href='../index.html'" 
-                class="group flex flex-col items-end transition-all active:scale-95">
-            <span class="text-[9px] uppercase tracking-[0.4em] opacity-40 group-hover:opacity-100 transition-all">Desconectar</span>
-            <span class="text-xl font-bold text-white border-b-2 border-blue-500 group-hover:bg-blue-500 transition-all px-1">BACK_TO_BASE_</span>
-        </button>
+    <!-- Matriz de código no fundo -->
+    <div class="matrix-rain" id="matrixRain"></div>
+
+    <!-- Navigation -->
+    <nav class="flex justify-between items-center mb-12 z-20">
+        <div class="text-2xl font-black tracking-tighter text-white italic hover:animate-glitch cursor-pointer">
+            M_A <span class="text-blue-500 digital-text">SYS</span>
+        </div>
+        
+        <div class="flex items-center gap-6">
+            <div class="hidden md:flex gap-3">
+                <a href="#ai-core" class="text-[9px] uppercase px-3 py-1 border border-blue-500/30 hover:bg-blue-500 hover:text-white transition-all">AI CORE</a>
+                <a href="#features" class="text-[9px] uppercase px-3 py-1 border border-blue-500/30 hover:bg-blue-500 hover:text-white transition-all">FEATURES</a>
+                <a href="#tech" class="text-[9px] uppercase px-3 py-1 border border-blue-500/30 hover:bg-blue-500 hover:text-white transition-all">TECH</a>
+            </div>
+            
+            <button onclick="window.parent && window.parent.closeModal ? window.parent.closeModal() : window.location.href='../index.html'" 
+                    class="group flex flex-col items-end transition-all active:scale-95">
+                <span class="text-[9px] uppercase tracking-[0.4em] opacity-40 group-hover:opacity-100 transition-all">Desconectar</span>
+                <span class="text-xl font-bold text-white border-b-2 border-blue-500 group-hover:bg-blue-500 transition-all px-1 digital-text">
+                    BACK_TO_BASE_
+                </span>
+            </button>
+        </div>
     </nav>
 
-    <main class="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center max-w-6xl mx-auto w-full">
-        <div class="relative mx-auto w-full max-w-[300px] aspect-[9/19] bg-black border-[10px] border-zinc-900 rounded-[3rem] shadow-[0_0_60px_rgba(59,130,246,0.2)] overflow-hidden group">
+    <!-- Main Content -->
+    <main class="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center max-w-6xl mx-auto w-full z-10">
+        <!-- Dispositivo Mobile -->
+        <div class="relative mx-auto w-full max-w-[300px] aspect-[9/19] bg-black border-[10px] border-zinc-900 rounded-[3rem] shadow-[0_0_60px_rgba(59,130,246,0.2)] overflow-hidden group animate-float">
             <div class="scanner absolute inset-x-0 h-16 bg-gradient-to-b from-transparent via-blue-500/20 to-transparent z-10 pointer-events-none"></div>
             
+            <!-- Notch -->
+            <div class="absolute top-0 left-1/2 transform -translate-x-1/2 w-32 h-6 bg-black rounded-b-2xl z-30"></div>
+            
             <div class="h-full p-6 flex flex-col justify-between relative z-20">
+                <!-- Status Bar -->
                 <div class="flex justify-between items-center opacity-50 text-[10px]">
-                    <span>MODO_NEURAL_ATIVO</span>
-                    <div class="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></div>
+                    <span class="digital-text">MODO_NEURAL_ATIVO</span>
+                    <div class="flex items-center gap-2">
+                        <div class="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></div>
+                        <span>18:42</span>
+                    </div>
                 </div>
 
-                <div class="space-y-4">
-                    <div class="p-3 bg-zinc-900/50 border border-blue-500/20 rounded-xl text-[10px] leading-relaxed group-hover:border-blue-500/50 transition-all">
-                        > Analizando intenção do usuário...<br>
-                        > Fluxo otimizado detectado.
-                    </div>
-                    <div class="h-32 flex items-center justify-center">
-                        <div class="w-20 h-20 bg-blue-500/10 rounded-full flex items-center justify-center border border-blue-500/30 group-hover:scale-125 transition-transform duration-500">
-                             <div class="w-8 h-8 bg-blue-500 rounded-full blob animate-pulse"></div>
+                <!-- Interface Principal -->
+                <div class="space-y-6 flex-1 flex flex-col justify-center">
+                    <!-- Output da IA -->
+                    <div class="p-4 bg-zinc-900/50 border border-blue-500/20 rounded-xl text-[11px] leading-relaxed group-hover:border-blue-500/50 transition-all backdrop-blur-sm">
+                        <div class="flex items-start gap-2 mb-2">
+                            <div class="w-3 h-3 rounded-full bg-blue-500 mt-1 animate-pulse"></div>
+                            <span class="text-blue-300 font-bold">AI_ASSISTANT:</span>
+                        </div>
+                        <div class="space-y-1">
+                            <div class="flex items-center gap-2">
+                                <span class="opacity-60">></span>
+                                <span>Analisando padrões de uso...</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="opacity-60">></span>
+                                <span class="text-green-400">Otimização neural ativa ✓</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="opacity-60">></span>
+                                <span>Próxima ação prevista: 97% confiança</span>
+                            </div>
                         </div>
                     </div>
+                    
+                    <!-- Núcleo Neural -->
+                    <div class="h forty flex items-center justify-center">
+                        <div class="relative">
+                            <div class="w-24 h-24 bg-blue-500/10 rounded-full flex items-center justify-center border border-blue-500/30 group-hover:scale-125 transition-transform duration-500">
+                                <div class="w-12 h-12 bg-blue-500 rounded-full blob"></div>
+                            </div>
+                            <div class="absolute inset-0 rounded-full border-2 border-blue-500/30 animate-ping"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Controles Rápidos -->
+                    <div class="grid grid-cols-3 gap-2">
+                        <button class="py-2 bg-blue-500/20 border border-blue-500/30 rounded-lg text-[10px] uppercase hover:bg-blue-500 hover:text-white transition-all">
+                            <i class="fas fa-brain"></i>
+                        </button>
+                        <button class="py-2 bg-blue-500/20 border border-blue-500/30 rounded-lg text-[10px] uppercase hover:bg-blue-500 hover:text-white transition-all">
+                            <i class="fas fa-bolt"></i>
+                        </button>
+                        <button class="py-2 bg-blue-500/20 border border-blue-500/30 rounded-lg text-[10px] uppercase hover:bg-blue-500 hover:text-white transition-all">
+                            <i class="fas fa-code"></i>
+                        </button>
+                    </div>
                 </div>
 
-                <button class="w-full py-4 bg-white text-black font-black text-xs uppercase tracking-widest rounded-2xl hover:bg-blue-500 hover:text-white transition-all transform active:scale-90">
-                    Sincronizar IA
+                <!-- Botão Principal -->
+                <button class="w-full py-4 bg-white text-black font-black text-xs uppercase tracking-widest rounded-2xl hover:bg-blue-500 hover:text-white transition-all transform active:scale-90 animated-gradient hover:text-white mt-6">
+                    <i class="fas fa-sync-alt mr-2"></i>Sincronizar IA
                 </button>
             </div>
         </div>
 
-        <div class="space-y-6">
-            <h1 class="text-5xl md:text-7xl font-black text-white uppercase tracking-tighter leading-none italic">Interface <br><span class="text-blue-500">Autónoma</span></h1>
-            <p class="text-zinc-500 max-w-md text-sm leading-relaxed">
-                Um objeto que aprende. Criamos uma camada de inteligência que antecipa o toque, reduz o atrito e eleva a função ao estado de arte.
-            </p>
-            <div class="grid grid-cols-2 gap-4 pt-4 font-bold">
-                <div class="p-4 border border-zinc-800 hover:border-blue-500 transition-colors cursor-help">
-                    <span class="block text-blue-500 text-[10px]">LATÊNCIA</span>
-                    <span class="text-xl text-white">0.002ms</span>
+        <!-- Conteúdo Explicativo -->
+        <div class="space-y-8">
+            <div>
+                <h1 class="text-5xl md:text-7xl font-black text-white uppercase tracking-tighter leading-none italic digital-text">
+                    Interface <br><span class="text-blue-500">Autónoma</span>
+                </h1>
+                <p class="text-zinc-400 max-w-md text-sm leading-relaxed mt-4">
+                    Um objeto que aprende. Criamos uma camada de inteligência que antecipa o toque, reduz o atrito e eleva a função ao estado de arte. O dispositivo não responde - ele prevê.
+                </p>
+            </div>
+            
+            <!-- Estatísticas -->
+            <div class="grid grid-cols-2 gap-4">
+                <div class="p-4 border border-zinc-800 hover:border-blue-500 transition-colors cursor-help group bg-black/50">
+                    <span class="block text-blue-500 text-[10px] uppercase tracking-widest">LATÊNCIA</span>
+                    <span class="text-2xl text-white group-hover:text-blue-400 transition-colors digital-text">0.002ms</span>
+                    <span class="text-[10px] text-zinc-500 block mt-1">Resposta neural</span>
                 </div>
-                <div class="p-4 border border-zinc-800 hover:border-blue-500 transition-colors cursor-help">
-                    <span class="block text-blue-500 text-[10px]">ESTADO</span>
-                    <span class="text-xl text-white">SENTIENTE</span>
+                <div class="p-4 border border-zinc-800 hover:border-blue-500 transition-colors cursor-help group bg-black/50">
+                    <span class="block text-blue-500 text-[10px] uppercase tracking-widest">ESTADO</span>
+                    <span class="text-2xl text-white group-hover:text-blue-400 transition-colors digital-text">SENTIENTE</span>
+                    <span class="text-[10px] text-zinc-500 block mt-1">Nível 7 de 10</span>
+                </div>
+                <div class="p-4 border border-zinc-800 hover:border-blue-500 transition-colors cursor-help group bg-black/50">
+                    <span class="block text-blue-500 text-[10px] uppercase tracking-widest">APRENDIZADO</span>
+                    <span class="text-2xl text-white group-hover:text-blue-400 transition-colors">2.4TB</span>
+                    <span class="text-[10px] text-zinc-500 block mt-1">Dados processados</span>
+                </div>
+                <div class="p-4 border border-zinc-800 hover:border-blue-500 transition-colors cursor-help group bg-black/50">
+                    <span class="block text-blue-500 text-[10px] uppercase tracking-widest">EFICIÊNCIA</span>
+                    <span class="text-2xl text-white group-hover:text-blue-400 transition-colors">94%</span>
+                    <span class="text-[10px] text-zinc-500 block mt-1">Redução de ações</span>
                 </div>
             </div>
         </div>
     </main>
+
+    <!-- Seção 2: AI Core Features -->
+    <section id="ai-core" class="py-12 mt-12 border-t border-zinc-800">
+        <div class="max-w-6xl mx-auto">
+            <div class="flex items-center gap-4 mb-8">
+                <div class="h-px flex-1 bg-gradient-to-r from-transparent to-blue-500/30"></div>
+                <h2 class="text-3xl font-black text-white uppercase tracking-tighter italic digital-text">
+                    <span class="text-blue-500">NÚCLEO_</span>NEURAL
+                </h2>
+                <div class="h-px flex-1 bg-gradient-to-l from-transparent to-blue-500/30"></div>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-6">
+                <!-- Feature 1 -->
+                <div class="border border-zinc-800 p-6 hover:border-blue-500 transition-all group bg-black/30">
+                    <div class="text-blue-500 text-3xl mb-4 group-hover:scale-110 transition-transform inline-block">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3 class="text-xl font-black text-white mb-3">ANTECIPAÇÃO PREDITIVA</h3>
+                    <p class="text-zinc-400 text-sm mb-4">
+                        A IA analisa padrões de uso 0.002ms antes do toque, antecipando ações com 97% de precisão.
+                    </p>
+                    <div class="text-[10px] uppercase tracking-widest text-blue-500">AI_MODEL: GPT-N</div>
+                </div>
+                
+                <!-- Feature 2 -->
+                <div class="border border-zinc-800 p-6 hover:border-blue-500 transition-all group bg-black/30">
+                    <div class="text-blue-500 text-3xl mb-4 group-hover:scale-110 transition-transform inline-block">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3 class="text-xl font-black text-white mb-3">RESPOSTA ZERO-LATÊNCIA</h3>
+                    <p class="text-zinc-400 text-sm mb-4">
+                        Processamento neural distribuído elimina delay. A interface responde antes mesmo do comando consciente.
+                    </p>
+                    <div class="text-[10px] uppercase tracking-widest text-blue-500">TECH: QUANTUM_SYNC</div>
+                </div>
+                
+                <!-- Feature 3 -->
+                <div class="border border-zinc-800 p-6 hover:border-blue-500 transition-all group bg-black/30">
+                    <div class="text-blue-500 text-3xl mb-4 group-hover:scale-110 transition-transform inline-block">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3 class="text-xl font-black text-white mb-3">AUTONOMIA ADAPTATIVA</h3>
+                    <p class="text-zinc-400 text-sm mb-4">
+                        O aplicativo evolui com o usuário. Cada interação recalibra algoritmos para maior eficiência pessoal.
+                    </p>
+                    <div class="text-[10px] uppercase tracking-widest text-blue-500">STATE: SENTIENT</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção 3: Demonstração Técnica -->
+    <section id="tech" class="py-12 border-t border-zinc-800">
+        <div class="max-w-6xl mx-auto">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h2 class="text-3xl font-black text-white uppercase tracking-tighter italic mb-6 digital-text">
+                        ARQUITETURA <span class="text-blue-500">QUÂNTICA</span>
+                    </h2>
+                    
+                    <div class="space-y-4">
+                        <div class="border-l-4 border-blue-500 pl-4">
+                            <div class="text-sm font-black text-white">PROCESSAMENTO NEURAL DISTRIBUÍDO</div>
+                            <div class="text-zinc-400 text-xs mt-1">128 núcleos dedicados à antecipação de intenção</div>
+                        </div>
+                        
+                        <div class="border-l-4 border-blue-500 pl-4">
+                            <div class="text-sm font-black text-white">MEMÓRIA DE LONGO PRAZO CONTEXTUAL</div>
+                            <div class="text-zinc-400 text-xs mt-1">2.4TB de padrões comportamentais armazenados</div>
+                        </div>
+                        
+                        <div class="border-l-4 border-blue-500 pl-4">
+                            <div class="text-sm font-black text-white">SINCRONIZAÇÃO QUÂNTICA</div>
+                            <div class="text-zinc-400 text-xs mt-1">Estado coerente mantido em todos os dispositivos</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Código de Demonstração -->
+                <div class="bg-black border border-blue-500/30 p-6 rounded-xl font-mono text-sm">
+                    <div class="text-blue-400 mb-4">
+                        <span class="text-green-400">// neural_sync.js</span><br>
+                        <span class="text-pink-400">class</span> <span class="text-yellow-300">QuantumInterface</span> {
+                    </div>
+                    
+                    <div class="pl-4">
+                        <span class="text-purple-400">constructor</span>() {<br>
+                        &nbsp;&nbsp;<span class="text-blue-300">this</span>.<span class="text-yellow-300">latency</span> = <span class="text-green-400">0.002</span>;<br>
+                        &nbsp;&nbsp;<span class="text-blue-300">this</span>.<span class="text-yellow-300">predictionRate</span> = <span class="text-green-400">0.97</span>;<br>
+                        &nbsp;&nbsp;<span class="text-blue-300">this</span>.<span class="text-yellow-300">state</span> = <span class="text-green-400">"SENTIENT"</span>;<br>
+                        }<br><br>
+                        
+                        <span class="text-purple-400">anticipateAction</span>(<span class="text-blue-300">userIntent</span>) {<br>
+                        &nbsp;&nbsp;<span class="text-pink-400">return</span> <span class="text-blue-300">neuralNetwork</span>.<span class="text-purple-400">predict</span>(<span class="text-blue-300">userIntent</span>);<br>
+                        }<br>
+                    </div>
+                    
+                    <div class="mt-4 text-blue-400">
+                        <span class="text-gray-500">// Instance initialization</span><br>
+                        <span class="text-pink-400">const</span> <span class="text-blue-300">aiInterface</span> = <span class="text-pink-400">new</span> <span class="text-yellow-300">QuantumInterface</span>();<br>
+                        <span class="text-blue-300">aiInterface</span>.<span class="text-purple-400">anticipateAction</span>(<span class="text-green-400">"USER_TOUCH_EVENT"</span>);
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção 4: Download & Integração -->
+    <section class="py-12 border-t border-zinc-800">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-3xl font-black text-white uppercase tracking-tighter italic mb-6 digital-text">
+                INTEGRE <span class="text-blue-500">HOJE</span>
+            </h2>
+            
+            <p class="text-zinc-400 mb-8 max-w-2xl mx-auto">
+                A interface autônoma está pronta para implantação. SDK completo para iOS, Android e Web.
+            </p>
+            
+            <div class="grid md:grid-cols-3 gap-6 mb-8">
+                <div class="border border-zinc-800 p-6 hover:border-blue-500 transition-all group">
+                    <div class="text-4xl font-black mb-4 text-blue-500 group-hover:scale-110 transition-transform">iOS</div>
+                    <div class="text-[10px] uppercase tracking-widest text-zinc-500 mb-4">v14.0+</div>
+                    <button class="px-6 py-3 bg-blue-500 text-white font-black text-xs uppercase border-2 border-blue-500 hover:bg-transparent transition-all">
+                        App Store
+                    </button>
+                </div>
+                
+                <div class="border border-zinc-800 p-6 hover:border-blue-500 transition-all group bg-black/30">
+                    <div class="text-4xl font-black mb-4 text-blue-500 group-hover:scale-110 transition-transform">Android</div>
+                    <div class="text-[10px] uppercase tracking-widest text-zinc-500 mb-4">API 30+</div>
+                    <button class="px-6 py-3 bg-white text-black font-black text-xs uppercase border-2 border-white hover:bg-transparent hover:text-white transition-all">
+                        Play Store
+                    </button>
+                </div>
+                
+                <div class="border border-zinc-800 p-6 hover:border-blue-500 transition-all group">
+                    <div class="text-4xl font-black mb-4 text-blue-500 group-hover:scale-110 transition-transform">SDK</div>
+                    <div class="text-[10px] uppercase tracking-widest text-zinc-500 mb-4">Web & Native</div>
+                    <button class="px-6 py-3 bg-black text-white font-black text-xs uppercase border-2 border-white hover:bg-white hover:text-black transition-all">
+                        npm install
+                    </button>
+                </div>
+            </div>
+            
+            <div class="text-zinc-500 text-[10px] uppercase tracking-widest">
+                OPEN_NEURAL_LICENSE • PRIVACY_FIRST • NO_TELEMETRY
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="pt-12 border-t border-zinc-800">
+        <div class="max-w-6xl mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-8">
+                <div class="text-2xl font-black tracking-tighter text-white italic">
+                    M_A <span class="text-blue-500 digital-text">SYS</span>
+                </div>
+                
+                <div class="text-center">
+                    <div class="text-[10px] uppercase tracking-widest text-zinc-500 mb-2">
+                        Interface Autônoma v3.7
+                    </div>
+                    <div class="text-xs text-white font-black">
+                        ©2026 MakerAI Studio • Neural Division
+                    </div>
+                </div>
+                
+                <div class="flex gap-4">
+                    <button class="w-10 h-10 border border-blue-500/30 flex items-center justify-center hover:bg-blue-500 hover:text-white transition-all">
+                        <i class="fab fa-github"></i>
+                    </button>
+                    <button class="w-10 h-10 border border-blue-500/30 flex items-center justify-center hover:bg-blue-500 hover:text-white transition-all">
+                        <i class="fas fa-code"></i>
+                    </button>
+                    <button class="w-10 h-10 border border-blue-500/30 flex items-center justify-center hover:bg-blue-500 hover:text-white transition-all">
+                        <i class="fas fa-download"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript para efeitos futuristas -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Criar chuva de matriz
+            function createMatrixRain() {
+                const matrixRain = document.getElementById('matrixRain');
+                const characters = '01アイウエオカキクケコABCDEFGHIJKLMNOPQRSTUVWXYZ';
+                
+                for (let i = 0; i < 50; i++) {
+                    const char = document.createElement('div');
+                    char.className = 'matrix-character';
+                    char.textContent = characters.charAt(Math.floor(Math.random() * characters.length));
+                    char.style.left = `${Math.random() * 100}%`;
+                    char.style.animationDelay = `${Math.random() * 5}s`;
+                    char.style.animationDuration = `${3 + Math.random() * 5}s`;
+                    matrixRain.appendChild(char);
+                }
+            }
+            
+            createMatrixRain();
+            
+            // Efeito de digitação no terminal
+            const terminalText = document.querySelector('.leading-relaxed');
+            if (terminalText) {
+                const originalText = terminalText.innerHTML;
+                terminalText.innerHTML = '';
+                
+                let i = 0;
+                const typeWriter = () => {
+                    if (i < originalText.length) {
+                        terminalText.innerHTML += originalText.charAt(i);
+                        i++;
+                        setTimeout(typeWriter, 20);
+                    }
+                };
+                
+                // Iniciar após 1 segundo
+                setTimeout(typeWriter, 1000);
+            }
+            
+            // Atualizar estatísticas em tempo real
+            function updateStats() {
+                const stats = document.querySelectorAll('.text-2xl.text-white');
+                stats.forEach(stat => {
+                    if (stat.textContent.includes('ms')) {
+                        // Simular variação na latência
+                        const newLatency = (0.001 + Math.random() * 0.002).toFixed(3);
+                        stat.textContent = `${newLatency}ms`;
+                    } else if (stat.textContent === 'SENTIENTE') {
+                        // Piscar ocasionalmente
+                        if (Math.random() > 0.7) {
+                            stat.style.opacity = '0.5';
+                            setTimeout(() => {
+                                stat.style.opacity = '1';
+                            }, 100);
+                        }
+                    }
+                });
+            }
+            
+            setInterval(updateStats, 3000);
+            
+            // Interação com o dispositivo mobile
+            const mobileDevice = document.querySelector('.relative.mx-auto');
+            if (mobileDevice) {
+                mobileDevice.addEventListener('mousemove', (e) => {
+                    const rect = mobileDevice.getBoundingClientRect();
+                    const x = ((e.clientX - rect.left) / rect.width - 0.5) * 20;
+                    const y = ((e.clientY - rect.top) / rect.height - 0.5) * 20;
+                    
+                    mobileDevice.style.transform = `rotateY(${x}deg) rotateX(${-y}deg)`;
+                });
+                
+                mobileDevice.addEventListener('mouseleave', () => {
+                    mobileDevice.style.transform = 'rotateY(0deg) rotateX(0deg)';
+                });
+            }
+            
+            // Efeito de clique nos botões
+            const buttons = document.querySelectorAll('button');
+            buttons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Criar efeito de partícula
+                    const particle = document.createElement('div');
+                    particle.style.position = 'fixed';
+                    particle.style.width = '10px';
+                    particle.style.height = '10px';
+                    particle.style.background = '#3B82F6';
+                    particle.style.borderRadius = '50%';
+                    particle.style.pointerEvents = 'none';
+                    particle.style.zIndex = '9999';
+                    
+                    const rect = this.getBoundingClientRect();
+                    particle.style.left = `${rect.left + rect.width/2}px`;
+                    particle.style.top = `${rect.top + rect.height/2}px`;
+                    
+                    document.body.appendChild(particle);
+                    
+                    // Animação da partícula
+                    const animation = particle.animate([
+                        { transform: 'scale(1)', opacity: 1 },
+                        { transform: 'scale(3)', opacity: 0 }
+                    ], {
+                        duration: 500,
+                        easing: 'ease-out'
+                    });
+                    
+                    animation.onfinish = () => particle.remove();
+                });
+            });
+            
+            // Monitorar scroll para efeitos
+            let lastScroll = 0;
+            window.addEventListener('scroll', () => {
+                const currentScroll = window.pageYOffset;
+                
+                // Efeito de parallax no fundo
+                const matrixRain = document.getElementById('matrixRain');
+                if (matrixRain) {
+                    matrixRain.style.transform = `translateY(${currentScroll * 0.5}px)`;
+                }
+                
+                // Efeito de brilho no header ao scrollar
+                const nav = document.querySelector('nav');
+                if (nav) {
+                    if (currentScroll > lastScroll && currentScroll > 100) {
+                        nav.style.background = 'rgba(5, 5, 5, 0.9)';
+                        nav.style.backdropFilter = 'blur(10px)';
+                    } else {
+                        nav.style.background = 'transparent';
+                        nav.style.backdropFilter = 'none';
+                    }
+                }
+                
+                lastScroll = currentScroll;
+            });
+        });
+    </script>
 </body>
 </html>
