@@ -4,30 +4,591 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-[#f0f0f0] text-black min-h-screen flex flex-col p-6 font-black uppercase italic italic">
-
-    <button onclick="window.parent && window.parent.closeModal ? window.parent.closeModal() : window.location.href='../index.html'" 
-            class="self-start text-5xl mb-12 hover:scale-110 transition-transform">←</button>
-
-    <div class="flex-1 flex flex-col justify-center items-center text-center space-y-12">
-        <div class="grid grid-cols-4 md:grid-cols-8 gap-4 opacity-20">
-            <div class="w-8 h-8 bg-black"></div><div class="w-8 h-8 border-4 border-black"></div><div class="w-8 h-8 bg-black rotate-45"></div>
-            <div class="w-8 h-8 border-4 border-black"></div><div class="w-8 h-8 bg-black"></div><div class="w-8 h-8 border-4 border-black rotate-12"></div>
-        </div>
-
-        <h1 class="text-8xl md:text-[12rem] leading-none tracking-tighter">Brutal<br>Icons</h1>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;900&display=swap');
+        body { 
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+        }
         
-        <div class="flex flex-col md:flex-row gap-6 w-full max-w-2xl">
-            <div class="flex-1 border-4 border-black p-6 bg-white flex flex-col justify-between">
-                <span class="text-sm">500+ ASSETS</span>
-                <span class="text-4xl italic">$79</span>
+        /* Animações brutais */
+        @keyframes brutal-bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        @keyframes grid-shift {
+            0% { background-position: 0 0; }
+            100% { background-position: 50px 50px; }
+        }
+        
+        @keyframes icon-flip {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        @keyframes stroke-dash {
+            0% { stroke-dashoffset: 1000; }
+            100% { stroke-dashoffset: 0; }
+        }
+        
+        .animate-brutal-bounce {
+            animation: brutal-bounce 2s ease-in-out infinite;
+        }
+        
+        .animate-grid-shift {
+            animation: grid-shift 20s linear infinite;
+        }
+        
+        .animate-icon-flip {
+            animation: icon-flip 3s linear infinite;
+        }
+        
+        /* Efeitos específicos de ícones */
+        .brutal-grid {
+            background-image: 
+                linear-gradient(90deg, rgba(0,0,0,0.1) 1px, transparent 1px),
+                linear-gradient(rgba(0,0,0,0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+        }
+        
+        /* Cursor de design */
+        .cursor-brutal {
+            cursor: url("data:image/svg+xml,%3Csvg width='32' height='32' viewBox='0 0 32 32' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='1' y='1' width='30' height='30' stroke='%23000' stroke-width='2'/%3E%3Crect x='8' y='8' width='16' height='16' fill='%23000'/%3E%3C/svg%3E"), auto;
+        }
+        
+        /* Scrollbar brutal */
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f0f0f0;
+            border-left: 4px solid #000;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #000;
+            border: 2px solid #f0f0f0;
+        }
+        
+        /* Efeito de impressão */
+        .print-text {
+            text-shadow: 
+                4px 4px 0 #000,
+                -1px -1px 0 #000,
+                1px -1px 0 #000,
+                -1px 1px 0 #000;
+            color: #f0f0f0;
+            letter-spacing: -0.05em;
+        }
+        
+        /* Animação de download */
+        @keyframes download-progress {
+            0% { width: 0%; }
+            100% { width: 100%; }
+        }
+        
+        .download-bar {
+            animation: download-progress 2s ease-in-out;
+        }
+        
+        /* Efeito de hover em ícones */
+        .icon-hover {
+            transition: all 0.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+        
+        .icon-hover:hover {
+            transform: scale(1.2) rotate(5deg);
+            background-color: #000 !important;
+            color: #fff !important;
+        }
+    </style>
+</head>
+<body class="bg-[#f0f0f0] text-black min-h-screen flex flex-col p-6 font-black uppercase italic cursor-brutal brutal-grid animate-grid-shift">
+
+    <!-- Navigation -->
+    <nav class="flex justify-between items-start mb-16 z-10">
+        <button onclick="window.parent && window.parent.closeModal ? window.parent.closeModal() : window.location.href='../index.html'" 
+                class="group flex items-center gap-4 transition-all active:scale-95">
+            <div class="text-5xl hover:scale-110 transition-transform">←</div>
+            <div class="text-left hidden md:block">
+                <div class="text-[10px] tracking-widest opacity-40 group-hover:opacity-100 transition-all">RETURN_TO_STUDIO</div>
+                <div class="text-sm border-b-4 border-black group-hover:bg-black group-hover:text-white transition-all px-1">EXIT_PACK</div>
             </div>
-            <button onclick="alert('DOWNLOAD STARTED (SIMULATION)')" 
-                    class="flex-[2] bg-black text-white p-6 text-4xl hover:bg-white hover:text-black transition-all border-4 border-black">
-                BUY_NOW_↓
-            </button>
+        </button>
+        
+        <div class="flex gap-4">
+            <a href="#preview" class="text-[10px] px-4 py-2 border-2 border-black hover:bg-black hover:text-white transition-all">PREVIEW</a>
+            <a href="#formats" class="text-[10px] px-4 py-2 border-2 border-black hover:bg-black hover:text-white transition-all">FORMATS</a>
+            <a href="#license" class="text-[10px] px-4 py-2 border-2 border-black hover:bg-black hover:text-white transition-all">LICENSE</a>
         </div>
-    </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <main class="flex-1 flex flex-col justify-center items-center text-center space-y-12 relative">
+        <!-- Grid de fundo -->
+        <div class="absolute inset-0 grid grid-cols-4 md:grid-cols-8 gap-4 opacity-10 pointer-events-none">
+            <div class="w-8 h-8 bg-black animate-brutal-bounce" style="animation-delay: 0s;"></div>
+            <div class="w-8 h-8 border-4 border-black animate-brutal-bounce" style="animation-delay: 0.1s;"></div>
+            <div class="w-8 h-8 bg-black rotate-45 animate-brutal-bounce" style="animation-delay: 0.2s;"></div>
+            <div class="w-8 h-8 border-4 border-black animate-brutal-bounce" style="animation-delay: 0.3s;"></div>
+            <div class="w-8 h-8 bg-black animate-brutal-bounce" style="animation-delay: 0.4s;"></div>
+            <div class="w-8 h-8 border-4 border-black rotate-12 animate-brutal-bounce" style="animation-delay: 0.5s;"></div>
+            <div class="w-8 h-8 bg-black animate-brutal-bounce" style="animation-delay: 0.6s;"></div>
+            <div class="w-8 h-8 border-4 border-black animate-brutal-bounce" style="animation-delay: 0.7s;"></div>
+        </div>
+
+        <div class="relative z-10">
+            <h1 class="text-8xl md:text-[12rem] leading-none tracking-tighter print-text">
+                Brutal<br>Icons
+            </h1>
+            
+            <div class="mt-8 flex flex-col items-center gap-4">
+                <div class="text-4xl italic border-4 border-black px-8 py-4 bg-white">
+                    $79
+                </div>
+                <div class="text-sm tracking-[0.5em] opacity-60">
+                    500+ ASSETS • LIFETIME LICENSE
+                </div>
+            </div>
+        </div>
+
+        <!-- Call to Action -->
+        <div class="relative z-10 w-full max-w-2xl">
+            <div class="flex flex-col md:flex-row gap-6">
+                <div class="flex-1 border-4 border-black p-8 bg-white flex flex-col justify-between group hover:bg-black hover:text-white transition-all">
+                    <div>
+                        <span class="text-sm block mb-4">INCLUDES:</span>
+                        <ul class="text-left space-y-2 text-sm">
+                            <li class="flex items-center gap-2">
+                                <div class="w-2 h-2 bg-black group-hover:bg-white"></div>
+                                <span>512 SVG Icons</span>
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <div class="w-2 h-2 bg-black group-hover:bg-white"></div>
+                                <span>24px - 256px</span>
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <div class="w-2 h-2 bg-black group-hover:bg-white"></div>
+                                <span>Figma + Sketch</span>
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <div class="w-2 h-2 bg-black group-hover:bg-white"></div>
+                                <span>Source Files</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="mt-8">
+                        <div class="text-[10px] opacity-40">ONE-TIME PAYMENT</div>
+                    </div>
+                </div>
+                
+                <button id="buyButton" 
+                        class="flex-[2] bg-black text-white p-8 text-4xl hover:bg-white hover:text-black transition-all border-4 border-black group relative overflow-hidden">
+                    <span class="relative z-10">BUY_NOW_↓</span>
+                    <div class="absolute inset-0 bg-white transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></div>
+                </button>
+            </div>
+            
+            <div class="mt-6 text-[10px] opacity-30 tracking-widest">
+                INSTANT DOWNLOAD • NO SUBSCRIPTION • COMMERCIAL USE
+            </div>
+        </div>
+    </main>
+
+    <!-- Seção 2: Preview de Ícones -->
+    <section id="preview" class="py-20 border-t-4 border-black mt-20">
+        <div class="max-w-6xl mx-auto">
+            <div class="flex justify-between items-center mb-12">
+                <h2 class="text-5xl tracking-tighter print-text">
+                    ICON <span class="text-black">PREVIEW</span>
+                </h2>
+                <div class="text-sm">
+                    <span class="opacity-40">Showing</span> 
+                    <span class="text-2xl mx-2">512</span> 
+                    <span class="opacity-40">of 512 icons</span>
+                </div>
+            </div>
+            
+            <!-- Grid de Ícones -->
+            <div class="grid grid-cols-4 md:grid-cols-8 lg:grid-cols-12 gap-4 mb-12">
+                <!-- Gerar 48 ícones de exemplo -->
+                <template id="iconTemplate">
+                    <div class="aspect-square border-2 border-black flex items-center justify-center bg-white icon-hover text-2xl">
+                        <span class="icon-content">□</span>
+                    </div>
+                </template>
+                
+                <!-- Ícones serão inseridos aqui via JavaScript -->
+                <div id="iconGrid" class="contents"></div>
+            </div>
+            
+            <!-- Categorias -->
+            <div class="border-4 border-black p-6 bg-white">
+                <div class="text-sm mb-6">CATEGORIES:</div>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div class="border-2 border-black p-4 hover:bg-black hover:text-white transition-all cursor-help">
+                        <div class="text-2xl mb-2">◼</div>
+                        <div class="text-xs">UI Elements</div>
+                        <div class="text-[10px] opacity-60">84 icons</div>
+                    </div>
+                    <div class="border-2 border-black p-4 hover:bg-black hover:text-white transition-all cursor-help">
+                        <div class="text-2xl mb-2">●</div>
+                        <div class="text-xs">Navigation</div>
+                        <div class="text-[10px] opacity-60">64 icons</div>
+                    </div>
+                    <div class="border-2 border-black p-4 hover:bg-black hover:text-white transition-all cursor-help">
+                        <div class="text-2xl mb-2">▲</div>
+                        <div class="text-xs">Media</div>
+                        <div class="text-[10px] opacity-60">48 icons</div>
+                    </div>
+                    <div class="border-2 border-black p-4 hover:bg-black hover:text-white transition-all cursor-help">
+                        <div class="text-2xl mb-2">✱</div>
+                        <div class="text-xs">Technology</div>
+                        <div class="text-[10px] opacity-60">92 icons</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção 3: Formatos e Técnicas -->
+    <section id="formats" class="py-20 border-t-4 border-black bg-black text-white">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-5xl tracking-tighter mb-12 print-text text-white">
+                <span class="text-white">TECHNICAL</span> SPECS
+            </h2>
+            
+            <div class="grid md:grid-cols-3 gap-8 mb-12">
+                <div class="border-2 border-white p-6">
+                    <div class="text-4xl mb-4">SVG</div>
+                    <div class="text-sm mb-4">Vector Scalable</div>
+                    <ul class="space-y-2 text-sm opacity-80">
+                        <li>• Pure CSS styling</li>
+                        <li>• 100% customizable</li>
+                        <li>• Infinite resolution</li>
+                        <li>• Animation ready</li>
+                    </ul>
+                </div>
+                
+                <div class="border-2 border-white p-6 bg-white text-black">
+                    <div class="text-4xl mb-4">PNG</div>
+                    <div class="text-sm mb-4">Raster Versions</div>
+                    <ul class="space-y-2 text-sm opacity-80">
+                        <li>• 24px to 256px</li>
+                        <li>• @1x, @2x, @3x</li>
+                        <li>• Transparent BG</li>
+                        <li>• Web optimized</li>
+                    </ul>
+                </div>
+                
+                <div class="border-2 border-white p-6">
+                    <div class="text-4xl mb-4">FONT</div>
+                    <div class="text-sm mb-4">Icon Font</div>
+                    <ul class="space-y-2 text-sm opacity-80">
+                        <li>• WOFF2 format</li>
+                        <li>• CSS classes</li>
+                        <li>• Ligature support</li>
+                        <li>• Easy implementation</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Código de exemplo -->
+            <div class="border-2 border-white p-6 bg-zinc-900 font-mono">
+                <div class="text-sm mb-4 flex justify-between">
+                    <span>EXAMPLE_USAGE.css</span>
+                    <button onclick="copyCSS()" class="text-white hover:opacity-70">
+                        <i class="fas fa-copy"></i> Copy
+                    </button>
+                </div>
+                <pre class="text-sm overflow-x-auto">
+<span class="text-blue-400">/* Brutal Icons - CSS Implementation */</span>
+<span class="text-green-400">.brutal-icon</span> {
+    <span class="text-yellow-400">display</span>: inline-block;
+    <span class="text-yellow-400">width</span>: 24px;
+    <span class="text-yellow-400">height</span>: 24px;
+    <span class="text-yellow-400">stroke-width</span>: 2;
+    <span class="text-yellow-400">stroke</span>: #000;
+    <span class="text-yellow-400">fill</span>: none;
+}
+
+<span class="text-green-400">.brutal-button</span> <span class="text-green-400">.brutal-icon</span> {
+    <span class="text-yellow-400">stroke</span>: #fff;
+    <span class="text-yellow-400">transition</span>: all 0.1s ease;
+}
+
+<span class="text-green-400">.brutal-icon:hover</span> {
+    <span class="text-yellow-400">transform</span>: scale(1.1);
+    <span class="text-yellow-400">stroke-width</span>: 3;
+}</pre>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção 4: Licença e Download -->
+    <section id="license" class="py-20 border-t-4 border-black">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-5xl tracking-tighter mb-8 print-text">
+                LICENSE <span class="text-black">TERMS</span>
+            </h2>
+            
+            <div class="grid md:grid-cols-2 gap-8 mb-12">
+                <div class="border-4 border-black p-8 text-left">
+                    <div class="text-2xl mb-4">✅ INCLUDED</div>
+                    <ul class="space-y-3 text-sm">
+                        <li class="flex items-start gap-3">
+                            <div class="w-4 h-4 bg-black mt-1"></div>
+                            <span>Commercial projects</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <div class="w-4 h-4 bg-black mt-1"></div>
+                            <span>Unlimited users</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <div class="w-4 h-4 bg-black mt-1"></div>
+                            <span>Client work</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <div class="w-4 h-4 bg-black mt-1"></div>
+                            <span>Product bundling</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="border-4 border-black p-8 text-left bg-black text-white">
+                    <div class="text-2xl mb-4">❌ NOT INCLUDED</div>
+                    <ul class="space-y-3 text-sm">
+                        <li class="flex items-start gap-3">
+                            <div class="w-4 h-4 bg-white mt-1"></div>
+                            <span>Reselling as icons</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <div class="w-4 h-4 bg-white mt-1"></div>
+                            <span>Stock photography</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <div class="w-4 h-4 bg-white mt-1"></div>
+                            <span>Trademark registration</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <div class="w-4 h-4 bg-white mt-1"></div>
+                            <span>NFT creation</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Área de Download -->
+            <div id="downloadArea" class="border-4 border-black p-8 bg-white">
+                <div class="text-sm mb-4">READY_TO_DOWNLOAD</div>
+                <div class="text-3xl mb-6">BRUTAL_ICONS_v3.0.zip</div>
+                
+                <div class="mb-8">
+                    <div class="h-2 bg-gray-300 overflow-hidden">
+                        <div id="progressBar" class="h-full bg-black download-bar"></div>
+                    </div>
+                    <div class="text-[10px] mt-2 flex justify-between">
+                        <span>Size: 24.8MB</span>
+                        <span id="progressText">0%</span>
+                        <span>Format: ZIP</span>
+                    </div>
+                </div>
+                
+                <button id="downloadButton" 
+                        class="px-12 py-6 bg-black text-white text-2xl hover:bg-white hover:text-black transition-all border-4 border-black">
+                    <i class="fas fa-download mr-3"></i>DOWNLOAD_NOW
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 border-t-4 border-black">
+        <div class="max-w-6xl mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-8">
+                <div class="text-4xl tracking-tighter">
+                    BRUTAL<span class="opacity-20">_ICONS</span>
+                </div>
+                
+                <div class="text-center">
+                    <div class="text-sm mb-2">©2026 MakerAI Studio • Design Division</div>
+                    <div class="text-[10px] opacity-40 tracking-widest">
+                        VERSION 3.0 • LIFETIME UPDATES • SUPPORT 24/7
+                    </div>
+                </div>
+                
+                <div class="flex gap-4">
+                    <button class="w-10 h-10 border-2 border-black flex items-center justify-center hover:bg-black hover:text-white transition-all">
+                        <i class="fab fa-figma"></i>
+                    </button>
+                    <button class="w-10 h-10 border-2 border-black flex items-center justify-center hover:bg-black hover:text-white transition-all">
+                        <i class="fab fa-github"></i>
+                    </button>
+                    <button class="w-10 h-10 border-2 border-black flex items-center justify-center hover:bg-black hover:text-white transition-all">
+                        <i class="fas fa-palette"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript para interações -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Gerar grid de ícones
+            const iconGrid = document.getElementById('iconGrid');
+            const icons = ['□', '■', '○', '●', '△', '▲', '▽', '▼', '◇', '◆', '☆', '★', '⌂', '⌘', '⏻', '⏼', '⏽', '⎗', '⎘', '⎙', '⏚', '⏛', '◀', '▶', '▼', '▲', '◆', '◇', '○', '●', '◎', '⊙', '▢', '▣', '▤', '▥', '▦', '▧', '▨', '▩', '▪', '▫', '▬', '▭', '▮', '▯', '☰', '☱', '☲', '☳'];
+            
+            for (let i = 0; i < 48; i++) {
+                const icon = document.createElement('div');
+                icon.className = 'aspect-square border-2 border-black flex items-center justify-center bg-white icon-hover text-2xl';
+                icon.innerHTML = `<span>${icons[i % icons.length]}</span>`;
+                
+                // Adicionar tooltip
+                icon.title = `Icon ${i+1} - ${icons[i % icons.length]}`;
+                
+                // Efeito de clique
+                icon.addEventListener('click', function() {
+                    const char = this.textContent;
+                    navigator.clipboard.writeText(char).then(() => {
+                        const original = this.style.backgroundColor;
+                        this.style.backgroundColor = '#000';
+                        this.style.color = '#fff';
+                        setTimeout(() => {
+                            this.style.backgroundColor = original;
+                            this.style.color = '';
+                        }, 300);
+                    });
+                });
+                
+                iconGrid.appendChild(icon);
+            }
+            
+            // Botão de compra
+            const buyButton = document.getElementById('buyButton');
+            if (buyButton) {
+                buyButton.addEventListener('click', function() {
+                    const originalText = this.innerHTML;
+                    
+                    // Mostrar área de download
+                    document.getElementById('downloadArea').scrollIntoView({ 
+                        behavior: 'smooth' 
+                    });
+                    
+                    // Iniciar download simulado
+                    startDownload();
+                });
+            }
+            
+            // Download
+            const downloadButton = document.getElementById('downloadButton');
+            const progressBar = document.getElementById('progressBar');
+            const progressText = document.getElementById('progressText');
+            
+            function startDownload() {
+                let progress = 0;
+                const interval = setInterval(() => {
+                    progress += 2;
+                    progressBar.style.width = `${progress}%`;
+                    progressText.textContent = `${progress}%`;
+                    
+                    if (progress >= 100) {
+                        clearInterval(interval);
+                        downloadButton.innerHTML = '<i class="fas fa-check mr-3"></i>DOWNLOAD_COMPLETE';
+                        downloadButton.style.backgroundColor = '#000';
+                        downloadButton.style.color = '#fff';
+                        
+                        // Mostrar link de download
+                        setTimeout(() => {
+                            const link = document.createElement('div');
+                            link.className = 'mt-6 p-4 border-2 border-black text-sm';
+                            link.innerHTML = `
+                                <div class="font-bold mb-2">DOWNLOAD_READY:</div>
+                                <div class="font-mono break-all">https://makerai.studio/download/brutal-icons-v3.0.zip</div>
+                            `;
+                            document.getElementById('downloadArea').appendChild(link);
+                        }, 500);
+                    }
+                }, 50);
+            }
+            
+            if (downloadButton) {
+                downloadButton.addEventListener('click', startDownload);
+            }
+            
+            // Copiar CSS
+            window.copyCSS = function() {
+                const code = document.querySelector('pre').textContent;
+                navigator.clipboard.writeText(code).then(() => {
+                    const button = document.querySelector('button[onclick="copyCSS()"]');
+                    const original = button.innerHTML;
+                    button.innerHTML = '<i class="fas fa-check"></i> Copied';
+                    setTimeout(() => {
+                        button.innerHTML = original;
+                    }, 2000);
+                });
+            };
+            
+            // Animar ícones aleatoriamente
+            function animateRandomIcons() {
+                const icons = document.querySelectorAll('.icon-hover');
+                const randomIndex = Math.floor(Math.random() * icons.length);
+                
+                icons[randomIndex].classList.add('animate-icon-flip');
+                setTimeout(() => {
+                    icons[randomIndex].classList.remove('animate-icon-flip');
+                }, 1000);
+            }
+            
+            setInterval(animateRandomIcons, 3000);
+            
+            // Efeito de grid interativo
+            const gridItems = document.querySelectorAll('.absolute.w-8.h-8');
+            gridItems.forEach((item, index) => {
+                item.addEventListener('mouseenter', () => {
+                    item.style.transform = 'scale(1.5) rotate(180deg)';
+                });
+                
+                item.addEventListener('mouseleave', () => {
+                    item.style.transform = '';
+                });
+            });
+            
+            // Efeito de parallax no scroll
+            let lastScroll = 0;
+            window.addEventListener('scroll', () => {
+                const currentScroll = window.pageYOffset;
+                const grid = document.querySelector('.absolute.inset-0');
+                
+                if (grid) {
+                    grid.style.transform = `translateY(${currentScroll * 0.1}px)`;
+                }
+                
+                // Header fixo
+                const nav = document.querySelector('nav');
+                if (nav) {
+                    if (currentScroll > lastScroll && currentScroll > 100) {
+                        nav.style.position = 'fixed';
+                        nav.style.top = '0';
+                        nav.style.left = '0';
+                        nav.style.right = '0';
+                        nav.style.backgroundColor = '#f0f0f0';
+                        nav.style.padding = '1.5rem';
+                        nav.style.borderBottom = '4px solid #000';
+                        nav.style.zIndex = '100';
+                    } else {
+                        nav.style.position = 'relative';
+                        nav.style.backgroundColor = 'transparent';
+                        nav.style.borderBottom = 'none';
+                    }
+                }
+                
+                lastScroll = currentScroll;
+            });
+        });
+    </script>
 </body>
 </html>
