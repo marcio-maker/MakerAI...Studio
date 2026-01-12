@@ -4,47 +4,606 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap');
-        body { font-family: 'Space Mono', monospace; }
-        .blink { animation: blink 1s step-end infinite; }
-        @keyframes blink { 50% { opacity: 0; } }
+        body { 
+            font-family: 'Space Mono', monospace;
+            scroll-behavior: smooth;
+        }
+        
+        /* Animações de sistema */
+        @keyframes blink { 
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+        
+        @keyframes pulse-ai {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.8; }
+        }
+        
+        @keyframes node-glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(34, 197, 94, 0.3); }
+            50% { box-shadow: 0 0 40px rgba(34, 197, 94, 0.6); }
+        }
+        
+        @keyframes data-flow {
+            0% { transform: translateY(-100%) rotate(0deg); opacity: 0; }
+            100% { transform: translateY(100vh) rotate(360deg); opacity: 0.5; }
+        }
+        
+        @keyframes scan-grid {
+            0% { background-position: 0 0; }
+            100% { background-position: 40px 40px; }
+        }
+        
+        .blink { animation: blink 1.5s step-end infinite; }
+        .pulse-ai { animation: pulse-ai 2s ease-in-out infinite; }
+        .node-glow { animation: node-glow 3s ease-in-out infinite; }
+        
+        /* Efeitos específicos de IA */
+        .ai-grid {
+            background-image: 
+                linear-gradient(rgba(34, 197, 94, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(34, 197, 94, 0.1) 1px, transparent 1px);
+            background-size: 40px 40px;
+            animation: scan-grid 20s linear infinite;
+        }
+        
+        /* Cursor de rede */
+        .cursor-network {
+            cursor: url("data:image/svg+xml,%3Csvg width='32' height='32' viewBox='0 0 32 32' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='16' cy='16' r='4' fill='%2310B981'/%3E%3Ccircle cx='16' cy='16' r='8' stroke='%2310B981' stroke-width='1' opacity='0.5'/%3E%3Ccircle cx='16' cy='16' r='12' stroke='%2310B981' stroke-width='1' opacity='0.3'/%3E%3C/svg%3E"), auto;
+        }
+        
+        /* Scrollbar de rede */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #050505;
+            border-left: 1px solid rgba(34, 197, 94, 0.1);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(to bottom, #10B981, #047857);
+            border-radius: 0;
+        }
+        
+        /* Texto com efeito de terminal */
+        .terminal-text {
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            color: #10B981;
+            font-family: 'Space Mono', monospace;
+            text-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
+        }
+        
+        /* Efeito de partículas de dados */
+        .data-particle {
+            position: absolute;
+            width: 2px;
+            height: 10px;
+            background: linear-gradient(to bottom, transparent, #10B981, transparent);
+            border-radius: 1px;
+            pointer-events: none;
+        }
+        
+        /* Gradiente animado para nós */
+        .node-gradient {
+            background: linear-gradient(45deg, #050505, #0A241A, #050505);
+            background-size: 200% 200%;
+            animation: gradient-shift 8s ease infinite;
+        }
+        
+        @keyframes gradient-shift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
     </style>
 </head>
-<body class="bg-[#050505] text-green-500 min-h-screen p-6 md:p-12 overflow-x-hidden">
+<body class="bg-[#050505] text-green-500 min-h-screen p-6 md:p-12 overflow-x-hidden cursor-network ai-grid">
 
-    <nav class="flex justify-between items-start mb-16">
-        <div class="text-xs tracking-tighter leading-none uppercase">
-            Product_ID: 001<br>Status: Available
+    <!-- Partículas de dados flutuantes -->
+    <div id="dataParticles"></div>
+
+    <!-- Navigation -->
+    <nav class="flex justify-between items-start mb-16 z-10 relative">
+        <div class="space-y-2">
+            <div class="text-xs tracking-tighter leading-none uppercase">
+                <span class="text-white">Product_ID:</span> <span class="blink">001</span>
+            </div>
+            <div class="flex items-center gap-3">
+                <div class="flex items-center gap-2">
+                    <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                    <span class="text-[10px] uppercase">Status: <span class="text-white">Available</span></span>
+                </div>
+                <div class="text-[8px] opacity-40 border-l border-green-500/20 pl-3">
+                    Nodes Active: <span class="text-white">1,247</span>
+                </div>
+            </div>
         </div>
-        <button onclick="window.parent && window.parent.closeModal ? window.parent.closeModal() : window.location.href='../index.html'" 
-                class="group flex flex-col items-end transition-all active:scale-95">
-            <span class="text-[9px] uppercase tracking-[0.4em] opacity-40 group-hover:opacity-100 transition-all">Abort_Purchase</span>
-            <span class="text-xl font-bold text-white border-b-2 border-green-500 group-hover:bg-green-500 transition-all px-1">RETURN_TO_BASE</span>
-        </button>
+        
+        <div class="flex items-center gap-6">
+            <div class="hidden md:flex gap-2">
+                <a href="#specs" class="text-[9px] uppercase px-3 py-1 border border-green-500/30 hover:bg-green-500 hover:text-black transition-all">SPECS</a>
+                <a href="#network" class="text-[9px] uppercase px-3 py-1 border border-green-500/30 hover:bg-green-500 hover:text-black transition-all">NETWORK</a>
+                <a href="#deploy" class="text-[9px] uppercase px-3 py-1 border border-green-500/30 hover:bg-green-500 hover:text-black transition-all">DEPLOY</a>
+            </div>
+            
+            <button onclick="window.parent && window.parent.closeModal ? window.parent.closeModal() : window.location.href='../index.html'" 
+                    class="group flex flex-col items-end transition-all active:scale-95">
+                <span class="text-[9px] uppercase tracking-[0.4em] opacity-40 group-hover:opacity-100 transition-all">Abort_Purchase</span>
+                <span class="text-xl font-bold text-white border-b-2 border-green-500 group-hover:bg-green-500 transition-all px-1">
+                    RETURN_TO_BASE
+                </span>
+            </button>
+        </div>
     </nav>
 
-    <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12">
-        <div class="space-y-6">
-            <h1 class="text-5xl md:text-7xl font-bold text-white uppercase italic leading-none">AI Agent Node</h1>
-            <p class="text-green-900 bg-green-500/10 p-4 border-l-4 border-green-500 text-sm">
-                Autonomia total. Desprenda-se da infraestrutura tradicional e rode agentes de IA em nós locais descentralizados.
-            </p>
-            <div class="text-4xl text-white font-black italic">$299.00</div>
-        </div>
-
-        <div class="bg-zinc-900 border-2 border-green-500/30 p-8 relative group overflow-hidden">
-            <div class="absolute inset-0 bg-green-500/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-            <h3 class="text-white text-xs font-bold mb-6 uppercase tracking-widest">Secure_Payment_Gateway</h3>
-            <div class="space-y-4">
-                <div class="border-b border-green-500/20 py-2 text-[10px]">AUTH_TOKEN: <span class="text-white">active_4829</span></div>
-                <button onclick="this.innerHTML='PROCESSING...'; setTimeout(()=>this.innerHTML='PURCHASED_SUCCESSFULLY', 2000)" 
-                        class="w-full py-6 bg-green-500 text-black font-black uppercase italic hover:bg-white transition-all transform active:scale-95 shadow-[8px_8px_0px_#14532d]">
-                    Deploy_Agent_Now
-                </button>
+    <!-- Main Content -->
+    <main class="max-w-6xl mx-auto">
+        <!-- Hero Section -->
+        <section class="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-20">
+            <div class="space-y-8">
+                <div>
+                    <h1 class="text-5xl md:text-7xl font-bold text-white uppercase italic leading-none mb-4">
+                        AI Agent Node
+                    </h1>
+                    <div class="text-green-500 text-sm uppercase tracking-widest flex items-center gap-3">
+                        <span>Version 3.2.1</span>
+                        <div class="w-1 h-1 bg-green-500 rounded-full"></div>
+                        <span>Autonomous Network</span>
+                    </div>
+                </div>
+                
+                <p class="text-green-900 bg-green-500/10 p-6 border-l-4 border-green-500 text-base leading-relaxed node-glow">
+                    Autonomia total. Desprenda-se da infraestrutura tradicional e rode agentes de IA em nós locais descentralizados. 
+                    Cada nó opera independentemente, mas colabora em rede para processamento distribuído.
+                </p>
+                
+                <div class="flex items-end gap-6">
+                    <div>
+                        <div class="text-[10px] uppercase tracking-widest opacity-60">One-Time Purchase</div>
+                        <div class="text-5xl text-white font-black italic">$299.00</div>
+                    </div>
+                    <div class="text-[10px] opacity-40 border-l border-green-500/30 pl-4">
+                        Lifetime License<br>
+                        No Subscription<br>
+                        Unlimited Nodes
+                    </div>
+                </div>
             </div>
-            <div class="mt-4 text-[8px] opacity-30 italic">Ao clicar, você inicia a sincronização do nó via Web3.</div>
-        </div>
-    </div>
+
+            <!-- Card de Compra -->
+            <div class="bg-zinc-900 border-2 border-green-500/30 p-8 relative group overflow-hidden node-gradient">
+                <div class="absolute inset-0 bg-green-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                
+                <div class="relative z-10">
+                    <div class="flex justify-between items-center mb-8">
+                        <h3 class="text-white text-xs font-bold uppercase tracking-widest">Secure_Payment_Gateway</h3>
+                        <div class="text-[8px] bg-green-500/20 text-green-400 px-2 py-1">WEB3_READY</div>
+                    </div>
+                    
+                    <div class="space-y-6">
+                        <div class="terminal-text p-4 text-sm">
+                            <div class="flex items-center gap-2 mb-2">
+                                <div class="w-2 h-2 bg-green-500 rounded-full blink"></div>
+                                <span>AI_NODE_PURCHASE_GATEWAY</span>
+                            </div>
+                            <div class="space-y-1 text-[11px]">
+                                <div>> AUTH_TOKEN: <span class="text-white">active_4829_${Date.now().toString(36)}</span></div>
+                                <div>> NETWORK_STATUS: <span class="text-green-400">SYNCED</span></div>
+                                <div>> AVAILABLE_NODES: <span class="text-white">47</span></div>
+                            </div>
+                        </div>
+                        
+                        <button id="deployButton" 
+                                class="w-full py-6 bg-green-500 text-black font-black uppercase italic hover:bg-white transition-all transform active:scale-95 pulse-ai shadow-[8px_8px_0px_#14532d] text-lg">
+                            Deploy_Agent_Now
+                        </button>
+                        
+                        <div class="grid grid-cols-3 gap-3 text-center">
+                            <div class="border border-green-500/20 p-3">
+                                <div class="text-[10px] uppercase opacity-60">Format</div>
+                                <div class="text-white text-sm font-bold">Docker</div>
+                            </div>
+                            <div class="border border-green-500/20 p-3">
+                                <div class="text-[10px] uppercase opacity-60">Size</div>
+                                <div class="text-white text-sm font-bold">2.4GB</div>
+                            </div>
+                            <div class="border border-green-500/20 p-3">
+                                <div class="text-[10px] uppercase opacity-60">API</div>
+                                <div class="text-white text-sm font-bold">REST/WS</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-6 text-[8px] opacity-30 italic text-center">
+                    Ao clicar, você inicia a sincronização do nó via Web3. Transação imutável na blockchain.
+                </div>
+            </div>
+        </section>
+
+        <!-- Seção 2: Especificações Técnicas -->
+        <section id="specs" class="mb-20 border-t border-green-500/20 pt-12">
+            <div class="flex items-center gap-4 mb-8">
+                <div class="h-px flex-1 bg-gradient-to-r from-transparent to-green-500/30"></div>
+                <h2 class="text-3xl font-bold text-white uppercase italic tracking-tighter">
+                    <span class="text-green-500">NODE_</span>SPECIFICATIONS
+                </h2>
+                <div class="h-px flex-1 bg-gradient-to-l from-transparent to-green-500/30"></div>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-6">
+                <!-- Spec 1 -->
+                <div class="border border-green-500/20 p-6 hover:border-green-500 transition-all group bg-black/50">
+                    <div class="text-green-500 text-2xl mb-4 group-hover:scale-110 transition-transform">
+                        <i class="fas fa-microchip"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">PROCESSAMENTO LOCAL</h3>
+                    <ul class="text-green-400/80 text-sm space-y-2">
+                        <li class="flex items-center gap-2">
+                            <div class="w-1 h-1 bg-green-500 rounded-full"></div>
+                            <span>8 Núcleos Dedicados</span>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <div class="w-1 h-1 bg-green-500 rounded-full"></div>
+                            <span>32GB RAM Alocada</span>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <div class="w-1 h-1 bg-green-500 rounded-full"></div>
+                            <span>Tensor Cores</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Spec 2 -->
+                <div class="border border-green-500/20 p-6 hover:border-green-500 transition-all group bg-black/50">
+                    <div class="text-green-500 text-2xl mb-4 group-hover:scale-110 transition-transform">
+                        <i class="fas fa-network-wired"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">REDE DISTRIBUÍDA</h3>
+                    <ul class="text-green-400/80 text-sm space-y-2">
+                        <li class="flex items-center gap-2">
+                            <div class="w-1 h-1 bg-green-500 rounded-full"></div>
+                            <span>P2P Encryption</span>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <div class="w-1 h-1 bg-green-500 rounded-full"></div>
+                            <span>10ms Network Latency</span>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <div class="w-1 h-1 bg-green-500 rounded-full"></div>
+                            <span>Blockchain Sync</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Spec 3 -->
+                <div class="border border-green-500/20 p-6 hover:border-green-500 transition-all group bg-black/50">
+                    <div class="text-green-500 text-2xl mb-4 group-hover:scale-110 transition-transform">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">AGENTE DE IA</h3>
+                    <ul class="text-green-400/80 text-sm space-y-2">
+                        <li class="flex items-center gap-2">
+                            <div class="w-1 h-1 bg-green-500 rounded-full"></div>
+                            <span>GPT-4 Fine-tuned</span>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <div class="w-1 h-1 bg-green-500 rounded-full"></div>
+                            <span>Autonomous Learning</span>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <div class="w-1 h-1 bg-green-500 rounded-full"></div>
+                            <span>Multi-Agent System</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seção 3: Rede de Nós -->
+        <section id="network" class="mb-20 border-t border-green-500/20 pt-12">
+            <div class="flex justify-between items-center mb-8">
+                <h2 class="text-3xl font-bold text-white uppercase italic tracking-tighter">
+                    <span class="text-green-500">LIVE_</span>NETWORK_MAP
+                </h2>
+                <div class="text-[10px] uppercase flex items-center gap-2">
+                    <div class="w-2 h-2 bg-green-500 rounded-full blink"></div>
+                    <span class="text-white">1,247</span> <span class="opacity-60">Nodes Active</span>
+                </div>
+            </div>
+            
+            <div class="border border-green-500/30 p-6 mb-6 bg-black/30">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+                    <div class="p-4 border border-green-500/20">
+                        <div class="text-[10px] uppercase opacity-60">North America</div>
+                        <div class="text-2xl text-white font-bold">487</div>
+                        <div class="text-[8px] text-green-400">+12 today</div>
+                    </div>
+                    <div class="p-4 border border-green-500/20">
+                        <div class="text-[10px] uppercase opacity-60">Europe</div>
+                        <div class="text-2xl text-white font-bold">392</div>
+                        <div class="text-[8px] text-green-400">+8 today</div>
+                    </div>
+                    <div class="p-4 border border-green-500/20">
+                        <div class="text-[10px] uppercase opacity-60">Asia</div>
+                        <div class="text-2xl text-white font-bold">284</div>
+                        <div class="text-[8px] text-green-400">+21 today</div>
+                    </div>
+                    <div class="p-4 border border-green-500/20">
+                        <div class="text-[10px] uppercase opacity-60">Global Uptime</div>
+                        <div class="text-2xl text-white font-bold">99.97%</div>
+                        <div class="text-[8px] text-green-400">Last 30 days</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Mapa de rede simulado -->
+            <div class="relative h-64 border border-green-500/20 overflow-hidden bg-black/50">
+                <div class="absolute inset-0 flex items-center justify-center">
+                    <!-- Nós da rede -->
+                    <div class="relative w-48 h-48">
+                        <!-- Nó central -->
+                        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-8 h-8 bg-green-500 rounded-full pulse-ai"></div>
+                        
+                        <!-- Nós orbitais -->
+                        <div class="absolute top-1/4 left-1/4 w-4 h-4 bg-green-400 rounded-full"></div>
+                        <div class="absolute top-1/4 right-1/4 w-4 h-4 bg-green-400 rounded-full"></div>
+                        <div class="absolute bottom-1/4 left-1/4 w-4 h-4 bg-green-400 rounded-full"></div>
+                        <div class="absolute bottom-1/4 right-1/4 w-4 h-4 bg-green-400 rounded-full"></div>
+                        
+                        <!-- Linhas de conexão -->
+                        <div class="absolute inset-0">
+                            <div class="absolute top-1/2 left-1/2 w-full h-px bg-green-500/20 transform -translate-x-1/2 -translate-y-1/2"></div>
+                            <div class="absolute top-1/2 left-1/2 w-px h-full bg-green-500/20 transform -translate-x-1/2 -translate-y-1/2"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="absolute bottom-4 left-4 text-[10px] uppercase opacity-40">
+                    Real-time Network Visualization
+                </div>
+            </div>
+        </section>
+
+        <!-- Seção 4: Instalação & Deploy -->
+        <section id="deploy" class="border-t border-green-500/20 pt-12">
+            <h2 class="text-3xl font-bold text-white uppercase italic tracking-tighter mb-8">
+                <span class="text-green-500">DEPLOYMENT_</span>SCRIPT
+            </h2>
+            
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="space-y-4">
+                    <h3 class="text-xl font-bold text-white">INSTALAÇÃO EM 3 PASSOS</h3>
+                    <ol class="space-y-4 text-green-400/80">
+                        <li class="flex items-start gap-3">
+                            <div class="w-6 h-6 bg-green-500/20 border border-green-500 flex items-center justify-center text-xs font-bold">1</div>
+                            <div>
+                                <div class="font-bold text-white">Download do Pacote</div>
+                                <div class="text-sm mt-1">Receba o container Docker com o nó pré-configurado</div>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <div class="w-6 h-6 bg-green-500/20 border border-green-500 flex items-center justify-center text-xs font-bold">2</div>
+                            <div>
+                                <div class="font-bold text-white">Configuração da Rede</div>
+                                <div class="text-sm mt-1">Conecte-se à rede P2P com sua chave privada</div>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <div class="w-6 h-6 bg-green-500/20 border border-green-500 flex items-center justify-center text-xs font-bold">3</div>
+                            <div>
+                                <div class="font-bold text-white">Ativação do Agente</div>
+                                <div class="text-sm mt-1">Inicie o processamento local e sincronização</div>
+                            </div>
+                        </li>
+                    </ol>
+                </div>
+                
+                <!-- Código de instalação -->
+                <div class="terminal-text p-6">
+                    <div class="text-[10px] uppercase mb-4 flex justify-between">
+                        <span>Deployment_Script.sh</span>
+                        <button onclick="copyCode()" class="text-green-400 hover:text-white">
+                            <i class="fas fa-copy"></i> Copy
+                        </button>
+                    </div>
+                    <pre class="text-sm overflow-x-auto">
+<span class="text-blue-400">#!/bin/bash</span>
+
+<span class="text-green-400"># AI Agent Node Installation</span>
+<span class="text-purple-400">echo</span> "Initializing AI Node..."
+
+<span class="text-green-400"># 1. Pull Docker container</span>
+<span class="text-cyan-400">docker</span> pull makerai/agent-node:v3.2.1
+
+<span class="text-green-400"># 2. Generate keys</span>
+<span class="text-cyan-400">node</span> -e "require('crypto').generateKeyPairSync('rsa', {
+  modulusLength: 4096,
+  publicKeyEncoding: { type: 'spki', format: 'pem' },
+  privateKeyEncoding: { type: 'pkcs8', format: 'pem' }
+})"
+
+<span class="text-green-400"># 3. Run node</span>
+<span class="text-cyan-400">docker</span> run -d \
+  --name ai-agent-node \
+  -p 3000:3000 \
+  -v /data/ai-node:/app/data \
+  makerai/agent-node:v3.2.1
+
+<span class="text-green-400"># 4. Connect to network</span>
+<span class="text-cyan-400">curl</span> -X POST http://localhost:3000/network/join \
+  -H "Authorization: Bearer ${NODE_TOKEN}"
+
+<span class="text-purple-400">echo</span> "✅ AI Agent Node deployed successfully!"</pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="mt-20 pt-12 border-t border-green-500/20">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-8">
+                <div>
+                    <div class="text-xs tracking-tighter leading-none uppercase mb-2">
+                        Product_ID: <span class="text-white blink">001</span>
+                    </div>
+                    <div class="text-[10px] uppercase opacity-60">
+                        AI Agent Node v3.2.1 • Lifetime License
+                    </div>
+                </div>
+                
+                <div class="text-center">
+                    <div class="text-xs text-white font-bold mb-2">
+                        ©2026 MakerAI Studio • Network Division
+                    </div>
+                    <div class="text-[10px] uppercase opacity-40">
+                        Decentralized AI Infrastructure
+                    </div>
+                </div>
+                
+                <div class="flex gap-4">
+                    <button class="w-10 h-10 border border-green-500/30 flex items-center justify-center hover:bg-green-500 hover:text-black transition-all">
+                        <i class="fab fa-docker"></i>
+                    </button>
+                    <button class="w-10 h-10 border border-green-500/30 flex items-center justify-center hover:bg-green-500 hover:text-black transition-all">
+                        <i class="fab fa-github"></i>
+                    </button>
+                    <button class="w-10 h-10 border border-green-500/30 flex items-center justify-center hover:bg-green-500 hover:text-black transition-all">
+                        <i class="fas fa-book"></i>
+                    </button>
+                </div>
+            </div>
+        </footer>
+    </main>
+
+    <!-- JavaScript para interações -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Criar partículas de dados
+            function createDataParticles() {
+                const container = document.getElementById('dataParticles');
+                for (let i = 0; i < 30; i++) {
+                    const particle = document.createElement('div');
+                    particle.className = 'data-particle';
+                    particle.style.left = `${Math.random() * 100}%`;
+                    particle.style.animation = `data-flow ${3 + Math.random() * 5}s linear infinite`;
+                    particle.style.animationDelay = `${Math.random() * 5}s`;
+                    container.appendChild(particle);
+                }
+            }
+            
+            createDataParticles();
+            
+            // Botão de deploy
+            const deployButton = document.getElementById('deployButton');
+            if (deployButton) {
+                deployButton.addEventListener('click', function() {
+                    const originalText = this.textContent;
+                    
+                    // Animação de processamento
+                    this.textContent = 'INITIATING_DEPLOY...';
+                    this.classList.remove('pulse-ai');
+                    this.classList.add('blink');
+                    
+                    // Simular processamento
+                    setTimeout(() => {
+                        this.textContent = 'GENERATING_KEYS...';
+                    }, 800);
+                    
+                    setTimeout(() => {
+                        this.textContent = 'SYNCING_WITH_NETWORK...';
+                    }, 1600);
+                    
+                    setTimeout(() => {
+                        this.textContent = '✅ NODE_DEPLOYED_SUCCESSFULLY';
+                        this.classList.remove('blink');
+                        this.classList.add('node-glow');
+                        this.style.backgroundColor = '#14532d';
+                        this.style.color = '#fff';
+                        
+                        // Mostrar mensagem de sucesso
+                        const successMsg = document.createElement('div');
+                        successMsg.className = 'terminal-text p-4 mt-4 text-center';
+                        successMsg.innerHTML = `
+                            <div class="text-green-400 mb-2">✓ AI Agent Node Activated</div>
+                            <div class="text-sm">Node ID: <span class="text-white">${Date.now().toString(36).toUpperCase()}</span></div>
+                            <div class="text-xs opacity-60 mt-2">Access your node at: <span class="text-green-400">localhost:3000/ai-agent</span></div>
+                        `;
+                        this.parentElement.appendChild(successMsg);
+                    }, 2400);
+                });
+            }
+            
+            // Copiar código
+            window.copyCode = function() {
+                const code = document.querySelector('pre').textContent;
+                navigator.clipboard.writeText(code).then(() => {
+                    const button = document.querySelector('button[onclick="copyCode()"]');
+                    const originalHtml = button.innerHTML;
+                    button.innerHTML = '<i class="fas fa-check"></i> Copied';
+                    setTimeout(() => {
+                        button.innerHTML = originalHtml;
+                    }, 2000);
+                });
+            };
+            
+            // Atualizar contador de nós em tempo real
+            function updateNodeCount() {
+                const nodeElements = document.querySelectorAll('.text-2xl.text-white');
+                nodeElements.forEach(el => {
+                    if (el.textContent.length <= 3) { // Provavelmente um contador
+                        const current = parseInt(el.textContent);
+                        const change = Math.random() > 0.5 ? 1 : -1;
+                        const newCount = Math.max(0, current + change);
+                        el.textContent = newCount;
+                        
+                        // Atualizar total
+                        const totalElement = document.querySelector('.text-white:contains("1,247")');
+                        if (totalElement) {
+                            const total = parseInt(totalElement.textContent.replace(',', ''));
+                            totalElement.textContent = (total + change).toLocaleString();
+                        }
+                    }
+                });
+            }
+            
+            setInterval(updateNodeCount, 5000);
+            
+            // Efeito de hover nos cards de spec
+            const specCards = document.querySelectorAll('.border-green-500\\/20');
+            specCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    const icon = this.querySelector('.fa-microchip, .fa-network-wired, .fa-robot');
+                    if (icon) {
+                        icon.style.transform = 'scale(1.2) rotate(5deg)';
+                    }
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    const icon = this.querySelector('.fa-microchip, .fa-network-wired, .fa-robot');
+                    if (icon) {
+                        icon.style.transform = '';
+                    }
+                });
+            });
+            
+            // Simular atividade de rede
+            const networkMap = document.querySelector('.relative.w-48.h-48');
+            if (networkMap) {
+                setInterval(() => {
+                    const nodes = networkMap.querySelectorAll('.bg-green-400');
+                    nodes.forEach(node => {
+                        const randomOpacity = 0.3 + Math.random() * 0.7;
+                        node.style.opacity = randomOpacity;
+                    });
+                }, 1000);
+            }
+        });
+    </script>
 </body>
 </html>
