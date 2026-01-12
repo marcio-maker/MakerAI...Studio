@@ -1,0 +1,2121 @@
+<!DOCTYPE html>
+<html lang="pt-PT" class="dark scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | MakerAI Studio</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            DEFAULT: '#000000',
+                            dark: '#ffffff',
+                        },
+                        secondary: {
+                            DEFAULT: '#f8f9fa',
+                            dark: '#0a0a0a',
+                        }
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.3s ease-in',
+                        'slide-in': 'slideIn 0.3s ease-out',
+                        'pulse-slow': 'pulse 3s infinite',
+                    },
+                    keyframes: {
+                        fadeIn: { from: { opacity: 0 }, to: { opacity: 1 } },
+                        slideIn: { from: { transform: 'translateX(-10px)', opacity: 0 }, to: { transform: 'translateX(0)', opacity: 1 } },
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8f9fa;
+            --text-primary: #000000;
+            --text-secondary: #666666;
+            --border-color: rgba(0, 0, 0, 0.1);
+            --sidebar-width: 280px;
+            --header-height: 70px;
+        }
+        
+        .dark {
+            --bg-primary: #050505;
+            --bg-secondary: #0a0a0a;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0a0;
+            --border-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+            overflow-x: hidden;
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            width: var(--sidebar-width);
+            height: 100vh;
+            background: var(--bg-secondary);
+            border-right: 1px solid var(--border-color);
+            position: fixed;
+            left: 0;
+            top: 0;
+            z-index: 100;
+            transition: transform 0.3s ease;
+        }
+        
+        .sidebar.collapsed {
+            transform: translateX(-100%);
+        }
+        
+        @media (max-width: 1024px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0 !important;
+            }
+        }
+        
+        /* Main Content */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            min-height: 100vh;
+            transition: margin-left 0.3s ease;
+        }
+        
+        .sidebar.collapsed ~ .main-content,
+        .sidebar:not(.collapsed) ~ .main-content {
+            margin-left: 0;
+        }
+        
+        @media (min-width: 1024px) {
+            .sidebar:not(.collapsed) ~ .main-content {
+                margin-left: var(--sidebar-width);
+            }
+        }
+        
+        /* Header */
+        .admin-header {
+            height: var(--header-height);
+            background: var(--bg-primary);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 90;
+        }
+        
+        /* Cards */
+        .admin-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .admin-card:hover {
+            border-color: var(--text-primary);
+            transform: translateY(-2px);
+        }
+        
+        /* Stats Cards */
+        .stat-card {
+            background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+            border: 1px solid var(--border-color);
+            border-radius: 1rem;
+            padding: 1.5rem;
+        }
+        
+        /* Tables */
+        .admin-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+        
+        .admin-table th {
+            text-align: left;
+            padding: 1rem;
+            border-bottom: 2px solid var(--border-color);
+            font-weight: 700;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .admin-table td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .admin-table tr:hover {
+            background: var(--bg-secondary);
+        }
+        
+        /* Forms */
+        .admin-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 0.75rem;
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 0.875rem;
+            transition: all 0.2s ease;
+        }
+        
+        .admin-input:focus {
+            outline: none;
+            border-color: var(--text-primary);
+        }
+        
+        .admin-textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+        
+        /* Buttons */
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.75rem;
+            font-weight: 600;
+            font-size: 0.875rem;
+            transition: all 0.2s ease;
+            border: none;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .btn-primary {
+            background: var(--text-primary);
+            color: var(--bg-primary);
+        }
+        
+        .btn-primary:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+        
+        .btn-secondary {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+        
+        .btn-secondary:hover {
+            border-color: var(--text-primary);
+        }
+        
+        .btn-danger {
+            background: #dc2626;
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background: #b91c1c;
+        }
+        
+        /* Tabs */
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid var(--border-color);
+            gap: 2rem;
+        }
+        
+        .tab {
+            padding: 1rem 0;
+            font-weight: 600;
+            font-size: 0.875rem;
+            cursor: pointer;
+            position: relative;
+            color: var(--text-secondary);
+        }
+        
+        .tab.active {
+            color: var(--text-primary);
+        }
+        
+        .tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--text-primary);
+        }
+        
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .modal {
+            background: var(--bg-primary);
+            border-radius: 1.5rem;
+            padding: 2rem;
+            max-width: 90%;
+            width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            border: 1px solid var(--border-color);
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+        
+        .modal-overlay.active .modal {
+            transform: scale(1);
+        }
+        
+        /* Language Badges */
+        .lang-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .lang-badge.pt {
+            background: rgba(0, 163, 86, 0.1);
+            color: #00a356;
+        }
+        
+        .lang-badge.en {
+            background: rgba(59, 130, 246, 0.1);
+            color: #3b82f6;
+        }
+        
+        .lang-badge.es {
+            background: rgba(239, 68, 68, 0.1);
+            color: #ef4444;
+        }
+        
+        /* Status Badges */
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .status-badge.published {
+            background: rgba(34, 197, 94, 0.1);
+            color: #22c55e;
+        }
+        
+        .status-badge.draft {
+            background: rgba(234, 179, 8, 0.1);
+            color: #eab308;
+        }
+        
+        .status-badge.pending {
+            background: rgba(59, 130, 246, 0.1);
+            color: #3b82f6;
+        }
+        
+        /* Toast Notifications */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 0.75rem;
+            padding: 1rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        .toast.success {
+            border-left: 4px solid #22c55e;
+        }
+        
+        .toast.error {
+            border-left: 4px solid #ef4444;
+        }
+        
+        .toast.warning {
+            border-left: 4px solid #eab308;
+        }
+        
+        /* Loading Spinner */
+        .spinner {
+            width: 24px;
+            height: 24px;
+            border: 3px solid var(--border-color);
+            border-top-color: var(--text-primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--text-secondary);
+        }
+    </style>
+</head>
+<body>
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">
+        <i id="toast-icon" class="fas fa-check-circle"></i>
+        <span id="toast-message">Operação realizada com sucesso!</span>
+    </div>
+    
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="p-6 border-b border-border-color">
+            <div class="flex items-center gap-3 mb-8">
+                <div class="w-10 h-10 bg-black dark:bg-white rounded-xl flex items-center justify-center">
+                    <span class="text-white dark:text-black font-black text-lg">M</span>
+                </div>
+                <div>
+                    <h1 class="font-black text-sm tracking-tighter">MakerAI</h1>
+                    <p class="text-xs text-text-secondary">Admin Studio</p>
+                </div>
+            </div>
+            
+            <div class="space-y-1">
+                <button class="sidebar-item w-full text-left flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-bg-primary transition-colors active">
+                    <i class="fas fa-tachometer-alt w-5"></i>
+                    <span>Dashboard</span>
+                </button>
+                
+                <button class="sidebar-item w-full text-left flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-bg-primary transition-colors" onclick="showSection('content')">
+                    <i class="fas fa-newspaper w-5"></i>
+                    <span>Conteúdo</span>
+                </button>
+                
+                <button class="sidebar-item w-full text-left flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-bg-primary transition-colors" onclick="showSection('blog')">
+                    <i class="fas fa-blog w-5"></i>
+                    <span>Blog</span>
+                </button>
+                
+                <button class="sidebar-item w-full text-left flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-bg-primary transition-colors" onclick="showSection('shop')">
+                    <i class="fas fa-shopping-cart w-5"></i>
+                    <span>Shop</span>
+                </button>
+                
+                <button class="sidebar-item w-full text-left flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-bg-primary transition-colors" onclick="showSection('languages')">
+                    <i class="fas fa-globe w-5"></i>
+                    <span>Idiomas</span>
+                </button>
+                
+                <button class="sidebar-item w-full text-left flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-bg-primary transition-colors" onclick="showSection('users')">
+                    <i class="fas fa-users w-5"></i>
+                    <span>Usuários</span>
+                </button>
+                
+                <button class="sidebar-item w-full text-left flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-bg-primary transition-colors" onclick="showSection('analytics')">
+                    <i class="fas fa-chart-bar w-5"></i>
+                    <span>Analytics</span>
+                </button>
+                
+                <button class="sidebar-item w-full text-left flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-bg-primary transition-colors" onclick="showSection('settings')">
+                    <i class="fas fa-cog w-5"></i>
+                    <span>Configurações</span>
+                </button>
+            </div>
+        </div>
+        
+        <div class="p-6">
+            <div class="mb-6">
+                <p class="text-xs font-semibold text-text-secondary mb-2">PROJETO ATIVO</p>
+                <div class="flex items-center gap-3 p-3 bg-bg-primary rounded-xl">
+                    <div class="w-8 h-8 bg-gradient-to-br from-black to-gray-800 dark:from-white dark:to-gray-300 rounded-lg"></div>
+                    <div>
+                        <p class="font-semibold text-sm">MakerAI Studio</p>
+                        <p class="text-xs text-text-secondary">Versão 2026.1</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="space-y-4">
+                <button class="w-full flex items-center justify-between px-4 py-3 rounded-xl border border-border-color hover:border-text-primary transition-colors" onclick="toggleTheme()">
+                    <span class="text-sm">Modo Escuro</span>
+                    <i id="theme-icon" class="fas fa-moon"></i>
+                </button>
+                
+                <button class="w-full flex items-center justify-between px-4 py-3 rounded-xl border border-border-color hover:border-text-primary transition-colors" onclick="logout()">
+                    <span class="text-sm">Sair</span>
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </div>
+        </div>
+    </aside>
+    
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Header -->
+        <header class="admin-header">
+            <div class="h-full px-6 flex items-center justify-between">
+                <div class="flex items-center gap-4">
+                    <button id="menu-toggle" class="lg:hidden w-10 h-10 flex items-center justify-center rounded-xl border border-border-color">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    
+                    <div class="hidden md:block">
+                        <h2 class="font-black text-lg" id="section-title">Dashboard</h2>
+                        <p class="text-xs text-text-secondary" id="section-subtitle">Visão geral do sistema</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-center gap-4">
+                    <!-- Language Selector -->
+                    <div class="relative">
+                        <button class="flex items-center gap-2 px-4 py-2 rounded-xl border border-border-color hover:border-text-primary transition-colors" onclick="toggleLangDropdown()">
+                            <span class="text-sm font-semibold" id="current-admin-lang">PT</span>
+                            <i class="fas fa-chevron-down text-xs"></i>
+                        </button>
+                        
+                        <div id="lang-dropdown" class="absolute top-full right-0 mt-2 w-48 bg-bg-primary border border-border-color rounded-xl shadow-lg opacity-0 invisible transition-all duration-200 z-50">
+                            <div class="p-2">
+                                <button class="lang-option w-full text-left flex items-center justify-between px-3 py-2 rounded-lg hover:bg-bg-secondary" onclick="changeAdminLang('pt')">
+                                    <span>Português</span>
+                                    <span class="lang-badge pt">PT</span>
+                                </button>
+                                <button class="lang-option w-full text-left flex items-center justify-between px-3 py-2 rounded-lg hover:bg-bg-secondary" onclick="changeAdminLang('en')">
+                                    <span>English</span>
+                                    <span class="lang-badge en">EN</span>
+                                </button>
+                                <button class="lang-option w-full text-left flex items-center justify-between px-3 py-2 rounded-lg hover:bg-bg-secondary" onclick="changeAdminLang('es')">
+                                    <span>Español</span>
+                                    <span class="lang-badge es">ES</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- User Menu -->
+                    <div class="flex items-center gap-3">
+                        <div class="text-right hidden sm:block">
+                            <p class="text-sm font-semibold">Admin MakerAI</p>
+                            <p class="text-xs text-text-secondary">Super Admin</p>
+                        </div>
+                        <div class="w-10 h-10 bg-gradient-to-br from-black to-gray-800 dark:from-white dark:to-gray-300 rounded-full"></div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        
+        <!-- Content Sections -->
+        <div class="p-6">
+            <!-- Dashboard Section -->
+            <section id="dashboard-section" class="section active">
+                <div class="mb-8">
+                    <h3 class="text-2xl font-black mb-2">Dashboard</h3>
+                    <p class="text-text-secondary">Bem-vindo ao painel de controle MakerAI Studio</p>
+                </div>
+                
+                <!-- Stats Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                    <div class="stat-card">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-12 h-12 bg-black/5 dark:bg-white/5 rounded-xl flex items-center justify-center">
+                                <i class="fas fa-newspaper text-xl"></i>
+                            </div>
+                            <span class="text-xs font-semibold px-3 py-1 rounded-full bg-green-500/10 text-green-500">+12%</span>
+                        </div>
+                        <h4 class="text-3xl font-black mb-2" id="content-count">47</h4>
+                        <p class="text-sm text-text-secondary">Conteúdos Ativos</p>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-12 h-12 bg-black/5 dark:bg-white/5 rounded-xl flex items-center justify-center">
+                                <i class="fas fa-shopping-cart text-xl"></i>
+                            </div>
+                            <span class="text-xs font-semibold px-3 py-1 rounded-full bg-blue-500/10 text-blue-500">+24%</span>
+                        </div>
+                        <h4 class="text-3xl font-black mb-2" id="sales-count">1,248</h4>
+                        <p class="text-sm text-text-secondary">Vendas Totais</p>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-12 h-12 bg-black/5 dark:bg-white/5 rounded-xl flex items-center justify-center">
+                                <i class="fas fa-users text-xl"></i>
+                            </div>
+                            <span class="text-xs font-semibold px-3 py-1 rounded-full bg-yellow-500/10 text-yellow-500">+8%</span>
+                        </div>
+                        <h4 class="text-3xl font-black mb-2" id="users-count">892</h4>
+                        <p class="text-sm text-text-secondary">Usuários Registrados</p>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-12 h-12 bg-black/5 dark:bg-white/5 rounded-xl flex items-center justify-center">
+                                <i class="fas fa-globe text-xl"></i>
+                            </div>
+                            <span class="text-xs font-semibold px-3 py-1 rounded-full bg-purple-500/10 text-purple-500">3</span>
+                        </div>
+                        <h4 class="text-3xl font-black mb-2" id="langs-count">3</h4>
+                        <p class="text-sm text-text-secondary">Idiomas Ativos</p>
+                    </div>
+                </div>
+                
+                <!-- Quick Actions -->
+                <div class="admin-card mb-8">
+                    <h4 class="text-lg font-black mb-6">Ações Rápidas</h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <button class="btn btn-secondary" onclick="showSection('content'); createNewContent()">
+                            <i class="fas fa-plus"></i>
+                            Novo Conteúdo
+                        </button>
+                        <button class="btn btn-secondary" onclick="showSection('blog'); createNewPost()">
+                            <i class="fas fa-edit"></i>
+                            Novo Post
+                        </button>
+                        <button class="btn btn-secondary" onclick="showSection('shop'); addNewProduct()">
+                            <i class="fas fa-box"></i>
+                            Novo Produto
+                        </button>
+                        <button class="btn btn-primary" onclick="showSection('languages')">
+                            <i class="fas fa-language"></i>
+                            Gerenciar Idiomas
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Recent Activity -->
+                <div class="admin-card">
+                    <h4 class="text-lg font-black mb-6">Atividade Recente</h4>
+                    <div class="space-y-4">
+                        <div class="flex items-center gap-4 p-3 rounded-xl hover:bg-bg-primary transition-colors">
+                            <div class="w-10 h-10 bg-black/5 dark:bg-white/5 rounded-xl flex items-center justify-center">
+                                <i class="fas fa-edit"></i>
+                            </div>
+                            <div class="flex-1">
+                                <p class="font-semibold">Novo post publicado</p>
+                                <p class="text-sm text-text-secondary">"O Futuro da IA Generativa em 2026"</p>
+                            </div>
+                            <span class="text-xs text-text-secondary">há 2 horas</span>
+                        </div>
+                        
+                        <div class="flex items-center gap-4 p-3 rounded-xl hover:bg-bg-primary transition-colors">
+                            <div class="w-10 h-10 bg-black/5 dark:bg-white/5 rounded-xl flex items-center justify-center">
+                                <i class="fas fa-shopping-cart"></i>
+                            </div>
+                            <div class="flex-1">
+                                <p class="font-semibold">Nova venda realizada</p>
+                                <p class="text-sm text-text-secondary">UI Framework Pro - $149</p>
+                            </div>
+                            <span class="text-xs text-text-secondary">há 4 horas</span>
+                        </div>
+                        
+                        <div class="flex items-center gap-4 p-3 rounded-xl hover:bg-bg-primary transition-colors">
+                            <div class="w-10 h-10 bg-black/5 dark:bg-white/5 rounded-xl flex items-center justify-center">
+                                <i class="fas fa-language"></i>
+                            </div>
+                            <div class="flex-1">
+                                <p class="font-semibold">Tradução atualizada</p>
+                                <p class="text-sm text-text-secondary">Página inicial em Espanhol</p>
+                            </div>
+                            <span class="text-xs text-text-secondary">ontem</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Content Management Section -->
+            <section id="content-section" class="section hidden">
+                <div class="mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <div>
+                        <h3 class="text-2xl font-black mb-2">Gerenciar Conteúdo</h3>
+                        <p class="text-text-secondary">Gerencie páginas, seções e textos do site</p>
+                    </div>
+                    <button class="btn btn-primary" onclick="createNewContent()">
+                        <i class="fas fa-plus"></i>
+                        Novo Conteúdo
+                    </button>
+                </div>
+                
+                <div class="tabs mb-6">
+                    <div class="tab active" onclick="changeContentTab('pages')">Páginas</div>
+                    <div class="tab" onclick="changeContentTab('sections')">Seções</div>
+                    <div class="tab" onclick="changeContentTab('texts')">Textos</div>
+                </div>
+                
+                <!-- Pages Tab -->
+                <div id="pages-tab" class="content-tab">
+                    <div class="admin-card">
+                        <div class="overflow-x-auto">
+                            <table class="admin-table">
+                                <thead>
+                                    <tr>
+                                        <th>Página</th>
+                                        <th>URL</th>
+                                        <th>Idiomas</th>
+                                        <th>Status</th>
+                                        <th>Última Atualização</th>
+                                        <th>Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="pages-list">
+                                    <!-- Pages will be loaded here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Sections Tab -->
+                <div id="sections-tab" class="content-tab hidden">
+                    <div class="admin-card">
+                        <div class="overflow-x-auto">
+                            <table class="admin-table">
+                                <thead>
+                                    <tr>
+                                        <th>Seção</th>
+                                        <th>Página</th>
+                                        <th>Idiomas</th>
+                                        <th>Status</th>
+                                        <th>Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="sections-list">
+                                    <!-- Sections will be loaded here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Texts Tab -->
+                <div id="texts-tab" class="content-tab hidden">
+                    <div class="admin-card">
+                        <div class="mb-6">
+                            <div class="flex flex-col sm:flex-row gap-4">
+                                <input type="text" class="admin-input flex-1" placeholder="Buscar texto..." id="text-search">
+                                <select class="admin-input w-full sm:w-48" id="text-language-filter">
+                                    <option value="all">Todos os idiomas</option>
+                                    <option value="pt">Português</option>
+                                    <option value="en">English</option>
+                                    <option value="es">Español</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="overflow-x-auto">
+                            <table class="admin-table">
+                                <thead>
+                                    <tr>
+                                        <th>Chave</th>
+                                        <th>Texto PT</th>
+                                        <th>Texto EN</th>
+                                        <th>Texto ES</th>
+                                        <th>Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="texts-list">
+                                    <!-- Texts will be loaded here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Blog Management Section -->
+            <section id="blog-section" class="section hidden">
+                <div class="mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <div>
+                        <h3 class="text-2xl font-black mb-2">Gerenciar Blog</h3>
+                        <p class="text-text-secondary">Crie e edite posts do blog</p>
+                    </div>
+                    <button class="btn btn-primary" onclick="createNewPost()">
+                        <i class="fas fa-plus"></i>
+                        Novo Post
+                    </button>
+                </div>
+                
+                <div class="admin-card">
+                    <div class="overflow-x-auto">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Título</th>
+                                    <th>Categoria</th>
+                                    <th>Idiomas</th>
+                                    <th>Status</th>
+                                    <th>Visualizações</th>
+                                    <th>Data</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="posts-list">
+                                <!-- Posts will be loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Shop Management Section -->
+            <section id="shop-section" class="section hidden">
+                <div class="mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <div>
+                        <h3 class="text-2xl font-black mb-2">Gerenciar Shop</h3>
+                        <p class="text-text-secondary">Gerencie produtos digitais</p>
+                    </div>
+                    <button class="btn btn-primary" onclick="addNewProduct()">
+                        <i class="fas fa-plus"></i>
+                        Novo Produto
+                    </button>
+                </div>
+                
+                <div class="admin-card">
+                    <div class="overflow-x-auto">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Produto</th>
+                                    <th>Preço</th>
+                                    <th>Categoria</th>
+                                    <th>Vendas</th>
+                                    <th>Estoque</th>
+                                    <th>Status</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="products-list">
+                                <!-- Products will be loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Languages Management Section -->
+            <section id="languages-section" class="section hidden">
+                <div class="mb-8">
+                    <h3 class="text-2xl font-black mb-2">Gerenciar Idiomas</h3>
+                    <p class="text-text-secondary">Configure e gerencie traduções do site</p>
+                </div>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+                    <!-- Portuguese -->
+                    <div class="admin-card">
+                        <div class="flex items-center justify-between mb-6">
+                            <div class="flex items-center gap-3">
+                                <div class="w-12 h-12 bg-gradient-to-br from-green-500 to-green-700 rounded-xl flex items-center justify-center">
+                                    <span class="text-white font-black text-lg">PT</span>
+                                </div>
+                                <div>
+                                    <h4 class="font-black">Português</h4>
+                                    <p class="text-sm text-text-secondary">Idioma padrão</p>
+                                </div>
+                            </div>
+                            <div class="lang-badge pt">Ativo</div>
+                        </div>
+                        
+                        <div class="space-y-3 mb-6">
+                            <div class="flex justify-between">
+                                <span class="text-sm">Conteúdo traduzido</span>
+                                <span class="font-semibold">100%</span>
+                            </div>
+                            <div class="w-full bg-border-color rounded-full h-2">
+                                <div class="bg-green-500 h-2 rounded-full" style="width: 100%"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-2">
+                            <button class="btn btn-secondary w-full" onclick="editLanguage('pt')">
+                                <i class="fas fa-edit"></i>
+                                Editar Traduções
+                            </button>
+                            <button class="btn btn-secondary w-full" onclick="exportLanguage('pt')">
+                                <i class="fas fa-download"></i>
+                                Exportar JSON
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- English -->
+                    <div class="admin-card">
+                        <div class="flex items-center justify-between mb-6">
+                            <div class="flex items-center gap-3">
+                                <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-700 rounded-xl flex items-center justify-center">
+                                    <span class="text-white font-black text-lg">EN</span>
+                                </div>
+                                <div>
+                                    <h4 class="font-black">English</h4>
+                                    <p class="text-sm text-text-secondary">Idioma global</p>
+                                </div>
+                            </div>
+                            <div class="lang-badge en">Ativo</div>
+                        </div>
+                        
+                        <div class="space-y-3 mb-6">
+                            <div class="flex justify-between">
+                                <span class="text-sm">Conteúdo traduzido</span>
+                                <span class="font-semibold">85%</span>
+                            </div>
+                            <div class="w-full bg-border-color rounded-full h-2">
+                                <div class="bg-blue-500 h-2 rounded-full" style="width: 85%"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-2">
+                            <button class="btn btn-secondary w-full" onclick="editLanguage('en')">
+                                <i class="fas fa-edit"></i>
+                                Editar Traduções
+                            </button>
+                            <button class="btn btn-secondary w-full" onclick="exportLanguage('en')">
+                                <i class="fas fa-download"></i>
+                                Exportar JSON
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Spanish -->
+                    <div class="admin-card">
+                        <div class="flex items-center justify-between mb-6">
+                            <div class="flex items-center gap-3">
+                                <div class="w-12 h-12 bg-gradient-to-br from-red-500 to-red-700 rounded-xl flex items-center justify-center">
+                                    <span class="text-white font-black text-lg">ES</span>
+                                </div>
+                                <div>
+                                    <h4 class="font-black">Español</h4>
+                                    <p class="text-sm text-text-secondary">Mercado Latam</p>
+                                </div>
+                            </div>
+                            <div class="lang-badge es">Ativo</div>
+                        </div>
+                        
+                        <div class="space-y-3 mb-6">
+                            <div class="flex justify-between">
+                                <span class="text-sm">Conteúdo traduzido</span>
+                                <span class="font-semibold">65%</span>
+                            </div>
+                            <div class="w-full bg-border-color rounded-full h-2">
+                                <div class="bg-red-500 h-2 rounded-full" style="width: 65%"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-2">
+                            <button class="btn btn-secondary w-full" onclick="editLanguage('es')">
+                                <i class="fas fa-edit"></i>
+                                Editar Traduções
+                            </button>
+                            <button class="btn btn-secondary w-full" onclick="exportLanguage('es')">
+                                <i class="fas fa-download"></i>
+                                Exportar JSON
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Translation Editor -->
+                <div class="admin-card">
+                    <h4 class="text-lg font-black mb-6">Editor de Traduções</h4>
+                    
+                    <div class="mb-6">
+                        <div class="flex flex-col sm:flex-row gap-4 mb-4">
+                            <select class="admin-input w-full sm:w-48" id="translation-language">
+                                <option value="pt">Português</option>
+                                <option value="en">English</option>
+                                <option value="es">Español</option>
+                            </select>
+                            
+                            <select class="admin-input w-full sm:w-48" id="translation-category">
+                                <option value="all">Todas as categorias</option>
+                                <option value="home">Página Inicial</option>
+                                <option value="blog">Blog</option>
+                                <option value="shop">Shop</option>
+                                <option value="footer">Footer</option>
+                            </select>
+                            
+                            <input type="text" class="admin-input flex-1" placeholder="Buscar texto..." id="translation-search">
+                        </div>
+                    </div>
+                    
+                    <div class="overflow-x-auto">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Chave</th>
+                                    <th>Texto Original (PT)</th>
+                                    <th>Tradução</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="translations-list">
+                                <!-- Translations will be loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="mt-6 flex justify-end gap-4">
+                        <button class="btn btn-secondary" onclick="importTranslation()">
+                            <i class="fas fa-upload"></i>
+                            Importar JSON
+                        </button>
+                        <button class="btn btn-primary" onclick="saveTranslations()">
+                            <i class="fas fa-save"></i>
+                            Salvar Todas as Traduções
+                        </button>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Users Management Section -->
+            <section id="users-section" class="section hidden">
+                <div class="mb-8">
+                    <h3 class="text-2xl font-black mb-2">Gerenciar Usuários</h3>
+                    <p class="text-text-secondary">Gerencie contas de usuários e permissões</p>
+                </div>
+                
+                <div class="admin-card">
+                    <div class="overflow-x-auto">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Usuário</th>
+                                    <th>Email</th>
+                                    <th>Nível</th>
+                                    <th>Status</th>
+                                    <th>Último Acesso</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="users-list">
+                                <!-- Users will be loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Analytics Section -->
+            <section id="analytics-section" class="section hidden">
+                <div class="mb-8">
+                    <h3 class="text-2xl font-black mb-2">Analytics</h3>
+                    <p class="text-text-secondary">Estatísticas e métricas do site</p>
+                </div>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                    <div class="admin-card">
+                        <h4 class="text-lg font-black mb-6">Visitas por Idioma</h4>
+                        <div class="space-y-4">
+                            <div>
+                                <div class="flex justify-between mb-1">
+                                    <span>Português</span>
+                                    <span class="font-semibold">4,528 (62%)</span>
+                                </div>
+                                <div class="w-full bg-border-color rounded-full h-2">
+                                    <div class="bg-green-500 h-2 rounded-full" style="width: 62%"></div>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <div class="flex justify-between mb-1">
+                                    <span>English</span>
+                                    <span class="font-semibold">2,187 (30%)</span>
+                                </div>
+                                <div class="w-full bg-border-color rounded-full h-2">
+                                    <div class="bg-blue-500 h-2 rounded-full" style="width: 30%"></div>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <div class="flex justify-between mb-1">
+                                    <span>Español</span>
+                                    <span class="font-semibold">589 (8%)</span>
+                                </div>
+                                <div class="w-full bg-border-color rounded-full h-2">
+                                    <div class="bg-red-500 h-2 rounded-full" style="width: 8%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="admin-card">
+                        <h4 class="text-lg font-black mb-6">Vendas por Produto</h4>
+                        <div class="space-y-4">
+                            <div>
+                                <div class="flex justify-between mb-1">
+                                    <span>UI Framework Pro</span>
+                                    <span class="font-semibold">$14,352</span>
+                                </div>
+                                <div class="w-full bg-border-color rounded-full h-2">
+                                    <div class="bg-black dark:bg-white h-2 rounded-full" style="width: 45%"></div>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <div class="flex justify-between mb-1">
+                                    <span>AI Agent Node</span>
+                                    <span class="font-semibold">$8,970</span>
+                                </div>
+                                <div class="w-full bg-border-color rounded-full h-2">
+                                    <div class="bg-black dark:bg-white h-2 rounded-full" style="width: 28%"></div>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <div class="flex justify-between mb-1">
+                                    <span>Brutal Icons</span>
+                                    <span class="font-semibold">$3,795</span>
+                                </div>
+                                <div class="w-full bg-border-color rounded-full h-2">
+                                    <div class="bg-black dark:bg-white h-2 rounded-full" style="width: 12%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="admin-card">
+                    <h4 class="text-lg font-black mb-6">Posts Mais Populares</h4>
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between p-4 rounded-xl hover:bg-bg-primary transition-colors">
+                            <div>
+                                <p class="font-semibold">O Futuro da IA Generativa em 2026</p>
+                                <p class="text-sm text-text-secondary">Publicado: 15/03/2024</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="font-black text-lg">2,847</p>
+                                <p class="text-sm text-text-secondary">visualizações</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center justify-between p-4 rounded-xl hover:bg-bg-primary transition-colors">
+                            <div>
+                                <p class="font-semibold">Brutalismo Digital: Por Que Funciona</p>
+                                <p class="text-sm text-text-secondary">Publicado: 10/03/2024</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="font-black text-lg">1,926</p>
+                                <p class="text-sm text-text-secondary">visualizações</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items center justify-between p-4 rounded-xl hover:bg-bg-primary transition-colors">
+                            <div>
+                                <p class="font-semibold">Monetizando Sistemas de Design</p>
+                                <p class="text-sm text-text-secondary">Publicado: 05/03/2024</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="font-black text-lg">1,543</p>
+                                <p class="text-sm text-text-secondary">visualizações</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Settings Section -->
+            <section id="settings-section" class="section hidden">
+                <div class="mb-8">
+                    <h3 class="text-2xl font-black mb-2">Configurações</h3>
+                    <p class="text-text-secondary">Configure o sistema MakerAI Studio</p>
+                </div>
+                
+                <div class="admin-card mb-6">
+                    <h4 class="text-lg font-black mb-6">Configurações Gerais</h4>
+                    
+                    <div class="space-y-6">
+                        <div>
+                            <label class="block text-sm font-semibold mb-2">Nome do Site</label>
+                            <input type="text" class="admin-input" value="MakerAI Studio">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-semibold mb-2">Email de Contato</label>
+                            <input type="email" class="admin-input" value="contact@makerai.com">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-semibold mb-2">Idioma Padrão</label>
+                            <select class="admin-input">
+                                <option value="pt" selected>Português</option>
+                                <option value="en">English</option>
+                                <option value="es">Español</option>
+                            </select>
+                        </div>
+                        
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="font-semibold">Modo de Manutenção</p>
+                                <p class="text-sm text-text-secondary">Desative o site para visitantes</p>
+                            </div>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" class="sr-only peer">
+                                <div class="w-11 h-6 bg-border-color peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-black dark:peer-checked:bg-white"></div>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-8 flex justify-end">
+                        <button class="btn btn-primary" onclick="showToast('Configurações salvas com sucesso!', 'success')">
+                            <i class="fas fa-save"></i>
+                            Salvar Configurações
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="admin-card">
+                    <h4 class="text-lg font-black mb-6">Segurança</h4>
+                    
+                    <div class="space-y-6">
+                        <div>
+                            <label class="block text-sm font-semibold mb-2">Alterar Senha</label>
+                            <input type="password" class="admin-input mb-2" placeholder="Nova senha">
+                            <input type="password" class="admin-input" placeholder="Confirmar nova senha">
+                        </div>
+                        
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="font-semibold">Autenticação em Dois Fatores</p>
+                                <p class="text-sm text-text-secondary">Adicione uma camada extra de segurança</p>
+                            </div>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" class="sr-only peer" checked>
+                                <div class="w-11 h-6 bg-border-color peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-black dark:peer-checked:bg-white"></div>
+                            </label>
+                        </div>
+                        
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="font-semibold">Registro de Atividade</p>
+                                <p class="text-sm text-text-secondary">Mantenha um log de todas as ações</p>
+                            </div>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" class="sr-only peer" checked>
+                                <div class="w-11 h-6 bg-border-color peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-black dark:peer-checked:bg-white"></div>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-8 flex justify-end">
+                        <button class="btn btn-primary" onclick="showToast('Configurações de segurança atualizadas!', 'success')">
+                            <i class="fas fa-shield-alt"></i>
+                            Atualizar Segurança
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+    
+    <!-- Modals -->
+    <!-- Content Editor Modal -->
+    <div id="content-modal" class="modal-overlay">
+        <div class="modal">
+            <div class="flex items-center justify-between mb-6">
+                <h3 class="text-xl font-black" id="content-modal-title">Novo Conteúdo</h3>
+                <button class="text-text-secondary hover:text-text-primary" onclick="closeModal('content-modal')">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            
+            <div class="space-y-6">
+                <div>
+                    <label class="block text-sm font-semibold mb-2">Título</label>
+                    <input type="text" class="admin-input" id="content-title" placeholder="Título do conteúdo">
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-semibold mb-2">Slug/URL</label>
+                    <input type="text" class="admin-input" id="content-slug" placeholder="exemplo-de-slug">
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-semibold mb-2">Tipo de Conteúdo</label>
+                    <select class="admin-input" id="content-type">
+                        <option value="page">Página</option>
+                        <option value="section">Seção</option>
+                        <option value="text">Texto</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-semibold mb-2">Conteúdo</label>
+                    <textarea class="admin-input admin-textarea" id="content-body" placeholder="Digite o conteúdo aqui..."></textarea>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-semibold mb-2">Idiomas Disponíveis</label>
+                    <div class="flex gap-4">
+                        <label class="flex items-center gap-2">
+                            <input type="checkbox" id="lang-pt" checked>
+                            <span class="lang-badge pt">PT</span>
+                        </label>
+                        <label class="flex items-center gap-2">
+                            <input type="checkbox" id="lang-en" checked>
+                            <span class="lang-badge en">EN</span>
+                        </label>
+                        <label class="flex items-center gap-2">
+                            <input type="checkbox" id="lang-es">
+                            <span class="lang-badge es">ES</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-semibold mb-2">Status</label>
+                    <select class="admin-input" id="content-status">
+                        <option value="published">Publicado</option>
+                        <option value="draft">Rascunho</option>
+                        <option value="pending">Pendente</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="mt-8 flex justify-end gap-4">
+                <button class="btn btn-secondary" onclick="closeModal('content-modal')">Cancelar</button>
+                <button class="btn btn-primary" onclick="saveContent()">
+                    <i class="fas fa-save"></i>
+                    Salvar Conteúdo
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Language Editor Modal -->
+    <div id="language-modal" class="modal-overlay">
+        <div class="modal">
+            <div class="flex items-center justify-between mb-6">
+                <h3 class="text-xl font-black" id="language-modal-title">Editar Traduções</h3>
+                <button class="text-text-secondary hover:text-text-primary" onclick="closeModal('language-modal')">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            
+            <div class="space-y-4" id="language-translations">
+                <!-- Translations will be loaded here -->
+            </div>
+            
+            <div class="mt-8 flex justify-end gap-4">
+                <button class="btn btn-secondary" onclick="closeModal('language-modal')">Cancelar</button>
+                <button class="btn btn-primary" onclick="saveLanguageTranslations()">
+                    <i class="fas fa-save"></i>
+                    Salvar Traduções
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Script -->
+    <script>
+        // Data Storage
+        let adminData = {
+            currentLang: localStorage.getItem('adminLang') || 'pt',
+            theme: localStorage.getItem('adminTheme') || 'dark',
+            content: [],
+            posts: [],
+            products: [],
+            users: [],
+            translations: {
+                pt: {},
+                en: {},
+                es: {}
+            }
+        };
+        
+        // Initialize Admin
+        function initAdmin() {
+            // Set theme
+            if (adminData.theme === 'dark') {
+                document.documentElement.classList.add('dark');
+                document.getElementById('theme-icon').classList.replace('fa-moon', 'fa-sun');
+            } else {
+                document.documentElement.classList.remove('dark');
+                document.getElementById('theme-icon').classList.replace('fa-sun', 'fa-moon');
+            }
+            
+            // Set language
+            document.getElementById('current-admin-lang').textContent = adminData.currentLang.toUpperCase();
+            updateUITexts();
+            
+            // Load sample data
+            loadSampleData();
+            
+            // Initialize UI
+            updateStats();
+            loadPages();
+            loadPosts();
+            loadProducts();
+            loadTranslations();
+        }
+        
+        // Toggle Sidebar (Mobile)
+        document.getElementById('menu-toggle').addEventListener('click', function() {
+            document.querySelector('.sidebar').classList.toggle('active');
+        });
+        
+        // Close sidebar when clicking outside (mobile)
+        document.addEventListener('click', function(event) {
+            const sidebar = document.querySelector('.sidebar');
+            const menuToggle = document.getElementById('menu-toggle');
+            
+            if (window.innerWidth < 1024 && 
+                !sidebar.contains(event.target) && 
+                !menuToggle.contains(event.target) && 
+                sidebar.classList.contains('active')) {
+                sidebar.classList.remove('active');
+            }
+        });
+        
+        // Toggle Theme
+        function toggleTheme() {
+            const isDark = document.documentElement.classList.toggle('dark');
+            const themeIcon = document.getElementById('theme-icon');
+            
+            if (isDark) {
+                themeIcon.classList.replace('fa-moon', 'fa-sun');
+                adminData.theme = 'dark';
+            } else {
+                themeIcon.classList.replace('fa-sun', 'fa-moon');
+                adminData.theme = 'light';
+            }
+            
+            localStorage.setItem('adminTheme', adminData.theme);
+            showToast(`Modo ${isDark ? 'escuro' : 'claro'} ativado`, 'success');
+        }
+        
+        // Language Dropdown
+        function toggleLangDropdown() {
+            const dropdown = document.getElementById('lang-dropdown');
+            dropdown.classList.toggle('opacity-0');
+            dropdown.classList.toggle('invisible');
+            dropdown.classList.toggle('opacity-100');
+            dropdown.classList.toggle('visible');
+        }
+        
+        // Close language dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            const langButton = document.querySelector('[onclick="toggleLangDropdown()"]');
+            const dropdown = document.getElementById('lang-dropdown');
+            
+            if (!langButton.contains(event.target) && !dropdown.contains(event.target)) {
+                dropdown.classList.add('opacity-0', 'invisible');
+                dropdown.classList.remove('opacity-100', 'visible');
+            }
+        });
+        
+        // Change Admin Language
+        function changeAdminLang(lang) {
+            adminData.currentLang = lang;
+            document.getElementById('current-admin-lang').textContent = lang.toUpperCase();
+            localStorage.setItem('adminLang', lang);
+            updateUITexts();
+            showToast(`Idioma alterado para ${getLanguageName(lang)}`, 'success');
+            
+            // Close dropdown
+            document.getElementById('lang-dropdown').classList.add('opacity-0', 'invisible');
+            document.getElementById('lang-dropdown').classList.remove('opacity-100', 'visible');
+        }
+        
+        function getLanguageName(code) {
+            const names = {
+                pt: 'Português',
+                en: 'English',
+                es: 'Español'
+            };
+            return names[code] || code;
+        }
+        
+        // Update UI Texts based on language
+        function updateUITexts() {
+            const translations = {
+                pt: {
+                    dashboard: 'Dashboard',
+                    content: 'Conteúdo',
+                    blog: 'Blog',
+                    shop: 'Shop',
+                    languages: 'Idiomas',
+                    users: 'Usuários',
+                    analytics: 'Analytics',
+                    settings: 'Configurações',
+                    welcome: 'Bem-vindo ao painel de controle MakerAI Studio'
+                },
+                en: {
+                    dashboard: 'Dashboard',
+                    content: 'Content',
+                    blog: 'Blog',
+                    shop: 'Shop',
+                    languages: 'Languages',
+                    users: 'Users',
+                    analytics: 'Analytics',
+                    settings: 'Settings',
+                    welcome: 'Welcome to MakerAI Studio control panel'
+                },
+                es: {
+                    dashboard: 'Dashboard',
+                    content: 'Contenido',
+                    blog: 'Blog',
+                    shop: 'Tienda',
+                    languages: 'Idiomas',
+                    users: 'Usuarios',
+                    analytics: 'Analíticas',
+                    settings: 'Configuración',
+                    welcome: 'Bienvenido al panel de control de MakerAI Studio'
+                }
+            };
+            
+            const t = translations[adminData.currentLang];
+            
+            // Update sidebar items
+            document.querySelectorAll('.sidebar-item span').forEach((span, index) => {
+                const items = ['dashboard', 'content', 'blog', 'shop', 'languages', 'users', 'analytics', 'settings'];
+                if (items[index]) {
+                    span.textContent = t[items[index]];
+                }
+            });
+            
+            // Update section titles if active
+            const sectionTitle = document.getElementById('section-title');
+            const sectionSubtitle = document.getElementById('section-subtitle');
+            
+            if (sectionTitle && sectionSubtitle) {
+                const activeSection = document.querySelector('.section.active').id.replace('-section', '');
+                if (t[activeSection]) {
+                    sectionTitle.textContent = t[activeSection];
+                    sectionSubtitle.textContent = activeSection === 'dashboard' ? t.welcome : '';
+                }
+            }
+        }
+        
+        // Show/Hide Sections
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.add('hidden');
+                section.classList.remove('active');
+            });
+            
+            // Show selected section
+            const section = document.getElementById(sectionId + '-section');
+            if (section) {
+                section.classList.remove('hidden');
+                section.classList.add('active');
+                
+                // Update header
+                document.getElementById('section-title').textContent = 
+                    sectionId.charAt(0).toUpperCase() + sectionId.slice(1);
+                document.getElementById('section-subtitle').textContent = 
+                    sectionId === 'dashboard' ? 'Visão geral do sistema' : '';
+                
+                // Update sidebar active state
+                document.querySelectorAll('.sidebar-item').forEach(item => {
+                    item.classList.remove('active');
+                });
+                
+                const sidebarItem = document.querySelector(`[onclick="showSection('${sectionId}')"]`);
+                if (sidebarItem) {
+                    sidebarItem.classList.add('active');
+                }
+            }
+            
+            // Close sidebar on mobile
+            if (window.innerWidth < 1024) {
+                document.querySelector('.sidebar').classList.remove('active');
+            }
+        }
+        
+        // Content Tabs
+        function changeContentTab(tabId) {
+            // Update tab buttons
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Show selected tab content
+            document.querySelectorAll('.content-tab').forEach(tab => {
+                tab.classList.add('hidden');
+            });
+            document.getElementById(tabId + '-tab').classList.remove('hidden');
+        }
+        
+        // Modals
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        
+        // Toast Notifications
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            const toastIcon = document.getElementById('toast-icon');
+            const toastMessage = document.getElementById('toast-message');
+            
+            // Set content
+            toastMessage.textContent = message;
+            
+            // Set icon based on type
+            const icons = {
+                success: 'fa-check-circle',
+                error: 'fa-exclamation-circle',
+                warning: 'fa-exclamation-triangle',
+                info: 'fa-info-circle'
+            };
+            
+            toastIcon.className = `fas ${icons[type]}`;
+            toast.className = `toast ${type}`;
+            
+            // Show toast
+            toast.classList.add('show');
+            
+            // Hide after 3 seconds
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+        
+        // Load Sample Data
+        function loadSampleData() {
+            // Sample content
+            adminData.content = [
+                {
+                    id: 1,
+                    title: 'Página Inicial',
+                    slug: 'home',
+                    type: 'page',
+                    languages: ['pt', 'en', 'es'],
+                    status: 'published',
+                    updated: '2024-03-20'
+                },
+                {
+                    id: 2,
+                    title: 'Sobre Nós',
+                    slug: 'about',
+                    type: 'page',
+                    languages: ['pt', 'en'],
+                    status: 'published',
+                    updated: '2024-03-18'
+                },
+                {
+                    id: 3,
+                    title: 'Contato',
+                    slug: 'contact',
+                    type: 'page',
+                    languages: ['pt', 'en', 'es'],
+                    status: 'published',
+                    updated: '2024-03-15'
+                },
+                {
+                    id: 4,
+                    title: 'Hero Section',
+                    slug: 'hero',
+                    type: 'section',
+                    page: 'home',
+                    languages: ['pt', 'en', 'es'],
+                    status: 'published',
+                    updated: '2024-03-19'
+                }
+            ];
+            
+            // Sample posts
+            adminData.posts = [
+                {
+                    id: 1,
+                    title: 'O Futuro da IA Generativa em 2026',
+                    category: 'Tecnologia',
+                    languages: ['pt', 'en', 'es'],
+                    status: 'published',
+                    views: 2847,
+                    date: '2024-03-15'
+                },
+                {
+                    id: 2,
+                    title: 'Brutalismo Digital: Por Que Funciona',
+                    category: 'Design',
+                    languages: ['pt', 'en'],
+                    status: 'published',
+                    views: 1926,
+                    date: '2024-03-10'
+                },
+                {
+                    id: 3,
+                    title: 'Monetizando Sistemas de Design',
+                    category: 'Negócios',
+                    languages: ['pt', 'en'],
+                    status: 'draft',
+                    views: 0,
+                    date: '2024-03-05'
+                }
+            ];
+            
+            // Sample products
+            adminData.products = [
+                {
+                    id: 1,
+                    name: 'UI Framework Pro',
+                    price: 149,
+                    category: 'Frameworks',
+                    sales: 96,
+                    stock: 'digital',
+                    status: 'available'
+                },
+                {
+                    id: 2,
+                    name: 'AI Agent Node',
+                    price: 299,
+                    category: 'IA',
+                    sales: 30,
+                    stock: 'digital',
+                    status: 'available'
+                },
+                {
+                    id: 3,
+                    name: 'Brutal Icons',
+                    price: 79,
+                    category: 'Recursos',
+                    sales: 48,
+                    stock: 'digital',
+                    status: 'available'
+                },
+                {
+                    id: 4,
+                    name: 'Mesh Engine',
+                    price: 199,
+                    category: 'Ferramentas',
+                    sales: 19,
+                    stock: 'digital',
+                    status: 'available'
+                }
+            ];
+            
+            // Sample translations
+            adminData.translations = {
+                pt: {
+                    'home.title': 'MakerAI Studio',
+                    'home.subtitle': 'Estrutura bruta. Inteligência pura.',
+                    'nav.home': 'Home',
+                    'nav.about': 'Sobre',
+                    'nav.blog': 'Blog',
+                    'nav.shop': 'Shop',
+                    'footer.copyright': '© 2024 MakerAI Studio'
+                },
+                en: {
+                    'home.title': 'MakerAI Studio',
+                    'home.subtitle': 'Brutal structure. Pure intelligence.',
+                    'nav.home': 'Home',
+                    'nav.about': 'About',
+                    'nav.blog': 'Blog',
+                    'nav.shop': 'Shop',
+                    'footer.copyright': '© 2024 MakerAI Studio'
+                },
+                es: {
+                    'home.title': 'MakerAI Studio',
+                    'home.subtitle': 'Estructura bruta. Inteligencia pura.',
+                    'nav.home': 'Inicio',
+                    'nav.about': 'Sobre',
+                    'nav.blog': 'Blog',
+                    'nav.shop': 'Tienda',
+                    'footer.copyright': '© 2024 MakerAI Studio'
+                }
+            };
+        }
+        
+        // Update Stats
+        function updateStats() {
+            document.getElementById('content-count').textContent = adminData.content.length;
+            document.getElementById('sales-count').textContent = adminData.products.reduce((sum, p) => sum + p.sales, 0);
+            document.getElementById('users-count').textContent = '892'; // Sample data
+            document.getElementById('langs-count').textContent = '3';
+        }
+        
+        // Load Pages
+        function loadPages() {
+            const pagesList = document.getElementById('pages-list');
+            pagesList.innerHTML = '';
+            
+            adminData.content.filter(item => item.type === 'page').forEach(page => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td class="font-semibold">${page.title}</td>
+                    <td class="text-text-secondary">/${page.slug}</td>
+                    <td>
+                        <div class="flex gap-1">
+                            ${page.languages.map(lang => 
+                                `<span class="lang-badge ${lang}">${lang.toUpperCase()}</span>`
+                            ).join('')}
+                        </div>
+                    </td>
+                    <td><span class="status-badge ${page.status}">${page.status}</span></td>
+                    <td class="text-text-secondary">${page.updated}</td>
+                    <td>
+                        <div class="flex gap-2">
+                            <button class="text-text-secondary hover:text-text-primary" onclick="editContent(${page.id})">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="text-text-secondary hover:text-red-500" onclick="deleteContent(${page.id})">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </td>
+                `;
+                pagesList.appendChild(row);
+            });
+        }
+        
+        // Create New Content
+        function createNewContent() {
+            document.getElementById('content-modal-title').textContent = 'Novo Conteúdo';
+            document.getElementById('content-title').value = '';
+            document.getElementById('content-slug').value = '';
+            document.getElementById('content-type').value = 'page';
+            document.getElementById('content-body').value = '';
+            document.getElementById('content-status').value = 'draft';
+            
+            openModal('content-modal');
+        }
+        
+        // Edit Content
+        function editContent(id) {
+            const content = adminData.content.find(item => item.id === id);
+            if (!content) return;
+            
+            document.getElementById('content-modal-title').textContent = 'Editar Conteúdo';
+            document.getElementById('content-title').value = content.title;
+            document.getElementById('content-slug').value = content.slug;
+            document.getElementById('content-type').value = content.type;
+            document.getElementById('content-body').value = '';
+            document.getElementById('content-status').value = content.status;
+            
+            // Set language checkboxes
+            ['pt', 'en', 'es'].forEach(lang => {
+                document.getElementById(`lang-${lang}`).checked = content.languages.includes(lang);
+            });
+            
+            openModal('content-modal');
+        }
+        
+        // Save Content
+        function saveContent() {
+            const title = document.getElementById('content-title').value;
+            const slug = document.getElementById('content-slug').value;
+            const type = document.getElementById('content-type').value;
+            const body = document.getElementById('content-body').value;
+            const status = document.getElementById('content-status').value;
+            
+            // Get selected languages
+            const languages = [];
+            if (document.getElementById('lang-pt').checked) languages.push('pt');
+            if (document.getElementById('lang-en').checked) languages.push('en');
+            if (document.getElementById('lang-es').checked) languages.push('es');
+            
+            // Create or update content
+            const isNew = document.getElementById('content-modal-title').textContent === 'Novo Conteúdo';
+            
+            if (isNew) {
+                const newId = Math.max(...adminData.content.map(c => c.id)) + 1;
+                adminData.content.push({
+                    id: newId,
+                    title,
+                    slug,
+                    type,
+                    languages,
+                    status,
+                    updated: new Date().toISOString().split('T')[0]
+                });
+                
+                showToast('Conteúdo criado com sucesso!', 'success');
+            } else {
+                // Update existing content
+                showToast('Conteúdo atualizado com sucesso!', 'success');
+            }
+            
+            // Update UI
+            updateStats();
+            loadPages();
+            
+            // Close modal
+            closeModal('content-modal');
+        }
+        
+        // Delete Content
+        function deleteContent(id) {
+            if (confirm('Tem certeza que deseja excluir este conteúdo?')) {
+                adminData.content = adminData.content.filter(item => item.id !== id);
+                updateStats();
+                loadPages();
+                showToast('Conteúdo excluído com sucesso!', 'success');
+            }
+        }
+        
+        // Load Posts
+        function loadPosts() {
+            const postsList = document.getElementById('posts-list');
+            postsList.innerHTML = '';
+            
+            adminData.posts.forEach(post => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td class="font-semibold">${post.title}</td>
+                    <td><span class="px-3 py-1 rounded-full text-xs bg-black/5 dark:bg-white/5">${post.category}</span></td>
+                    <td>
+                        <div class="flex gap-1">
+                            ${post.languages.map(lang => 
+                                `<span class="lang-badge ${lang}">${lang.toUpperCase()}</span>`
+                            ).join('')}
+                        </div>
+                    </td>
+                    <td><span class="status-badge ${post.status}">${post.status}</span></td>
+                    <td class="font-semibold">${post.views.toLocaleString()}</td>
+                    <td class="text-text-secondary">${post.date}</td>
+                    <td>
+                        <div class="flex gap-2">
+                            <button class="text-text-secondary hover:text-text-primary">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="text-text-secondary hover:text-red-500">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </td>
+                `;
+                postsList.appendChild(row);
+            });
+        }
+        
+        // Create New Post
+        function createNewPost() {
+            showToast('Abrindo editor de posts...', 'info');
+            // In a real app, this would open a rich text editor
+        }
+        
+        // Load Products
+        function loadProducts() {
+            const productsList = document.getElementById('products-list');
+            productsList.innerHTML = '';
+            
+            adminData.products.forEach(product => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td class="font-semibold">${product.name}</td>
+                    <td class="font-black">$${product.price}</td>
+                    <td><span class="px-3 py-1 rounded-full text-xs bg-black/5 dark:bg-white/5">${product.category}</span></td>
+                    <td class="font-semibold">${product.sales}</td>
+                    <td class="text-text-secondary">${product.stock}</td>
+                    <td><span class="status-badge published">${product.status}</span></td>
+                    <td>
+                        <div class="flex gap-2">
+                            <button class="text-text-secondary hover:text-text-primary">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="text-text-secondary hover:text-red-500">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </td>
+                `;
+                productsList.appendChild(row);
+            });
+        }
+        
+        // Add New Product
+        function addNewProduct() {
+            showToast('Abrindo formulário de produto...', 'info');
+            // In a real app, this would open a product form
+        }
+        
+        // Load Translations
+        function loadTranslations() {
+            const translationsList = document.getElementById('translations-list');
+            translationsList.innerHTML = '';
+            
+            // Get all translation keys
+            const keys = Object.keys(adminData.translations.pt);
+            
+            keys.forEach(key => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td class="font-mono text-sm">${key}</td>
+                    <td>${adminData.translations.pt[key] || ''}</td>
+                    <td>${adminData.translations.en[key] || ''}</td>
+                    <td>${adminData.translations.es[key] || ''}</td>
+                    <td>
+                        <div class="flex gap-2">
+                            <button class="text-text-secondary hover:text-text-primary" onclick="editTranslation('${key}')">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                        </div>
+                    </td>
+                `;
+                translationsList.appendChild(row);
+            });
+        }
+        
+        // Edit Language
+        function editLanguage(lang) {
+            document.getElementById('language-modal-title').textContent = `Editar Traduções - ${getLanguageName(lang)}`;
+            
+            const translationsDiv = document.getElementById('language-translations');
+            translationsDiv.innerHTML = '';
+            
+            // Get all translation keys
+            const keys = Object.keys(adminData.translations.pt);
+            
+            keys.forEach(key => {
+                const div = document.createElement('div');
+                div.className = 'space-y-2';
+                div.innerHTML = `
+                    <label class="block text-sm font-semibold">${key}</label>
+                    <div class="text-xs text-text-secondary mb-1">Original (PT): ${adminData.translations.pt[key] || ''}</div>
+                    <input type="text" 
+                           class="admin-input" 
+                           value="${adminData.translations[lang][key] || ''}" 
+                           data-key="${key}"
+                           data-lang="${lang}"
+                           placeholder="Digite a tradução...">
+                `;
+                translationsDiv.appendChild(div);
+            });
+            
+            openModal('language-modal');
+        }
+        
+        // Save Language Translations
+        function saveLanguageTranslations() {
+            const inputs = document.querySelectorAll('#language-translations input');
+            
+            inputs.forEach(input => {
+                const key = input.getAttribute('data-key');
+                const lang = input.getAttribute('data-lang');
+                const value = input.value;
+                
+                if (adminData.translations[lang]) {
+                    adminData.translations[lang][key] = value;
+                }
+            });
+            
+            showToast('Traduções salvas com sucesso!', 'success');
+            closeModal('language-modal');
+            loadTranslations();
+        }
+        
+        // Export Language
+        function exportLanguage(lang) {
+            const data = adminData.translations[lang];
+            const json = JSON.stringify(data, null, 2);
+            const blob = new Blob([json], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `translations-${lang}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            showToast(`Traduções ${lang.toUpperCase()} exportadas!`, 'success');
+        }
+        
+        // Import Translation
+        function importTranslation() {
+            showToast('Funcionalidade de importação em desenvolvimento', 'info');
+        }
+        
+        // Save Translations
+        function saveTranslations() {
+            showToast('Todas as traduções foram salvas!', 'success');
+        }
+        
+        // Logout
+        function logout() {
+            if (confirm('Deseja realmente sair do painel admin?')) {
+                // In a real app, this would redirect to login page
+                showToast('Saindo do sistema...', 'info');
+                setTimeout(() => {
+                    alert('Redirecionando para página de login...');
+                }, 1000);
+            }
+        }
+        
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', initAdmin);
+    </script>
+</body>
+</html>

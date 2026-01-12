@@ -1,0 +1,22 @@
+{
+  "name": "MakerAI Studio",
+  "short_name": "MakerAI",
+  "description": "Design focado na essência. Onde a forma bruta encontra a IA para criar o amanhã.",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#050505",
+  "theme_color": "#050505",
+  "categories": ["design", "technology", "productivity"],
+  "lang": "pt-PT",
+  "dir": "ltr",
+  
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='512' height='512' viewBox='0 0 512 512'><rect width='512' height='512' fill='%23050505'/><text x='50%' y='55%' font-size='280' text-anchor='middle' fill='white' font-family='Arial, Helvetica, sans-serif' font-weight='900'>M</text></svg>",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
