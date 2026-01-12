@@ -1,0 +1,142 @@
+{
+  "site": {
+    "title": "MakerAI Studio",
+    "tagline": "Estrutura bruta. Inteligência pura. Performance extrema.",
+    "version": "2026.1",
+    "language": "pt"
+  },
+  
+  "agency": [
+    {
+      "id": 1,
+      "number": "01",
+      "title": "Neural Engine",
+      "description": "IA generativa aplicada a sistemas autônomos de alta performance.",
+      "status": "active",
+      "languages": ["pt", "en", "es"]
+    },
+    {
+      "id": 2,
+      "number": "02",
+      "title": "Brutal UI",
+      "description": "Design systems baseados em contraste extremo e tipografia massiva.",
+      "status": "active",
+      "languages": ["pt", "en"]
+    },
+    {
+      "id": 3,
+      "number": "03",
+      "title": "Raw Code",
+      "description": "Arquitetura limpa, sem frameworks pesados. Performance pura.",
+      "status": "active",
+      "languages": ["pt", "en"]
+    },
+    {
+      "id": 4,
+      "number": "04",
+      "title": "Maker Lab",
+      "description": "Prototipagem de futuros possíveis com tecnologia de ponta.",
+      "status": "active",
+      "languages": ["pt", "en", "es"]
+    }
+  ],
+  
+  "shop": [
+    {
+      "id": 1,
+      "name": "UI Framework Pro",
+      "category": "Frameworks",
+      "price": 149,
+      "featured": true,
+      "status": "available",
+      "sales": 96
+    },
+    {
+      "id": 2,
+      "name": "AI Agent Node",
+      "category": "Inteligência Artificial",
+      "price": 299,
+      "featured": false,
+      "status": "available",
+      "sales": 30
+    },
+    {
+      "id": 3,
+      "name": "Brutal Icons",
+      "category": "Recursos",
+      "price": 79,
+      "featured": false,
+      "status": "available",
+      "sales": 48
+    },
+    {
+      "id": 4,
+      "name": "Mesh Engine",
+      "category": "Ferramentas",
+      "price": 199,
+      "featured": false,
+      "status": "available",
+      "sales": 19
+    }
+  ],
+  
+  "blog": [
+    {
+      "id": 1,
+      "title": "O Futuro da IA Generativa em 2026",
+      "category": "Tecnologia",
+      "excerpt": "Como os modelos de última geração estão redefinindo o design digital.",
+      "date": "2024-03-15",
+      "views": 2847,
+      "status": "published"
+    },
+    {
+      "id": 2,
+      "title": "Brutalismo Digital: Por Que Funciona",
+      "category": "Design",
+      "excerpt": "A psicologia por trás do design minimalista de alto contraste.",
+      "date": "2024-03-10",
+      "views": 1926,
+      "status": "published"
+    },
+    {
+      "id": 3,
+      "title": "Monetizando Sistemas de Design",
+      "category": "Negócios",
+      "excerpt": "Estratégias para transformar UI kits em fluxos de receita.",
+      "date": "2024-03-05",
+      "views": 1543,
+      "status": "published"
+    }
+  ],
+  
+  "translations": {
+    "pt": {
+      "hero_title": "MAKER STUDIO",
+      "hero_subtitle": "Estrutura bruta. Inteligência pura.",
+      "nav_work": "Work",
+      "nav_agency": "Agency",
+      "nav_shop": "Shop",
+      "nav_blog": "Blog",
+      "nav_contact": "Contact"
+    },
+    "en": {
+      "hero_title": "MAKER STUDIO",
+      "hero_subtitle": "Brutal structure. Pure intelligence.",
+      "nav_work": "Work",
+      "nav_agency": "Agency",
+      "nav_shop": "Shop",
+      "nav_blog": "Blog",
+      "nav_contact": "Contact"
+    },
+    "es": {
+      "hero_title": "MAKER STUDIO",
+      "hero_subtitle": "Estructura brutal. Inteligencia pura.",
+      "nav_work": "Trabajo",
+      "nav_agency": "Agencia",
+      "nav_shop": "Tienda",
+      "nav_blog": "Blog",
+      "nav_contact": "Contacto"
+    }
+  }
+}
